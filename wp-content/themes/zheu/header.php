@@ -17,92 +17,16 @@
 <head>
 <meta charset="<?php bloginfo( 'charset' ); ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="profile" href="http://gmpg.org/xfn/11">
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
+<link rel="stylesheet" href="/wp-content/themes/zheu/style.css">
 
 <?php wp_head(); ?>
 </head>
 
 <body>
 <div class="top_menu">
-    <div class="top_menu_item">
-        <a class="item_parent" href="#">Бытовые услуги и цены</a>
-        <div class="item_children">
-            <ul>
-                <li><a href="#" class="item_parent">Сантехнические работы</a></li>
-                <li><a href="#" class="item_parent">Сантехнические работы</a></li>
-                <li><a href="#" class="item_parent">Сантехнические работы</a></li>
-                <li><a href="#" class="item_parent">Сантехнические работы</a></li>
-                <li><a href="#" class="item_parent">Сантехнические работы</a></li>
-                <li><a href="#" class="item_parent">Сантехнические работы</a></li>
-                <li><a href="#" class="item_parent">Сантехнические работы</a></li>
-                <li><a href="#" class="item_parent">Сантехнические работы</a></li>
-            </ul>
-        </div>
-    </div>
-    <div class="top_menu_item">
-        <a class="item_parent" href="#">Бытовые услуги и цены</a>
-        <div class="item_children">
-            <ul>
-                <li><a href="#" class="item_parent">Сантехнические работы</a></li>
-                <li><a href="#" class="item_parent">Сантехнические работы</a></li>
-                <li><a href="#" class="item_parent">Сантехнические работы</a></li>
-                <li><a href="#" class="item_parent">Сантехнические работы</a></li>
-                <li><a href="#" class="item_parent">Сантехнические работы</a></li>
-                <li><a href="#" class="item_parent">Сантехнические работы</a></li>
-                <li><a href="#" class="item_parent">Сантехнические работы</a></li>
-                <li><a href="#" class="item_parent">Сантехнические работы</a></li>
-            </ul>
-        </div>
-    </div>
-    <div class="top_menu_item">
-        <a class="item_parent" href="#">Бытовые услуги и цены</a>
-        <div class="item_children">
-            <ul>
-                <li><a href="#" class="item_parent">Сантехнические работы</a></li>
-                <li><a href="#" class="item_parent">Сантехнические работы</a></li>
-                <li><a href="#" class="item_parent">Сантехнические работы</a></li>
-                <li><a href="#" class="item_parent">Сантехнические работы</a></li>
-                <li><a href="#" class="item_parent">Сантехнические работы</a></li>
-                <li><a href="#" class="item_parent">Сантехнические работы</a></li>
-                <li><a href="#" class="item_parent">Сантехнические работы</a></li>
-                <li><a href="#" class="item_parent">Сантехнические работы</a></li>
-            </ul>
-        </div>
-    </div>
-    <div class="top_menu_item problem">
-        <a href="#">Сообщите о проблеме</a>
-        <span>Чтобы сделать район лучше</span>
-    </div>
-    <div class="top_menu_item">
-        <a class="item_parent" href="#">Бытовые услуги и цены</a>
-        <div class="item_children">
-            <ul>
-                <li><a href="#" class="item_parent">Сантехнические работы</a></li>
-                <li><a href="#" class="item_parent">Сантехнические работы</a></li>
-                <li><a href="#" class="item_parent">Сантехнические работы</a></li>
-                <li><a href="#" class="item_parent">Сантехнические работы</a></li>
-                <li><a href="#" class="item_parent">Сантехнические работы</a></li>
-                <li><a href="#" class="item_parent">Сантехнические работы</a></li>
-                <li><a href="#" class="item_parent">Сантехнические работы</a></li>
-                <li><a href="#" class="item_parent">Сантехнические работы</a></li>
-            </ul>
-        </div>
-    </div>
-    <div class="top_menu_item">
-        <a class="item_parent" href="#">Бытовые услуги и цены</a>
-        <div class="item_children">
-            <ul>
-                <li><a href="#" class="item_parent">Сантехнические работы</a></li>
-                <li><a href="#" class="item_parent">Сантехнические работы</a></li>
-                <li><a href="#" class="item_parent">Сантехнические работы</a></li>
-                <li><a href="#" class="item_parent">Сантехнические работы</a></li>
-                <li><a href="#" class="item_parent">Сантехнические работы</a></li>
-                <li><a href="#" class="item_parent">Сантехнические работы</a></li>
-                <li><a href="#" class="item_parent">Сантехнические работы</a></li>
-                <li><a href="#" class="item_parent">Сантехнические работы</a></li>
-            </ul>
-        </div>
-    </div>
-    <div class="top_menu_item hamburger"></div>
+    <?php wp_nav_menu( array( 'theme_location' => 'header-menu', 'walker'  => new Walker_Quickstart_Menu() ) ); ?>
 </div>
-
+<div class="header">
+    <img src="#">
+</div>

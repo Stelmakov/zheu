@@ -12,4 +12,12 @@ Tags: one-column, two-columns, right-sidebar, accessibility-ready, custom-backgr
 This theme, like WordPress, is licensed under the GPL.
 Use it to make something cool, have fun, and share what you've learned with others.
 */
-
+body {
+    font-size: 0.479cm;
+    font-family: "Lato";
+}
+a {
+    color: rgb( 72, 118, 194 );
+    text-decoration: none;
+    border-bottom: 1px solid rgb( 72, 118, 194 );
+}
