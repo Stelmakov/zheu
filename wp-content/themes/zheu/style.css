@@ -32,18 +32,27 @@ body {
 }
 a {
     color: #4876c2;
-    font-size: 15px;
+    font-size: 16px;
     text-decoration: none;
-    border-bottom: 1px solid #d0dbee;
+    border-bottom: 1px solid #4185CC;
 }
 span{
-    font-size:13px;
+    font-size:14px;
 }
 li {
     list-style-type: none;
 }
 .zh_container{
     margin:0px 100px;
+}
+.top_menu {
+    margin-top:50px;
+}
+.top_menu .btn{
+    margin-top:-25px;
+}
+.top_menu span {
+    text-align:center;
 }
 .top_menu ul{
     width: 100%;
@@ -64,4 +73,18 @@ width:200px;
 }
 .problem .problem-inner{
 float:left;
+}
+
+.btn {
+    border-radius: 25px;
+    background-color: #009833;
+    box-shadow: 5px 8.66px 20px 0px rgba( 0, 0, 0, 0.5 );
+    color:#fff;
+
+}
+@media (max-width: 1200px) {
+    .zh_container{
+        margin:0;
+    }
+
 }
