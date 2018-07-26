@@ -12,12 +12,56 @@ Tags: one-column, two-columns, right-sidebar, accessibility-ready, custom-backgr
 This theme, like WordPress, is licensed under the GPL.
 Use it to make something cool, have fun, and share what you've learned with others.
 */
+/* Webfont: LatoLatin-Black */@font-face {
+    font-family: 'LatoRegular';
+    src: url('fonts/Lato-Regular.ttf'); /* IE9 Compat Modes */
+    src: url('fonts/Lato-Regular.ttf') format('embedded-opentype'), /* IE6-IE8 */
+    url('fonts/Lato-Regular.ttf') format('woff2'), /* Modern Browsers */
+    url('fonts/Lato-Regular.ttf') format('woff'), /* Modern Browsers */
+    url('fonts/Lato-Regular.ttf') format('truetype');
+    font-style: normal;
+    font-weight: normal;
+    text-rendering: optimizeLegibility;
+}
+
+
+
 body {
     font-size: 0.479cm;
-    font-family: "Lato";
+    font-family: "LatoRegular";
 }
 a {
-    color: rgb( 72, 118, 194 );
+    color: #4876c2;
+    font-size: 15px;
     text-decoration: none;
-    border-bottom: 1px solid rgb( 72, 118, 194 );
+    border-bottom: 1px solid #d0dbee;
+}
+span{
+    font-size:13px;
+}
+li {
+    list-style-type: none;
+}
+.zh_container{
+    margin:0px 100px;
+}
+.top_menu ul{
+    width: 100%;
+    display:flex;
+
+}
+.top_menu ul li {
+    padding:10px 20px;
+    flex:1;
+    text-align:center;
+}
+
+ul.sub-menu{
+    display:none;
+}
+.problem{
+width:200px;
+}
+.problem .problem-inner{
+float:left;
 }

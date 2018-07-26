@@ -17,16 +17,16 @@
 <head>
 <meta charset="<?php bloginfo( 'charset' ); ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 <link rel="stylesheet" href="/wp-content/themes/zheu/style.css">
 
 <?php wp_head(); ?>
 </head>
 
 <body>
-<div class="top_menu">
-    <?php wp_nav_menu( array( 'theme_location' => 'header-menu', 'walker'  => new Walker_Quickstart_Menu() ) ); ?>
-</div>
-<div class="header">
-    <img src="#">
-</div>
+<div class="zh_container">
+    <div class="top_menu">
+        <?php wp_nav_menu( array( 'theme_location' => 'header-menu', 'walker'  => new Walker_Quickstart_Menu() ) ); ?>
+        <div class="hamburger"></div>
+    </div>
+
