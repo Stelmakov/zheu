@@ -30,4 +30,15 @@ class Walker_Quickstart_Menu extends Walker_Nav_Menu {
 
     }
 
+
+}
+function to_format($date){
+    $_monthsList = array("01" => "января", "02" => "февраля",
+        "03" => "марта", "04" => "апреля", "05" => "мая", "06" => "июня",
+        "07" => "июля", "08" => "августа", "09" => "сентября",
+        "10" => "октября", "11" => "ноября", "12" => "декабря");
+    $date_day = date('d', strtotime($date));
+    $date_month = date('m', strtotime($date));
+    $new_date_month = str_replace($date_month, $_monthsList[$date_month], $date_month);
+    return $date_day . ' ' . $new_date_month;
 }
