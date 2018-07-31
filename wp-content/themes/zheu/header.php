@@ -50,7 +50,7 @@
                         <span>Приёмная</span>
                     </div>
                     <div class="header_phone_item">
-                        <a class="no-border" href="tel:<?php echo (get_field('header_phone') ? the_field('header_phone') : '') ?>"><?php echo (get_field('header_phone') ? the_field('header_phone') : '') ?></a>
+                        <a class="no-border" href="tel:<?php echo (get_field('header_phone',7) ? the_field('header_phone',7) : '') ?>"><?php echo (get_field('header_phone',7) ? the_field('header_phone',7) : '') ?></a>
                     </div>
                 </div>
             </div>

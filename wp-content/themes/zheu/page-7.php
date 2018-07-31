@@ -5,16 +5,16 @@
 <div class="news_posts">
     <div class="h2">Новости</div>
     <div class="arrow"><a href="<?php echo get_category_link(6);?>" class="no-border small">Все новости<img src="/wp-content/themes/zheu/img/arrow.png" alt=""></a></div>
-        <?php
-        $catPost = get_posts('cat=6&posts_per_page=3');
-        foreach ($catPost as $post) :  ?>
+    <?php
+    $catPost = get_posts('cat=6&posts_per_page=3');
+    foreach ($catPost as $post) :  ?>
         <div class="post">
             <span class="date"><?php echo to_format($post->post_date); ?></span>
             <a href="<?php echo get_permalink($post) ?>" rel="bookmark" title="Permanent Link to <?php the_title_attribute(); ?>">
                 <?php echo $post->post_title; ?>
             </a>
         </div>
-        <?php  endforeach; wp_reset_postdata();?>
+    <?php  endforeach; wp_reset_postdata();?>
 
 </div>
 <a href="http://gkx.by">

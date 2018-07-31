@@ -13,6 +13,8 @@
  */
 
 ?>
+
+<div class="clear_both"></div>
     <div class="big_separator"></div>
     <div class="bottom_images">
         <div class="bottom_images_row">
@@ -34,18 +36,19 @@
                 <div class="logo_text">
                     <p class="logo_text_small">Коммунальное унитарное предприятие</p>
                     <p class="logo_text_big">«Жилишно-эксплутационный участок №7 </br> Фрунзенского района г. Минска»</p>
+                    <div class="bottom_links">
+                        <span class="black"><?php echo (get_field('address') ? get_field('address') : '') ?></span>
+                        <span class="black"><?php echo (get_field('header_phone') ? get_field('header_phone') : '') ?></span>
+                    </div>
                 </div>
             </a>
-            <span class="black"><?php echo (get_field('address') ? get_field('address') : '') ?></span>
-            <span class="black"><?php echo (get_field('header_phone') ? get_field('header_phone') : '') ?></span>
+
         </div>
         <div class="footer_item">
             <?php get_search_form( true ); ?>
         </div>
         <div class="footer_item">
-            <a href="<?php echo get_category_link(3)?>"><?php echo get_cat_name(3)?></a>
-            <a href="<?php echo get_category_link(3)?>"><?php echo get_cat_name(3)?></a>
-            <a href="<?php echo get_category_link(3)?>"><?php echo get_cat_name(3)?></a>
+            <?php wp_nav_menu( array( 'theme_location' => 'footer-menu') ); ?>
         </div>
     </div>
 </div>
