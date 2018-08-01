@@ -32,22 +32,21 @@
 
             <label class="form_label">Фамилия и собственное имя, отчество либо инициалы гражданина или лица, уполномоченного
                 в установленном порядкsе подписывать обращения</label>
-            <input name="name" class="form_input" placeholder="Константинопольский Константин Константинович">
+            <input name="fio" class="form_input" placeholder="Константинопольский Константин Константинович">
 
             <label class="form_label">Почтовый адрес и индекс (адрес места жительства и (или) работы (учебы).</label>
-            <input name="name" class="form_input" placeholder="123456">
+            <input name="index" class="form_input" placeholder="123456">
 
             <label class="form_label">Адрес электронной почты</label>
-            <input name="name" class="form_input">
+            <input name="mail" class="form_input">
 
             <label class="form_label">Текст обращения</label>
-            <input name="name" class="form_input">
+            <textarea name="text" class="form_input" rows="8"></textarea>
             <div class="radio">
-                <label><input type="radio" name="optradio" checked>Option 1</label>
+                <label>Ответ отправить по электронной почте<input type="radio" name="optradio" checked><span class="checkmark"></span></label>
+                <label>Ответ отправить на почтовый адрес<input type="radio" name="optradio"><span class="checkmark"></span></label>
             </div>
-            <div class="radio">
-                <label><input type="radio" name="optradio">Option 2</label>
-            </div>
+            <input type="file" name="file" class="file btn btn-file">
         </form>
     </div>
 </div>
