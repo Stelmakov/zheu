@@ -22,7 +22,8 @@ class Walker_Quickstart_Menu extends Walker_Nav_Menu {
             // проверяем, на какой странице мы находимся
             $current_url = (is_ssl()?'https://':'http://').$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
             $item_url = esc_attr( $item->url );
-            if ( $item_url != $current_url ) $item_output.= '<a ' . ($item->type == "custom" ? "class=\"btn btn-default problem-inner\" " : ""). $attributes .'>'.$item->title.'</a>' . ($item->type == "custom" ? "<span class='problem-inner'>Чтобы сделать район лучше</span>" : "");
+            if ( $item_url != $current_url )
+                $item_output.= '<span><a ' . (array_search('problem', $item->classes) !== false ? "class=\"btn btn-default problem-inner\" " : ""). $attributes .'>'.$item->title.'</a></span>' . (array_search('problem', $item->classes) !== false ? "<span class='problem-inner'>Чтобы сделать район лучше</span>" : "");
             else $item_output.= $item->title;
 
             // заканчиваем вывод элемента

@@ -24,33 +24,34 @@
     echo $content;
     ?>
     <div class="contact_form">
-
         <form method="POST" action="/form.php" id="form" class="form">
-            <input type="hidden" name="send_from" value="Электронные обращения граждан">
-            <p class="description_text">Форма обращения заполняется на русском или белорусском языках:</p>
+            <input type="hidden" name="send_from" value="Сообщить о проблеме">
 
-            <label class="form_label">Наименование и (или) адрес организации либо должность лица, которым направляется обращение</label>
-            <input name="name" class="form_input" placeholder="сантехнику">
+            <label class="form_label">Укажите адрес проблемы</label>
+            <select name="address" class="form_input">
+                <?php
+                if( have_rows('addresses') ):
+                    while ( have_rows('addresses') ) : the_row();
+                        $address = get_sub_field('address');
+                        echo '<option value="' . $address .'" >' . $address .'</option>';
+                    endwhile;
+                endif;
+                ?>
+            </select>
 
-            <label class="form_label">Фамилия и собственное имя, отчество либо инициалы гражданина или лица, уполномоченного
-                в установленном порядкsе подписывать обращения</label>
-            <input name="fio" class="form_input" placeholder="Константинопольский Константин Константинович">
+            <label class="form_label">Укажите ваше имя и фамилию</label>
+            <input name="fio" class="form_input" placeholder="Константинопольский Константин">
 
-            <label class="form_label">Почтовый адрес и индекс (адрес места жительства и (или) работы (учебы)).</label>
-            <input name="index" class="form_input" placeholder="123456">
+            <label class="form_label">Укажите номер телефона, чтобы можно было уточнить детали проблемы</label>
+            <input name="index" class="form_input phone" placeholder="+375 (29) 329-27-07">
 
-            <label class="form_label">Адрес электронной почты</label>
-            <input name="mail" class="form_input">
-
-            <label class="form_label">Текст обращения</label>
+            <label class="form_label">Сформулируйте суть проблемы</label>
             <textarea name="text" class="form_input" rows="8"></textarea>
-            <div class="radio">
-                <label>Ответ отправить по электронной почте<input type="radio" name="answer" value="Ответ отправить по электронной почте" checked><span class="checkmark"></span></label>
-                <label>Ответ отправить на почтовый адрес<input type="radio" name="answer" value="Ответ отправить на почтовый адрес"><span class="checkmark"></span></label>
-            </div>
+
+
             <div class="file_section">
-                <label class="file_label btn"> Прикрепить файл
-                    <input type="file" name="file" id="file_upload" multiple size="60" >
+                <label class="file_label btn"> Прикрепить фотографию
+                    <input type="file" name="file" accept="image/*" id="file_upload" multiple size="60" >
                 </label>
                 <div class="files_container"></div>
             </div>

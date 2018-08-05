@@ -19,7 +19,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 <link rel="stylesheet" href="/wp-content/themes/zheu/style.css">
-
+<script src='https://www.google.com/recaptcha/api.js'></script>
 <?php wp_head(); ?>
 </head>
 
@@ -40,7 +40,7 @@
                     <img src="/wp-content/themes/zheu/img/logo.png" class="logo" alt="">
                     <div class="logo_text">
                         <p class="logo_text_small">Коммунальное унитарное предприятие</p>
-                        <p class="logo_text_big">«Жилишно-эксплутационный участок №7 </br> Фрунзенского района г. Минска»</p>
+                        <p class="logo_text_big">«Жилишно-эксплуатационный участок №7 </br> Фрунзенского района г. Минска»</p>
                     </div>
                 </a>
             </div>

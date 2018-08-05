@@ -35,7 +35,7 @@
                 <img src="/wp-content/themes/zheu/img/logo.png" class="logo" alt="">
                 <div class="logo_text">
                     <p class="logo_text_small">Коммунальное унитарное предприятие</p>
-                    <p class="logo_text_big">«Жилишно-эксплутационный участок №7 </br> Фрунзенского района г. Минска»</p>
+                    <p class="logo_text_big">«Жилишно-эксплуатационный участок №7 </br> Фрунзенского района г. Минска»</p>
                     <div class="bottom_links">
                         <span class="black"><?php echo (get_field('address') ? get_field('address') : '') ?></span>
                         <span class="black"><?php echo (get_field('header_phone') ? get_field('header_phone') : '') ?></span>
@@ -54,6 +54,7 @@
 </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="/wp-content/themes/zheu/js/jquery.maskedinput.min.js"></script>
 <script src="/wp-content/themes/zheu/js/zheu.js"></script>
 <?php wp_footer(); ?>
 

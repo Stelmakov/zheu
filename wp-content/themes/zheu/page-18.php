@@ -24,9 +24,8 @@
     echo $content;
     ?>
     <div class="contact_form">
-
         <form method="POST" action="/form.php" id="form" class="form">
-            <input type="hidden" name="send_from" value="Электронные обращения граждан">
+            <input type="hidden" name="send_from" value="Электронные обращения юридических лиц">
             <p class="description_text">Форма обращения заполняется на русском или белорусском языках:</p>
 
             <label class="form_label">Наименование и (или) адрес организации либо должность лица, которым направляется обращение</label>
@@ -36,7 +35,7 @@
                 в установленном порядкsе подписывать обращения</label>
             <input name="fio" class="form_input" placeholder="Константинопольский Константин Константинович">
 
-            <label class="form_label">Почтовый адрес и индекс (адрес места жительства и (или) работы (учебы)).</label>
+            <label class="form_label">Почтовый адрес и индекс (адрес места жительства и (или) работы (учебы) или местонахождение юридического лица).</label>
             <input name="index" class="form_input" placeholder="123456">
 
             <label class="form_label">Адрес электронной почты</label>
