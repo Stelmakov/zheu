@@ -71,8 +71,10 @@ p{
 a:hover{
     text-decoration:none;
 }
+
 span{
     font-size:14px;
+    color: rgb( 106, 106, 106 );
 }
 li {
     list-style-type: none;
@@ -752,6 +754,9 @@ input[type="file"] {
 .gallery_item:hover .arrow{
 	display:block;
 }
+.mobile{
+    display:none;
+}
 @media (max-width: 1200px) {
     .bottom_images  img {
         margin-bottom:40px;
@@ -788,5 +793,111 @@ input[type="file"] {
     }
     .home_services .services .service {
         float:left;
+    }
+}
+@media(max-width:768px){
+    .top_menu{
+        display:none;
+    }
+    .mobile{
+        display:block;
+    }
+    .bottom_images img{
+        width:100%;
+    }
+    .footer{
+        flex-direction:column;
+    }
+    .header{
+        flex-direction:column;
+        align-items:stretch;
+    }
+    .header .header_item{
+        flex-basis:auto !important;
+        text-align: center;
+        padding-top:15px;
+    }
+    .header .header_item:nth-child(2){
+        padding:20px 0 0 0 ;
+    }
+    .header .header_item:last-child{
+        padding:0;
+    }
+    .logo{
+        margin:10px 10px 10px 0;
+        width:35px;
+        height:35px;
+    }
+    .logo_text{
+        float:left;
+    }
+    .logo_text_small{
+        font-size:13px;
+        text-align:center;
+    }
+    .logo_text_big{
+        text-align:center;
+        font-size:15px;
+    }
+    .hamburger.mobile{
+        padding:15px 0;
+        width:30px;
+    }
+    .mobile-flex{
+        display:flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .header_phone a{
+        font-size: 20px;
+        line-height: 20px;
+    }
+    .problem{
+        display:flex;
+        align-items:center;
+    }
+    .header{
+        margin-bottom:20px;
+    }
+    .btn{
+        font-size:15px;
+        padding:16px;
+    }
+    .maps_container{
+        height:300px;
+        overflow:hidden;
+    }
+    .news_posts .post{
+        width:100%;
+        margin:15px 0;
+    }
+    .news_posts .post .date{
+        width:100%;
+        float:left;
+    }
+    .not-mobile{
+        display:none;
+    }
+    .small_title_mobile{
+        font-size: 16px;
+        width:100%;
+        text-align: center;
+    }
+    .services .service:nth-child(odd){
+        float:left;
+    }
+    .services .service:nth-child(even){
+        float:right;
+    }
+    .home_services{
+        display:block;
+    }
+    .services{
+        display:block !important;
+        width:100%;
+        float:left;
+    }
+    .services .service{
+        min-width:160px;
     }
 }

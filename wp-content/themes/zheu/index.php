@@ -3,8 +3,8 @@
     <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A0d7646304205334a81789f8b9911e186eeae17881437a81bc623f185c8ada63a&amp;width=100%25&amp;height=400&amp;lang=ru_RU&amp;scroll=true"></script>
 </div>
 <div class="news_posts">
-    <div class="h2">Новости</div>
-    <div class="arrow"><a href="<?php echo get_category_link(6);?>" class="no-border small">Все новости<img src="/wp-content/themes/zheu/img/arrow.png" alt=""></a></div>
+    <div class="h2 small_title_mobile">Новости</div>
+    <div class="arrow not-mobile"><a href="<?php echo get_category_link(6);?>" class="no-border small">Все новости<img src="/wp-content/themes/zheu/img/arrow.png" alt=""></a></div>
         <?php
         $catPost = get_posts('cat=6&posts_per_page=3');
         foreach ($catPost as $post) :  ?>

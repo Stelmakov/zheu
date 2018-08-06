@@ -36,11 +36,16 @@
     <div class="container_inner">
         <div class="header">
             <div class="header_item">
-                <a href ="/" class="no-border">
+                <a href ="/" class="no-border mobile-flex">
                     <img src="/wp-content/themes/zheu/img/logo.png" class="logo" alt="">
                     <div class="logo_text">
                         <p class="logo_text_small">Коммунальное унитарное предприятие</p>
                         <p class="logo_text_big">«Жилишно-эксплуатационный участок №7 </br> Фрунзенского района г. Минска»</p>
+                    </div>
+                    <div class="hamburger hamburger--elastic mobile">
+                        <div class="hamburger-box">
+                            <div class="hamburger-inner"></div>
+                        </div>
                     </div>
                 </a>
             </div>
@@ -55,7 +60,10 @@
                 </div>
             </div>
             <div class="header_item">
-                <a href="">График приёмов</a>
+                <a href="<?php echo get_permalink(62); ?>">График приёмов</a>
             </div>
         </div>
-
+        <div class="problem mobile">
+            <a class="btn problem-inner" href="<?php echo get_permalink(88); ?>">Сообщить о проблеме</a>
+            <span class="problem-inner">Чтобы сделать район лучше</span>
+        </div>
