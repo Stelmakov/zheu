@@ -90,14 +90,17 @@ li {
 .top_menu {
     display:flex;
     flex-direction: row;
+    justify-content:space-between;
     margin-top:50px;
+    padding:0 15px;
+    position:relative;
 }
 .top_menu div:first-child{
-    flex-grow:30;
+    flex-basis:95%;
 }
 .top_menu .btn{
     text-align:center;
-    margin-top:-15px;
+    margin-top:-21px;
 }
 .top_menu span {
     text-align:center;
@@ -109,6 +112,7 @@ li {
     flex-direction: row;
     justify-content: space-between;
 }
+
 .top_menu ul li {
     padding:10px 15px;
     text-align:center;
@@ -121,17 +125,27 @@ li {
 }
 ul.sub-menu{
     display:none;
-    min-width: 275px;
-    position: absolute;
+    min-width: 340px;
     top: 100%;
     left: 0;
     text-align: left;
     right: 0;
-
+    background-color: #fff;
 }
 .isToggled{
     background-color: #fff;
-
+}
+.top_menu .wrap{
+     display:none;
+ }
+.top_menu .wrap span a{
+    text-align:left;
+    border-bottom: 1px solid #cddcef;
+}
+.isToggled .wrap{
+    display:block;
+    position:absolute;
+    background-color: #fff;
 }
 ul.sub-menu li{
     text-align:left;
@@ -145,6 +159,9 @@ ul.sub-menu li{
     width:100%;
     text-align:center;
     margin-top:5px;
+}
+.menu-item-type-custom.problem span{
+    margin-top:0px;
 }
 .btn {
     border-radius: 25px;
@@ -161,7 +178,8 @@ ul.sub-menu li{
     box-shadow: 5px 5.66px 20px 0px rgba( 0, 0, 0, 0.3 );
 }
 .hamburger {
-    padding: 20px 5px;
+    padding: 10px 0px 15px 10px;
+    width:35px;
     display: inline-block;
     cursor: pointer;
     transition-property: opacity, filter;
@@ -178,7 +196,7 @@ ul.sub-menu li{
     opacity: 0.7; }
 
 .hamburger-box {
-    width: 40px;
+    width: 30px;
     height: 24px;
     display: inline-block;
     position: relative; }
@@ -188,8 +206,8 @@ ul.sub-menu li{
     top: 50%;
     margin-top: -2px; }
 .hamburger-inner, .hamburger-inner::before, .hamburger-inner::after {
-    width: 30px;
-    height: 6px;
+    width: 25px;
+    height: 5px;
     background-color: #0078CA;
     border-radius: 4px;
     position: absolute;
@@ -208,10 +226,10 @@ ul.sub-menu li{
     transition-duration: 0.275s;
     transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55); }
 .hamburger--elastic .hamburger-inner::before {
-    top: 10px;
+    top: 8px;
     transition: opacity 0.125s 0.275s ease; }
 .hamburger--elastic .hamburger-inner::after {
-    top: 20px;
+    top: 16px;
     transition: transform 0.275s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
 
 .hamburger--elastic.is-active .hamburger-inner {
@@ -221,7 +239,7 @@ ul.sub-menu li{
     transition-delay: 0s;
     opacity: 0; }
 .hamburger--elastic.is-active .hamburger-inner::after {
-    transform: translate3d(0, -20px, 0) rotate(-270deg);
+    transform: translate3d(0, -16px, 0) rotate(-270deg);
     transition-delay: 0.075s; }
 
 /*

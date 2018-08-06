@@ -14,6 +14,7 @@ $(document).ready(function(){
        } else{
            $(this).addClass('isToggled')
        }
+        return false;
    });
     $(document).ready(function() {
         var $window = $(window);
