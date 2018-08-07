@@ -41,18 +41,22 @@
     <div class="container_inner">
         <div class="header">
             <div class="header_item">
-                <a href ="/" class="no-border mobile-flex">
-                    <img src="/wp-content/themes/zheu/img/logo.png" class="logo" alt="">
-                    <div class="logo_text">
-                        <p class="logo_text_small">Коммунальное унитарное предприятие</p>
-                        <p class="logo_text_big">«Жилишно-эксплуатационный участок №7 </br> Фрунзенского района г. Минска»</p>
-                    </div>
+                <div class="no-border mobile-flex">
+                    <a href="/">
+                        <img src="/wp-content/themes/zheu/img/logo.png" class="logo" alt="">
+                    </a>
+                    <a href="/">
+                        <div class="logo_text">
+                            <p class="logo_text_small">Коммунальное унитарное предприятие</p>
+                            <p class="logo_text_big">«Жилишно-эксплуатационный участок №7 </br> Фрунзенского района г. Минска»</p>
+                        </div>
+                    </a>
                     <div class="hamburger hamburger--elastic mobile">
                         <div class="hamburger-box">
                             <div class="hamburger-inner"></div>
                         </div>
                     </div>
-                </a>
+                </div>
             </div>
             <div class="header_item">
                 <div class="header_phone">
