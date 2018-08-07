@@ -3,6 +3,7 @@ add_theme_support( 'menus' );
 function register_my_menu() {
     register_nav_menu('header-menu',__( 'Header Menu' ));
     register_nav_menu('footer-menu',__( 'Footer Menu' ));
+    register_nav_menu('full-menu',__( 'Full menu' ));
 }
 add_action( 'init', 'register_my_menu' );
 
@@ -25,7 +26,7 @@ class Walker_Quickstart_Menu extends Walker_Nav_Menu {
             if ( $item_url != $current_url ){
                 $item_output.= '<span><a ' . (array_search('problem', $item->classes) !== false ? "class=\"btn btn-default problem-inner\" " : ""). $attributes .'>'.$item->title.'</a></span>' . (array_search('problem', $item->classes) !== false ? "<span class='problem-inner'>Чтобы сделать район лучше</span>" : "");
                 if($item->type == 'custom'){
-                    $item_output.= '<div class="wrap"><span><a ' . $attributes .'>'.$item->title.'</a></span>';
+                    $item_output.= '<div class="wrap"><span class="fake_header"><a ' . $attributes .'>'.$item->title.'</a></span>';
                 }
             } else {
                 $item_output.= $item->title;

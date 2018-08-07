@@ -33,6 +33,11 @@
             </div>
         </div>
     </div>
+    <div class="full_menu_container">
+        <div class="full_menu">
+            <?php wp_nav_menu( array( 'theme_location' => 'full-menu') ); ?>
+        </div>
+    </div>
     <div class="container_inner">
         <div class="header">
             <div class="header_item">

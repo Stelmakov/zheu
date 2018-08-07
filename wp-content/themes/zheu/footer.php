@@ -16,7 +16,7 @@
 
 <div class="clear_both"></div>
     <div class="big_separator"></div>
-    <div class="bottom_images">
+    <div class="bottom_images not-mobile">
         <div class="bottom_images_row">
             <img src="/wp-content/themes/zheu/img/1_03.png" alt="">
             <img src="/wp-content/themes/zheu/img/1_05.png" alt="">
@@ -28,6 +28,15 @@
             <img src="/wp-content/themes/zheu/img/1_17.png" alt="">
             <img src="/wp-content/themes/zheu/img/1_20.png" alt="">
         </div>
+    </div>
+    <div class="bottom_images mobile">
+            <img src="/wp-content/themes/zheu/img/mobile/03.png" alt="">
+            <img src="/wp-content/themes/zheu/img/mobile/06.png" alt="">
+            <img src="/wp-content/themes/zheu/img/mobile/08.png" alt="">
+            <img src="/wp-content/themes/zheu/img/mobile/10.png" alt="">
+            <img src="/wp-content/themes/zheu/img/mobile/12.png" alt="">
+            <img src="/wp-content/themes/zheu/img/mobile/14.png" alt="">
+            <img src="/wp-content/themes/zheu/img/mobile/16.png" alt="">
     </div>
     <div class="footer">
         <div class="footer_item">

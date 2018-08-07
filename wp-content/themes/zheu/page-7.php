@@ -47,6 +47,26 @@
         ?>
         <div class="arrow"><a href="<?php echo get_category_link(3);?>" class="no-border small">Все бытовые услуги и цены<img src="/wp-content/themes/zheu/img/arrow.png" alt=""></a></div>
     </div>
+
 </div>
 
+<div class="mobile zhes_phones">
+    <div class="separator"></div>
+    <span class="top_span">Выберите ЖЭС, который обслуживает ваш дом</span>
+    <div class="phones_inner">
+        <?php
+        if( have_rows('zhes_phones') ):
+            while ( have_rows('zhes_phones') ) : the_row();
+                $header = get_sub_field('header');
+                $phone = get_sub_field('phone');
+                echo '<div class="phone"><p class="bold phone_header" data=" ' . $header.'">' . str_replace('№', '',$header) . '</p><a href="tel:' . $phone . '">' . $phone .'</a></div>';
+            endwhile;
+        endif;
+        ?>
+    </div>
+    <a class="mobile_zhes_phone">
+
+    </a>
+    <div class="arrow"><a href="<?php echo get_category_link(3);?>" class="no-border small">Все бытовые услуги и цены<img src="/wp-content/themes/zheu/img/arrow.png" alt=""></a></div>
+</div>
 <?php get_footer(); ?>

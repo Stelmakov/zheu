@@ -47,6 +47,7 @@
         ?>
         <div class="arrow"><a href="<?php echo get_category_link(3);?>" class="no-border small">Все бытовые услуги и цены<img src="/wp-content/themes/zheu/img/arrow.png" alt=""></a></div>
     </div>
+
 </div>
 
 <?php get_footer(); ?>

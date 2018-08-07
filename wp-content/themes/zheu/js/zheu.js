@@ -1,21 +1,42 @@
 $(document).ready(function(){
    $('.hamburger').on('click',function(){
        if($(this).hasClass('is-active')){
-           $(this).removeClass('is-active')
+           $(this).removeClass('is-active');
+           $('.full_menu_container').fadeOut();
+           $(this).css('position','relative');
+           $(this).css('left','auto');
+           $(this).css('top','auto');
        } else {
-           $(this).addClass('is-active')
+           $(this).addClass('is-active');
+           var offset = $(this).offset();
+           $(this).css('position','fixed');
+           $(this).css('left',offset.left);
+           $(this).css('top',offset.top);
+           $('.full_menu_container').fadeIn();
        }
-   })
+   });
     $(".phone").mask("+375 (99) 999-99-99");
-   $('.menu-item-type-custom').click(function(){
-       $('.sub-menu',this).toggle();
-       if($(this).hasClass('isToggled')){
-           $($(this).removeClass('isToggled'))
-       } else{
-           $(this).addClass('isToggled')
+   $('.menu-item-type-custom a').eq(0).click(function(){
+       if($(this).parents('li').hasClass('isToggled')) {
+           return true;
+       } else {
+           $(this).parents('li').addClass('isToggled')
        }
         return false;
    });
+    $('.menu-item-type-custom .fake_header').click(function(){
+        $(this).parents('li').removeClass('isToggled')
+        return false;
+    });
+   $('.zhes_phones .phone').on('click',function(){
+       $('.zhes_phones .phone').removeClass('active');
+       $('.mobile_zhes_phone').attr('href',$('a',this).attr('href'));
+       $(this).addClass('active');
+       $('.mobile_zhes_phone').empty();
+       $('.mobile_zhes_phone').append('<span>Вызвать мастера бытовых услуг ' + $('.phone_header',this).attr('data') + '</span>');
+       $('.mobile_zhes_phone').append('<p class="href">' + $('a',this).text() + '</p>');
+   });
+    $('.zhes_phones .phone').eq(0).click();
     $(document).ready(function() {
         var $window = $(window);
 
