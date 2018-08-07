@@ -20,6 +20,10 @@ $(document).ready(function(){
        if($(this).parents('li').hasClass('isToggled')) {
            return true;
        } else {
+           if ($(document).width() < 1200){
+               $('.fake_header').css('width',$(this).width());
+               $('.fake_header').css('text-align','center');
+           }
            $(this).parents('li').addClass('isToggled')
        }
         return false;
