@@ -21,6 +21,11 @@ $(document).ready(function(){
            return true;
        } else {
            if ($(document).width() < 1200){
+               var a_offset = $(this).offset();
+               var li_offset = $(this).parents('li').offset();
+               console.log(a_offset);
+               console.log(li_offset);
+               $('.fake_header').css('margin-left',a_offset.left - li_offset.left - 15);
                $('.fake_header').css('width',$(this).width());
                $('.fake_header').css('text-align','center');
            }

@@ -42,15 +42,31 @@
         <div class="header">
             <div class="header_item">
                 <div class="no-border mobile-flex">
-                    <a href="/">
+                    <?php if (is_front_page()){ ?>
+                        <section>
+                    <?php } else { ?>
+                        <a href="/">
+                    <?php } ?>
                         <img src="/wp-content/themes/zheu/img/logo.png" class="logo" alt="">
-                    </a>
-                    <a href="/">
+                    <?php if (is_front_page()){ ?>
+                        </section>
+                    <?php } else { ?>
+                        </a>
+                    <?php } ?>
+                    <?php if (is_front_page()){ ?>
+                        <section>
+                    <?php } else { ?>
+                        <a href="/">
+                    <?php } ?>
                         <div class="logo_text">
                             <p class="logo_text_small">Коммунальное унитарное предприятие</p>
                             <p class="logo_text_big">«Жилишно-эксплуатационный участок №7 </br> Фрунзенского района г. Минска»</p>
                         </div>
-                    </a>
+                    <?php if (is_front_page()){ ?>
+                        </section>
+                    <?php } else { ?>
+                        </a>
+                    <?php } ?>
                     <div class="hamburger hamburger--elastic mobile">
                         <div class="hamburger-box">
                             <div class="hamburger-inner"></div>

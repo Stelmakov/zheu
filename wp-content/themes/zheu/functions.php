@@ -38,6 +38,11 @@ class Walker_Quickstart_Menu extends Walker_Nav_Menu {
 
     }
 
+    public function end_lvl( &$output, $depth = 0, $args = array() ) {
+//        if($args->depth == 1){
+            $output .= "</ul></div>";
+//        }
+    }
 
 }
 function to_format($date){
@@ -47,18 +52,10 @@ function to_format($date){
         "10" => "октября", "11" => "ноября", "12" => "декабря");
     $date_day = date('d', strtotime($date));
     $date_month = date('m', strtotime($date));
+    $date_year = date('Y', strtotime($date));
     $new_date_month = str_replace($date_month, $_monthsList[$date_month], $date_month);
-    return $date_day . ' ' . $new_date_month;
+    return $date_day . ' ' . $new_date_month . ' ' . $date_year;
 }
-
-
-
-
-
-
-
-
-
 
 
 

@@ -40,7 +40,11 @@
     </div>
     <div class="footer">
         <div class="footer_item">
-            <a href ="/" class="no-border">
+            <?php if (is_front_page()){ ?>
+                <section>
+            <?php } else { ?>
+                <a href ="/" class="no-border">
+            <?php } ?>
                 <img src="/wp-content/themes/zheu/img/logo.png" class="logo" alt="">
                 <div class="logo_text">
                     <p class="logo_text_small">Коммунальное унитарное предприятие</p>
@@ -50,7 +54,11 @@
                         <span class="black"><?php echo (get_field('header_phone') ? get_field('header_phone') : '') ?></span>
                     </div>
                 </div>
-            </a>
+            <?php if (is_front_page()){ ?>
+                </section>
+            <?php } else { ?>
+                </a>
+            <?php } ?>
 
         </div>
         <div class="footer_item">

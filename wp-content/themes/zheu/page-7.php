@@ -4,7 +4,7 @@
 </div>
 <div class="news_posts">
     <div class="h2 small_title_mobile">Новости</div>
-    <div class="arrow not-mobile"><a href="<?php echo get_category_link(6);?>" class="no-border small">Все новости<img src="/wp-content/themes/zheu/img/arrow.png" alt=""></a></div>
+    <div class="arrow not-mobile"><a href="<?php echo get_category_link(6);?>" class="no-border ">Все новости<img src="/wp-content/themes/zheu/img/arrow.png" alt=""></a></div>
     <?php
     $catPost = get_posts('cat=6&posts_per_page=3');
     foreach ($catPost as $post) :  ?>
@@ -15,10 +15,11 @@
             </a>
         </div>
     <?php  endforeach; wp_reset_postdata();?>
-
 </div>
+<div class="arrow mobile for_news"><a href="<?php echo get_category_link(6);?>" class="no-border ">Все новости<img src="/wp-content/themes/zheu/img/arrow.png" alt=""></a></div>
 <a href="http://gkx.by">
-    <img src="/wp-content/themes/zheu/img/kom_gram.png" class="kom_gram" alt="Коммунальная грамотность">
+    <img src="/wp-content/themes/zheu/img/kom_gram.png" class="kom_gram not-mobile" alt="Коммунальная грамотность">
+    <img src="/wp-content/themes/zheu/img/gkx_mobile.svg" class="kom_gram mobile" alt="Коммунальная грамотность">
 </a>
 <div class="separator"></div>
 <div class="home_services">
@@ -29,7 +30,7 @@
         if( have_rows('services') ):
             while ( have_rows('services') ) : the_row();
                 $service = get_sub_field('service');
-                echo '<a href="' . get_the_permalink($service->ID) .'" class="service no-border"><div class="image_container"><img src="' . get_field('icon', $service->ID) .'"></div><p>'. $service->post_title .  '</p></a>';
+                echo '<a href="' . get_the_permalink($service->ID) .'" class="service no-border"><div class="image_container"><img src="' . get_field('icon', $service->ID) .'" alt="icon"></div><p>'. $service->post_title .  '</p></a>';
             endwhile;
         endif;
         ?>
@@ -45,7 +46,7 @@
             endwhile;
         endif;
         ?>
-        <div class="arrow"><a href="<?php echo get_category_link(3);?>" class="no-border small">Все бытовые услуги и цены<img src="/wp-content/themes/zheu/img/arrow.png" alt=""></a></div>
+        <div class="arrow"><a href="<?php echo get_permalink(66); ?>" class="no-border">Все бытовые услуги и цены<img src="/wp-content/themes/zheu/img/arrow.png" alt=""></a></div>
     </div>
 
 </div>
@@ -67,6 +68,6 @@
     <a class="mobile_zhes_phone">
 
     </a>
-    <div class="arrow"><a href="<?php echo get_category_link(3);?>" class="no-border small">Все бытовые услуги и цены<img src="/wp-content/themes/zheu/img/arrow.png" alt=""></a></div>
+    <div class="arrow"><a href="<?php echo get_permalink(66); ?>" class="no-border">Все бытовые услуги и цены<img src="/wp-content/themes/zheu/img/arrow.png" alt=""></a></div>
 </div>
 <?php get_footer(); ?>

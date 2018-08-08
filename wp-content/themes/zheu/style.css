@@ -47,7 +47,14 @@ a {
     text-decoration: none;
     border-bottom: 1px solid #cddcef;
 }
+a span{
+    color: #1e77c6;
+    font-size: 14px;
+    text-decoration: none;
+    border-bottom: 1px solid #cddcef;
+}
 .multiline_text span{
+    color:#1e77c6;
     border-bottom: 1px solid #cddcef;
 }
 .multiline_text {
@@ -73,7 +80,7 @@ a:hover{
 }
 
 span{
-    font-size:14px;
+    font-size:13px;
     color: rgb( 106, 106, 106 );
 }
 li {
@@ -104,9 +111,7 @@ li {
     text-align:center;
     margin-top:-21px;
 }
-.top_menu span {
-    text-align:center;
-}
+
 .top_menu ul{
     width: 100%;
     padding:0px;
@@ -209,6 +214,8 @@ li {
     color:#000;
     border-bottom:none;
     font-size:16px;
+    display:inline-block;
+    margin-bottom:15px;
     font-family: 'LatoBold';
 }
 .full_menu .menu-item-has-children a[title="none"]{
@@ -235,7 +242,7 @@ ul.sub-menu li{
 }
 .problem span{
     width:100%;
-    text-align:center;
+    /*text-align:center;*/
     margin-top:5px;
 }
 .menu-item-type-custom.problem span{
@@ -355,7 +362,7 @@ ul.sub-menu li{
     flex-basis:550px;
 }
 .header .header_item:nth-child(2){
-    flex-basis:280px;
+    flex-basis:265px;
 }
 .header .header_item:last-child{
     margin-bottom:3px;
@@ -369,6 +376,9 @@ ul.sub-menu li{
     display:flex;
     flex-direction: column;
     justify-content: space-between;
+}
+.header_phone .header_phone_item:last-child{
+    margin-top:5px;
 }
 .logo_text p{
     color:rgb( 94, 94, 94 );
@@ -410,14 +420,24 @@ ul.sub-menu li{
     right:0px;
     top:0px;
 }
+.news_posts .arrow.not-mobile{
+    margin-top:4px;
+}
 .arrow img {
     margin-left: 10px;
+    width: 18px;
+    margin-bottom: 1px;
 }
 .kom_gram{
     width:100%;
 }
+.news_posts .date{
+    width:100%;
+    float:left;
+}
 .home_services{
-    margin: 0 -15px;
+    float:left;
+    width:100%;
     display:flex;
     flex-direction:row;
     justify-content: space-between;
@@ -458,7 +478,10 @@ ul.sub-menu li{
     box-shadow: 0px 7px 32px 5px rgba( 0, 0, 0, 0.3 );
 }
 .home_services .phones {
-    padding:25px;
+    padding:25px 0;
+}
+.home_services .phones .phone p, .home_services .phones .phone a {
+    font-size:15px;
 }
 .home_services .services{
     flex-basis:70%;
@@ -547,6 +570,8 @@ ul.sub-menu li{
     border-color: rgb( 124, 178, 162 );
     border-style: solid;
     border-radius: 25px;
+    min-width: 195px;
+    margin-right:15px;
 }
 #searchsubmit{
     margin-left:10px;
@@ -834,7 +859,59 @@ input[type="file"] {
 .mobile{
     display:none;
 }
+.news .article {
+    margin-bottom:30px;
+    float:left;
+}
+.news .article .date{
+    width:100%;
+    float:left;
+    margin-bottom:10px
+
+}
+.news .article .href_container{
+    width:100%;
+    float:left;
+    margin-bottom:5px;
+}
+.news .article .content{
+    width:100%;
+    float:left;
+}
+.news .other_years{
+    width:100%;
+    float:left;
+}
+.results_count{
+    float:left;
+    width:100%;
+    margin:30px 0;
+}
+@media (max-width: 1231px) {
+    .zh_container{
+        width:1200px;
+    }
+}
+@media (max-width: 1100px) {
+    .footer .footer_item:first-child section{
+        display:flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items:center;
+    }
+    .footer .footer_item:first-child a{
+        display:flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items:center;
+    }
+}
 @media (max-width: 1200px) {
+    .home_services{
+        float:none;
+        width:auto;
+        margin: 0 -15px;
+    }
     .bottom_images  img {
         margin-bottom:40px;
         margin-right:20px;
@@ -921,9 +998,42 @@ input[type="file"] {
         width:30px;
     }
     .mobile-flex{
-        display:flex;
-        flex-direction: row;
-        justify-content: space-between;
+        display:block;
+    }
+    .mobile-flex a:first-child{
+        width:10%;
+        float:left;
+    }
+    .mobile-flex a:nth-child(2){
+        width:80%;
+        float:left;
+    }
+    .mobile-flex a:nth-child(2) .logo_text_big{
+        text-align: left;
+    }
+    .mobile-flex a:nth-child(2) .logo_text_small{
+        text-align: left;
+    }
+    .mobile-flex section:first-child{
+        width:10%;
+        float:left;
+    }
+    .mobile-flex section:nth-child(2){
+        width:80%;
+        float:left;
+    }
+    .mobile-flex section:nth-child(2) .logo_text_big{
+        text-align: left;
+    }
+    .mobile-flex section:nth-child(2) .logo_text_small{
+        text-align: left;
+    }
+    .mobile-flex .hamburger{
+        float: left;
+        width: 10%;
+    }
+    .problem.mobile .problem-inner{
+        text-align: center;
     }
     .header_phone a{
         font-size: 20px;
@@ -1061,5 +1171,65 @@ input[type="file"] {
     }
     .mobile-flex a{
         border-bottom: none;
+    }
+    .for_news.arrow.mobile{
+        position:relative;
+        float:left;
+        width:100%;
+        text-align:center;
+        margin-bottom:40px;
+    }
+    .news_posts{
+        margin:30px 0 10px 0;
+    }
+    .home_services .h2{
+        position:relative;
+        font-size: 16px;
+        width: 100%;
+        text-align: center;
+        left:auto;
+        top:auto;
+        margin:0;
+    }
+    .left_column{
+        margin-top:20px;
+        width:100%;
+        float:left;
+    }
+    .right_column{
+        width:100%;
+    }
+    .news .content{
+        display:none;
+    }
+    .right_column .h1{
+        position:relative;
+        font-size: 20px;
+        width: 100%;
+        margin:30px 0;
+        text-align: center;
+    }
+    .left_links{
+        display:none;
+    }
+}
+@media (max-width: 500px) {
+    .mobile-flex a:nth-child(2) .logo_text{
+        width:100%;
+    }
+    .mobile-flex a:nth-child(2) .logo_text_big{
+        text-align: center;
+    }
+    .mobile-flex a:nth-child(2) .logo_text_small{
+        text-align: center;
+    }
+    .mobile-flex section:nth-child(2) .logo_text{
+        width:100%;
+    }
+    .mobile-flex section:nth-child(2) .logo_text_big{
+        text-align: center;
+    }
+    .mobile-flex section:nth-child(2) .logo_text_small{
+        text-align: center;
     }
 }
