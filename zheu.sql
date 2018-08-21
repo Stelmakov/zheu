@@ -1,25 +1,23 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.3
--- https://www.phpmyadmin.net/
+-- version 3.4.10.1
+-- http://www.phpmyadmin.net
 --
--- Хост: 127.0.0.1:3306
--- Время создания: Авг 08 2018 г., 17:45
--- Версия сервера: 5.6.37
--- Версия PHP: 5.6.31
+-- Хост: mysql5.activeby.net
+-- Время создания: Авг 21 2018 г., 14:57
+-- Версия сервера: 5.5.52
+-- Версия PHP: 5.4.45
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
--- База данных: `zheu`
+-- База данных: `giperilia_zheu`
 --
 
 -- --------------------------------------------------------
@@ -28,12 +26,15 @@ SET time_zone = "+00:00";
 -- Структура таблицы `wp_commentmeta`
 --
 
-CREATE TABLE `wp_commentmeta` (
-  `meta_id` bigint(20) UNSIGNED NOT NULL,
-  `comment_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
-  `meta_key` varchar(255) COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
-  `meta_value` longtext COLLATE utf8mb4_unicode_520_ci
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+CREATE TABLE IF NOT EXISTS `wp_commentmeta` (
+  `meta_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `comment_id` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `meta_key` varchar(255) DEFAULT NULL,
+  `meta_value` longtext,
+  PRIMARY KEY (`meta_id`),
+  KEY `comment_id` (`comment_id`),
+  KEY `meta_key` (`meta_key`(191))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -41,30 +42,36 @@ CREATE TABLE `wp_commentmeta` (
 -- Структура таблицы `wp_comments`
 --
 
-CREATE TABLE `wp_comments` (
-  `comment_ID` bigint(20) UNSIGNED NOT NULL,
-  `comment_post_ID` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
-  `comment_author` tinytext COLLATE utf8mb4_unicode_520_ci NOT NULL,
-  `comment_author_email` varchar(100) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `comment_author_url` varchar(200) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `comment_author_IP` varchar(100) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+CREATE TABLE IF NOT EXISTS `wp_comments` (
+  `comment_ID` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `comment_post_ID` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `comment_author` tinytext NOT NULL,
+  `comment_author_email` varchar(100) NOT NULL DEFAULT '',
+  `comment_author_url` varchar(200) NOT NULL DEFAULT '',
+  `comment_author_IP` varchar(100) NOT NULL DEFAULT '',
   `comment_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `comment_date_gmt` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `comment_content` text COLLATE utf8mb4_unicode_520_ci NOT NULL,
+  `comment_content` text NOT NULL,
   `comment_karma` int(11) NOT NULL DEFAULT '0',
-  `comment_approved` varchar(20) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '1',
-  `comment_agent` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `comment_type` varchar(20) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `comment_parent` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
-  `user_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+  `comment_approved` varchar(20) NOT NULL DEFAULT '1',
+  `comment_agent` varchar(255) NOT NULL DEFAULT '',
+  `comment_type` varchar(20) NOT NULL DEFAULT '',
+  `comment_parent` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `user_id` bigint(20) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`comment_ID`),
+  KEY `comment_post_ID` (`comment_post_ID`),
+  KEY `comment_approved_date_gmt` (`comment_approved`,`comment_date_gmt`),
+  KEY `comment_date_gmt` (`comment_date_gmt`),
+  KEY `comment_parent` (`comment_parent`),
+  KEY `comment_author_email` (`comment_author_email`(10))
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Дамп данных таблицы `wp_comments`
 --
 
 INSERT INTO `wp_comments` (`comment_ID`, `comment_post_ID`, `comment_author`, `comment_author_email`, `comment_author_url`, `comment_author_IP`, `comment_date`, `comment_date_gmt`, `comment_content`, `comment_karma`, `comment_approved`, `comment_agent`, `comment_type`, `comment_parent`, `user_id`) VALUES
-(1, 1, 'Автор комментария', 'wapuu@wordpress.example', 'https://wordpress.org/', '', '2018-07-25 21:12:08', '2018-07-25 18:12:08', 'Привет! Это комментарий.\nЧтобы начать модерировать, редактировать и удалять комментарии, перейдите на экран «Комментарии» в консоли.\nАватары авторов комментариев загружаются с сервиса <a href=\"https://ru.gravatar.com\">Gravatar</a>.', 0, 'post-trashed', '', '', 0, 0);
+(1, 1, 'Автор комментария', 'wapuu@wordpress.example', 'https://wordpress.org/', '', '2018-07-25 21:12:08', '2018-07-25 18:12:08', 'Привет! Это комментарий.\nЧтобы начать модерировать, редактировать и удалять комментарии, перейдите на экран «Комментарии» в консоли.\nАватары авторов комментариев загружаются с сервиса <a href="https://ru.gravatar.com">Gravatar</a>.', 0, 'post-trashed', '', '', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -72,21 +79,23 @@ INSERT INTO `wp_comments` (`comment_ID`, `comment_post_ID`, `comment_author`, `c
 -- Структура таблицы `wp_links`
 --
 
-CREATE TABLE `wp_links` (
-  `link_id` bigint(20) UNSIGNED NOT NULL,
-  `link_url` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `link_name` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `link_image` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `link_target` varchar(25) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `link_description` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `link_visible` varchar(20) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT 'Y',
-  `link_owner` bigint(20) UNSIGNED NOT NULL DEFAULT '1',
+CREATE TABLE IF NOT EXISTS `wp_links` (
+  `link_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `link_url` varchar(255) NOT NULL DEFAULT '',
+  `link_name` varchar(255) NOT NULL DEFAULT '',
+  `link_image` varchar(255) NOT NULL DEFAULT '',
+  `link_target` varchar(25) NOT NULL DEFAULT '',
+  `link_description` varchar(255) NOT NULL DEFAULT '',
+  `link_visible` varchar(20) NOT NULL DEFAULT 'Y',
+  `link_owner` bigint(20) unsigned NOT NULL DEFAULT '1',
   `link_rating` int(11) NOT NULL DEFAULT '0',
   `link_updated` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `link_rel` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `link_notes` mediumtext COLLATE utf8mb4_unicode_520_ci NOT NULL,
-  `link_rss` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+  `link_rel` varchar(255) NOT NULL DEFAULT '',
+  `link_notes` mediumtext NOT NULL,
+  `link_rss` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`link_id`),
+  KEY `link_visible` (`link_visible`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -94,20 +103,22 @@ CREATE TABLE `wp_links` (
 -- Структура таблицы `wp_options`
 --
 
-CREATE TABLE `wp_options` (
-  `option_id` bigint(20) UNSIGNED NOT NULL,
-  `option_name` varchar(191) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `option_value` longtext COLLATE utf8mb4_unicode_520_ci NOT NULL,
-  `autoload` varchar(20) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT 'yes'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+CREATE TABLE IF NOT EXISTS `wp_options` (
+  `option_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `option_name` varchar(191) NOT NULL DEFAULT '',
+  `option_value` longtext NOT NULL,
+  `autoload` varchar(20) NOT NULL DEFAULT 'yes',
+  PRIMARY KEY (`option_id`),
+  UNIQUE KEY `option_name` (`option_name`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=476 ;
 
 --
 -- Дамп данных таблицы `wp_options`
 --
 
 INSERT INTO `wp_options` (`option_id`, `option_name`, `option_value`, `autoload`) VALUES
-(1, 'siteurl', 'http://zheu.loc', 'yes'),
-(2, 'home', 'http://zheu.loc', 'yes'),
+(1, 'siteurl', 'http://d0025259.atservers.net/', 'yes'),
+(2, 'home', 'http://d0025259.atservers.net/', 'yes'),
 (3, 'blogname', 'ЖЭУ №7', 'yes'),
 (4, 'blogdescription', '', 'yes'),
 (5, 'users_can_register', '0', 'yes'),
@@ -134,17 +145,17 @@ INSERT INTO `wp_options` (`option_id`, `option_name`, `option_value`, `autoload`
 (26, 'comment_moderation', '0', 'yes'),
 (27, 'moderation_notify', '1', 'yes'),
 (28, 'permalink_structure', '/%category%/%postname%/', 'yes'),
-(29, 'rewrite_rules', 'a:94:{s:11:\"^wp-json/?$\";s:22:\"index.php?rest_route=/\";s:14:\"^wp-json/(.*)?\";s:33:\"index.php?rest_route=/$matches[1]\";s:21:\"^index.php/wp-json/?$\";s:22:\"index.php?rest_route=/\";s:24:\"^index.php/wp-json/(.*)?\";s:33:\"index.php?rest_route=/$matches[1]\";s:47:\"category/(.+?)/feed/(feed|rdf|rss|rss2|atom)/?$\";s:52:\"index.php?category_name=$matches[1]&feed=$matches[2]\";s:42:\"category/(.+?)/(feed|rdf|rss|rss2|atom)/?$\";s:52:\"index.php?category_name=$matches[1]&feed=$matches[2]\";s:23:\"category/(.+?)/embed/?$\";s:46:\"index.php?category_name=$matches[1]&embed=true\";s:35:\"category/(.+?)/page/?([0-9]{1,})/?$\";s:53:\"index.php?category_name=$matches[1]&paged=$matches[2]\";s:17:\"category/(.+?)/?$\";s:35:\"index.php?category_name=$matches[1]\";s:44:\"tag/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$\";s:42:\"index.php?tag=$matches[1]&feed=$matches[2]\";s:39:\"tag/([^/]+)/(feed|rdf|rss|rss2|atom)/?$\";s:42:\"index.php?tag=$matches[1]&feed=$matches[2]\";s:20:\"tag/([^/]+)/embed/?$\";s:36:\"index.php?tag=$matches[1]&embed=true\";s:32:\"tag/([^/]+)/page/?([0-9]{1,})/?$\";s:43:\"index.php?tag=$matches[1]&paged=$matches[2]\";s:14:\"tag/([^/]+)/?$\";s:25:\"index.php?tag=$matches[1]\";s:45:\"type/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$\";s:50:\"index.php?post_format=$matches[1]&feed=$matches[2]\";s:40:\"type/([^/]+)/(feed|rdf|rss|rss2|atom)/?$\";s:50:\"index.php?post_format=$matches[1]&feed=$matches[2]\";s:21:\"type/([^/]+)/embed/?$\";s:44:\"index.php?post_format=$matches[1]&embed=true\";s:33:\"type/([^/]+)/page/?([0-9]{1,})/?$\";s:51:\"index.php?post_format=$matches[1]&paged=$matches[2]\";s:15:\"type/([^/]+)/?$\";s:33:\"index.php?post_format=$matches[1]\";s:12:\"robots\\.txt$\";s:18:\"index.php?robots=1\";s:48:\".*wp-(atom|rdf|rss|rss2|feed|commentsrss2)\\.php$\";s:18:\"index.php?feed=old\";s:20:\".*wp-app\\.php(/.*)?$\";s:19:\"index.php?error=403\";s:18:\".*wp-register.php$\";s:23:\"index.php?register=true\";s:32:\"feed/(feed|rdf|rss|rss2|atom)/?$\";s:27:\"index.php?&feed=$matches[1]\";s:27:\"(feed|rdf|rss|rss2|atom)/?$\";s:27:\"index.php?&feed=$matches[1]\";s:8:\"embed/?$\";s:21:\"index.php?&embed=true\";s:20:\"page/?([0-9]{1,})/?$\";s:28:\"index.php?&paged=$matches[1]\";s:27:\"comment-page-([0-9]{1,})/?$\";s:38:\"index.php?&page_id=7&cpage=$matches[1]\";s:41:\"comments/feed/(feed|rdf|rss|rss2|atom)/?$\";s:42:\"index.php?&feed=$matches[1]&withcomments=1\";s:36:\"comments/(feed|rdf|rss|rss2|atom)/?$\";s:42:\"index.php?&feed=$matches[1]&withcomments=1\";s:17:\"comments/embed/?$\";s:21:\"index.php?&embed=true\";s:44:\"search/(.+)/feed/(feed|rdf|rss|rss2|atom)/?$\";s:40:\"index.php?s=$matches[1]&feed=$matches[2]\";s:39:\"search/(.+)/(feed|rdf|rss|rss2|atom)/?$\";s:40:\"index.php?s=$matches[1]&feed=$matches[2]\";s:20:\"search/(.+)/embed/?$\";s:34:\"index.php?s=$matches[1]&embed=true\";s:32:\"search/(.+)/page/?([0-9]{1,})/?$\";s:41:\"index.php?s=$matches[1]&paged=$matches[2]\";s:14:\"search/(.+)/?$\";s:23:\"index.php?s=$matches[1]\";s:47:\"author/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$\";s:50:\"index.php?author_name=$matches[1]&feed=$matches[2]\";s:42:\"author/([^/]+)/(feed|rdf|rss|rss2|atom)/?$\";s:50:\"index.php?author_name=$matches[1]&feed=$matches[2]\";s:23:\"author/([^/]+)/embed/?$\";s:44:\"index.php?author_name=$matches[1]&embed=true\";s:35:\"author/([^/]+)/page/?([0-9]{1,})/?$\";s:51:\"index.php?author_name=$matches[1]&paged=$matches[2]\";s:17:\"author/([^/]+)/?$\";s:33:\"index.php?author_name=$matches[1]\";s:69:\"([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/feed/(feed|rdf|rss|rss2|atom)/?$\";s:80:\"index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]&feed=$matches[4]\";s:64:\"([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/(feed|rdf|rss|rss2|atom)/?$\";s:80:\"index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]&feed=$matches[4]\";s:45:\"([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/embed/?$\";s:74:\"index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]&embed=true\";s:57:\"([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/page/?([0-9]{1,})/?$\";s:81:\"index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]&paged=$matches[4]\";s:39:\"([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/?$\";s:63:\"index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]\";s:56:\"([0-9]{4})/([0-9]{1,2})/feed/(feed|rdf|rss|rss2|atom)/?$\";s:64:\"index.php?year=$matches[1]&monthnum=$matches[2]&feed=$matches[3]\";s:51:\"([0-9]{4})/([0-9]{1,2})/(feed|rdf|rss|rss2|atom)/?$\";s:64:\"index.php?year=$matches[1]&monthnum=$matches[2]&feed=$matches[3]\";s:32:\"([0-9]{4})/([0-9]{1,2})/embed/?$\";s:58:\"index.php?year=$matches[1]&monthnum=$matches[2]&embed=true\";s:44:\"([0-9]{4})/([0-9]{1,2})/page/?([0-9]{1,})/?$\";s:65:\"index.php?year=$matches[1]&monthnum=$matches[2]&paged=$matches[3]\";s:26:\"([0-9]{4})/([0-9]{1,2})/?$\";s:47:\"index.php?year=$matches[1]&monthnum=$matches[2]\";s:43:\"([0-9]{4})/feed/(feed|rdf|rss|rss2|atom)/?$\";s:43:\"index.php?year=$matches[1]&feed=$matches[2]\";s:38:\"([0-9]{4})/(feed|rdf|rss|rss2|atom)/?$\";s:43:\"index.php?year=$matches[1]&feed=$matches[2]\";s:19:\"([0-9]{4})/embed/?$\";s:37:\"index.php?year=$matches[1]&embed=true\";s:31:\"([0-9]{4})/page/?([0-9]{1,})/?$\";s:44:\"index.php?year=$matches[1]&paged=$matches[2]\";s:13:\"([0-9]{4})/?$\";s:26:\"index.php?year=$matches[1]\";s:27:\".?.+?/attachment/([^/]+)/?$\";s:32:\"index.php?attachment=$matches[1]\";s:37:\".?.+?/attachment/([^/]+)/trackback/?$\";s:37:\"index.php?attachment=$matches[1]&tb=1\";s:57:\".?.+?/attachment/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$\";s:49:\"index.php?attachment=$matches[1]&feed=$matches[2]\";s:52:\".?.+?/attachment/([^/]+)/(feed|rdf|rss|rss2|atom)/?$\";s:49:\"index.php?attachment=$matches[1]&feed=$matches[2]\";s:52:\".?.+?/attachment/([^/]+)/comment-page-([0-9]{1,})/?$\";s:50:\"index.php?attachment=$matches[1]&cpage=$matches[2]\";s:33:\".?.+?/attachment/([^/]+)/embed/?$\";s:43:\"index.php?attachment=$matches[1]&embed=true\";s:16:\"(.?.+?)/embed/?$\";s:41:\"index.php?pagename=$matches[1]&embed=true\";s:20:\"(.?.+?)/trackback/?$\";s:35:\"index.php?pagename=$matches[1]&tb=1\";s:40:\"(.?.+?)/feed/(feed|rdf|rss|rss2|atom)/?$\";s:47:\"index.php?pagename=$matches[1]&feed=$matches[2]\";s:35:\"(.?.+?)/(feed|rdf|rss|rss2|atom)/?$\";s:47:\"index.php?pagename=$matches[1]&feed=$matches[2]\";s:28:\"(.?.+?)/page/?([0-9]{1,})/?$\";s:48:\"index.php?pagename=$matches[1]&paged=$matches[2]\";s:35:\"(.?.+?)/comment-page-([0-9]{1,})/?$\";s:48:\"index.php?pagename=$matches[1]&cpage=$matches[2]\";s:24:\"(.?.+?)(?:/([0-9]+))?/?$\";s:47:\"index.php?pagename=$matches[1]&page=$matches[2]\";s:31:\".+?/[^/]+/attachment/([^/]+)/?$\";s:32:\"index.php?attachment=$matches[1]\";s:41:\".+?/[^/]+/attachment/([^/]+)/trackback/?$\";s:37:\"index.php?attachment=$matches[1]&tb=1\";s:61:\".+?/[^/]+/attachment/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$\";s:49:\"index.php?attachment=$matches[1]&feed=$matches[2]\";s:56:\".+?/[^/]+/attachment/([^/]+)/(feed|rdf|rss|rss2|atom)/?$\";s:49:\"index.php?attachment=$matches[1]&feed=$matches[2]\";s:56:\".+?/[^/]+/attachment/([^/]+)/comment-page-([0-9]{1,})/?$\";s:50:\"index.php?attachment=$matches[1]&cpage=$matches[2]\";s:37:\".+?/[^/]+/attachment/([^/]+)/embed/?$\";s:43:\"index.php?attachment=$matches[1]&embed=true\";s:22:\"(.+?)/([^/]+)/embed/?$\";s:63:\"index.php?category_name=$matches[1]&name=$matches[2]&embed=true\";s:26:\"(.+?)/([^/]+)/trackback/?$\";s:57:\"index.php?category_name=$matches[1]&name=$matches[2]&tb=1\";s:46:\"(.+?)/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$\";s:69:\"index.php?category_name=$matches[1]&name=$matches[2]&feed=$matches[3]\";s:41:\"(.+?)/([^/]+)/(feed|rdf|rss|rss2|atom)/?$\";s:69:\"index.php?category_name=$matches[1]&name=$matches[2]&feed=$matches[3]\";s:34:\"(.+?)/([^/]+)/page/?([0-9]{1,})/?$\";s:70:\"index.php?category_name=$matches[1]&name=$matches[2]&paged=$matches[3]\";s:41:\"(.+?)/([^/]+)/comment-page-([0-9]{1,})/?$\";s:70:\"index.php?category_name=$matches[1]&name=$matches[2]&cpage=$matches[3]\";s:30:\"(.+?)/([^/]+)(?:/([0-9]+))?/?$\";s:69:\"index.php?category_name=$matches[1]&name=$matches[2]&page=$matches[3]\";s:20:\".+?/[^/]+/([^/]+)/?$\";s:32:\"index.php?attachment=$matches[1]\";s:30:\".+?/[^/]+/([^/]+)/trackback/?$\";s:37:\"index.php?attachment=$matches[1]&tb=1\";s:50:\".+?/[^/]+/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$\";s:49:\"index.php?attachment=$matches[1]&feed=$matches[2]\";s:45:\".+?/[^/]+/([^/]+)/(feed|rdf|rss|rss2|atom)/?$\";s:49:\"index.php?attachment=$matches[1]&feed=$matches[2]\";s:45:\".+?/[^/]+/([^/]+)/comment-page-([0-9]{1,})/?$\";s:50:\"index.php?attachment=$matches[1]&cpage=$matches[2]\";s:26:\".+?/[^/]+/([^/]+)/embed/?$\";s:43:\"index.php?attachment=$matches[1]&embed=true\";s:38:\"(.+?)/feed/(feed|rdf|rss|rss2|atom)/?$\";s:52:\"index.php?category_name=$matches[1]&feed=$matches[2]\";s:33:\"(.+?)/(feed|rdf|rss|rss2|atom)/?$\";s:52:\"index.php?category_name=$matches[1]&feed=$matches[2]\";s:14:\"(.+?)/embed/?$\";s:46:\"index.php?category_name=$matches[1]&embed=true\";s:26:\"(.+?)/page/?([0-9]{1,})/?$\";s:53:\"index.php?category_name=$matches[1]&paged=$matches[2]\";s:33:\"(.+?)/comment-page-([0-9]{1,})/?$\";s:53:\"index.php?category_name=$matches[1]&cpage=$matches[2]\";s:8:\"(.+?)/?$\";s:35:\"index.php?category_name=$matches[1]\";}', 'yes'),
+(29, 'rewrite_rules', 'a:94:{s:11:"^wp-json/?$";s:22:"index.php?rest_route=/";s:14:"^wp-json/(.*)?";s:33:"index.php?rest_route=/$matches[1]";s:21:"^index.php/wp-json/?$";s:22:"index.php?rest_route=/";s:24:"^index.php/wp-json/(.*)?";s:33:"index.php?rest_route=/$matches[1]";s:47:"category/(.+?)/feed/(feed|rdf|rss|rss2|atom)/?$";s:52:"index.php?category_name=$matches[1]&feed=$matches[2]";s:42:"category/(.+?)/(feed|rdf|rss|rss2|atom)/?$";s:52:"index.php?category_name=$matches[1]&feed=$matches[2]";s:23:"category/(.+?)/embed/?$";s:46:"index.php?category_name=$matches[1]&embed=true";s:35:"category/(.+?)/page/?([0-9]{1,})/?$";s:53:"index.php?category_name=$matches[1]&paged=$matches[2]";s:17:"category/(.+?)/?$";s:35:"index.php?category_name=$matches[1]";s:44:"tag/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$";s:42:"index.php?tag=$matches[1]&feed=$matches[2]";s:39:"tag/([^/]+)/(feed|rdf|rss|rss2|atom)/?$";s:42:"index.php?tag=$matches[1]&feed=$matches[2]";s:20:"tag/([^/]+)/embed/?$";s:36:"index.php?tag=$matches[1]&embed=true";s:32:"tag/([^/]+)/page/?([0-9]{1,})/?$";s:43:"index.php?tag=$matches[1]&paged=$matches[2]";s:14:"tag/([^/]+)/?$";s:25:"index.php?tag=$matches[1]";s:45:"type/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$";s:50:"index.php?post_format=$matches[1]&feed=$matches[2]";s:40:"type/([^/]+)/(feed|rdf|rss|rss2|atom)/?$";s:50:"index.php?post_format=$matches[1]&feed=$matches[2]";s:21:"type/([^/]+)/embed/?$";s:44:"index.php?post_format=$matches[1]&embed=true";s:33:"type/([^/]+)/page/?([0-9]{1,})/?$";s:51:"index.php?post_format=$matches[1]&paged=$matches[2]";s:15:"type/([^/]+)/?$";s:33:"index.php?post_format=$matches[1]";s:12:"robots\\.txt$";s:18:"index.php?robots=1";s:48:".*wp-(atom|rdf|rss|rss2|feed|commentsrss2)\\.php$";s:18:"index.php?feed=old";s:20:".*wp-app\\.php(/.*)?$";s:19:"index.php?error=403";s:18:".*wp-register.php$";s:23:"index.php?register=true";s:32:"feed/(feed|rdf|rss|rss2|atom)/?$";s:27:"index.php?&feed=$matches[1]";s:27:"(feed|rdf|rss|rss2|atom)/?$";s:27:"index.php?&feed=$matches[1]";s:8:"embed/?$";s:21:"index.php?&embed=true";s:20:"page/?([0-9]{1,})/?$";s:28:"index.php?&paged=$matches[1]";s:27:"comment-page-([0-9]{1,})/?$";s:38:"index.php?&page_id=7&cpage=$matches[1]";s:41:"comments/feed/(feed|rdf|rss|rss2|atom)/?$";s:42:"index.php?&feed=$matches[1]&withcomments=1";s:36:"comments/(feed|rdf|rss|rss2|atom)/?$";s:42:"index.php?&feed=$matches[1]&withcomments=1";s:17:"comments/embed/?$";s:21:"index.php?&embed=true";s:44:"search/(.+)/feed/(feed|rdf|rss|rss2|atom)/?$";s:40:"index.php?s=$matches[1]&feed=$matches[2]";s:39:"search/(.+)/(feed|rdf|rss|rss2|atom)/?$";s:40:"index.php?s=$matches[1]&feed=$matches[2]";s:20:"search/(.+)/embed/?$";s:34:"index.php?s=$matches[1]&embed=true";s:32:"search/(.+)/page/?([0-9]{1,})/?$";s:41:"index.php?s=$matches[1]&paged=$matches[2]";s:14:"search/(.+)/?$";s:23:"index.php?s=$matches[1]";s:47:"author/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$";s:50:"index.php?author_name=$matches[1]&feed=$matches[2]";s:42:"author/([^/]+)/(feed|rdf|rss|rss2|atom)/?$";s:50:"index.php?author_name=$matches[1]&feed=$matches[2]";s:23:"author/([^/]+)/embed/?$";s:44:"index.php?author_name=$matches[1]&embed=true";s:35:"author/([^/]+)/page/?([0-9]{1,})/?$";s:51:"index.php?author_name=$matches[1]&paged=$matches[2]";s:17:"author/([^/]+)/?$";s:33:"index.php?author_name=$matches[1]";s:69:"([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/feed/(feed|rdf|rss|rss2|atom)/?$";s:80:"index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]&feed=$matches[4]";s:64:"([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/(feed|rdf|rss|rss2|atom)/?$";s:80:"index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]&feed=$matches[4]";s:45:"([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/embed/?$";s:74:"index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]&embed=true";s:57:"([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/page/?([0-9]{1,})/?$";s:81:"index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]&paged=$matches[4]";s:39:"([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/?$";s:63:"index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]";s:56:"([0-9]{4})/([0-9]{1,2})/feed/(feed|rdf|rss|rss2|atom)/?$";s:64:"index.php?year=$matches[1]&monthnum=$matches[2]&feed=$matches[3]";s:51:"([0-9]{4})/([0-9]{1,2})/(feed|rdf|rss|rss2|atom)/?$";s:64:"index.php?year=$matches[1]&monthnum=$matches[2]&feed=$matches[3]";s:32:"([0-9]{4})/([0-9]{1,2})/embed/?$";s:58:"index.php?year=$matches[1]&monthnum=$matches[2]&embed=true";s:44:"([0-9]{4})/([0-9]{1,2})/page/?([0-9]{1,})/?$";s:65:"index.php?year=$matches[1]&monthnum=$matches[2]&paged=$matches[3]";s:26:"([0-9]{4})/([0-9]{1,2})/?$";s:47:"index.php?year=$matches[1]&monthnum=$matches[2]";s:43:"([0-9]{4})/feed/(feed|rdf|rss|rss2|atom)/?$";s:43:"index.php?year=$matches[1]&feed=$matches[2]";s:38:"([0-9]{4})/(feed|rdf|rss|rss2|atom)/?$";s:43:"index.php?year=$matches[1]&feed=$matches[2]";s:19:"([0-9]{4})/embed/?$";s:37:"index.php?year=$matches[1]&embed=true";s:31:"([0-9]{4})/page/?([0-9]{1,})/?$";s:44:"index.php?year=$matches[1]&paged=$matches[2]";s:13:"([0-9]{4})/?$";s:26:"index.php?year=$matches[1]";s:27:".?.+?/attachment/([^/]+)/?$";s:32:"index.php?attachment=$matches[1]";s:37:".?.+?/attachment/([^/]+)/trackback/?$";s:37:"index.php?attachment=$matches[1]&tb=1";s:57:".?.+?/attachment/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$";s:49:"index.php?attachment=$matches[1]&feed=$matches[2]";s:52:".?.+?/attachment/([^/]+)/(feed|rdf|rss|rss2|atom)/?$";s:49:"index.php?attachment=$matches[1]&feed=$matches[2]";s:52:".?.+?/attachment/([^/]+)/comment-page-([0-9]{1,})/?$";s:50:"index.php?attachment=$matches[1]&cpage=$matches[2]";s:33:".?.+?/attachment/([^/]+)/embed/?$";s:43:"index.php?attachment=$matches[1]&embed=true";s:16:"(.?.+?)/embed/?$";s:41:"index.php?pagename=$matches[1]&embed=true";s:20:"(.?.+?)/trackback/?$";s:35:"index.php?pagename=$matches[1]&tb=1";s:40:"(.?.+?)/feed/(feed|rdf|rss|rss2|atom)/?$";s:47:"index.php?pagename=$matches[1]&feed=$matches[2]";s:35:"(.?.+?)/(feed|rdf|rss|rss2|atom)/?$";s:47:"index.php?pagename=$matches[1]&feed=$matches[2]";s:28:"(.?.+?)/page/?([0-9]{1,})/?$";s:48:"index.php?pagename=$matches[1]&paged=$matches[2]";s:35:"(.?.+?)/comment-page-([0-9]{1,})/?$";s:48:"index.php?pagename=$matches[1]&cpage=$matches[2]";s:24:"(.?.+?)(?:/([0-9]+))?/?$";s:47:"index.php?pagename=$matches[1]&page=$matches[2]";s:31:".+?/[^/]+/attachment/([^/]+)/?$";s:32:"index.php?attachment=$matches[1]";s:41:".+?/[^/]+/attachment/([^/]+)/trackback/?$";s:37:"index.php?attachment=$matches[1]&tb=1";s:61:".+?/[^/]+/attachment/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$";s:49:"index.php?attachment=$matches[1]&feed=$matches[2]";s:56:".+?/[^/]+/attachment/([^/]+)/(feed|rdf|rss|rss2|atom)/?$";s:49:"index.php?attachment=$matches[1]&feed=$matches[2]";s:56:".+?/[^/]+/attachment/([^/]+)/comment-page-([0-9]{1,})/?$";s:50:"index.php?attachment=$matches[1]&cpage=$matches[2]";s:37:".+?/[^/]+/attachment/([^/]+)/embed/?$";s:43:"index.php?attachment=$matches[1]&embed=true";s:22:"(.+?)/([^/]+)/embed/?$";s:63:"index.php?category_name=$matches[1]&name=$matches[2]&embed=true";s:26:"(.+?)/([^/]+)/trackback/?$";s:57:"index.php?category_name=$matches[1]&name=$matches[2]&tb=1";s:46:"(.+?)/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$";s:69:"index.php?category_name=$matches[1]&name=$matches[2]&feed=$matches[3]";s:41:"(.+?)/([^/]+)/(feed|rdf|rss|rss2|atom)/?$";s:69:"index.php?category_name=$matches[1]&name=$matches[2]&feed=$matches[3]";s:34:"(.+?)/([^/]+)/page/?([0-9]{1,})/?$";s:70:"index.php?category_name=$matches[1]&name=$matches[2]&paged=$matches[3]";s:41:"(.+?)/([^/]+)/comment-page-([0-9]{1,})/?$";s:70:"index.php?category_name=$matches[1]&name=$matches[2]&cpage=$matches[3]";s:30:"(.+?)/([^/]+)(?:/([0-9]+))?/?$";s:69:"index.php?category_name=$matches[1]&name=$matches[2]&page=$matches[3]";s:20:".+?/[^/]+/([^/]+)/?$";s:32:"index.php?attachment=$matches[1]";s:30:".+?/[^/]+/([^/]+)/trackback/?$";s:37:"index.php?attachment=$matches[1]&tb=1";s:50:".+?/[^/]+/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$";s:49:"index.php?attachment=$matches[1]&feed=$matches[2]";s:45:".+?/[^/]+/([^/]+)/(feed|rdf|rss|rss2|atom)/?$";s:49:"index.php?attachment=$matches[1]&feed=$matches[2]";s:45:".+?/[^/]+/([^/]+)/comment-page-([0-9]{1,})/?$";s:50:"index.php?attachment=$matches[1]&cpage=$matches[2]";s:26:".+?/[^/]+/([^/]+)/embed/?$";s:43:"index.php?attachment=$matches[1]&embed=true";s:38:"(.+?)/feed/(feed|rdf|rss|rss2|atom)/?$";s:52:"index.php?category_name=$matches[1]&feed=$matches[2]";s:33:"(.+?)/(feed|rdf|rss|rss2|atom)/?$";s:52:"index.php?category_name=$matches[1]&feed=$matches[2]";s:14:"(.+?)/embed/?$";s:46:"index.php?category_name=$matches[1]&embed=true";s:26:"(.+?)/page/?([0-9]{1,})/?$";s:53:"index.php?category_name=$matches[1]&paged=$matches[2]";s:33:"(.+?)/comment-page-([0-9]{1,})/?$";s:53:"index.php?category_name=$matches[1]&cpage=$matches[2]";s:8:"(.+?)/?$";s:35:"index.php?category_name=$matches[1]";}', 'yes'),
 (30, 'hack_file', '0', 'yes'),
 (31, 'blog_charset', 'UTF-8', 'yes'),
 (32, 'moderation_keys', '', 'no'),
-(33, 'active_plugins', 'a:3:{i:0;s:29:\"acf-repeater/acf-repeater.php\";i:1;s:30:\"advanced-custom-fields/acf.php\";i:2;s:27:\"cyr-and-lat/cyr-and-lat.php\";}', 'yes'),
+(33, 'active_plugins', 'a:4:{i:0;s:29:"acf-repeater/acf-repeater.php";i:1;s:30:"advanced-custom-fields/acf.php";i:2;s:27:"cyr-and-lat/cyr-and-lat.php";i:3;s:27:"svg-support/svg-support.php";}', 'yes'),
 (34, 'category_base', '', 'yes'),
 (35, 'ping_sites', 'http://rpc.pingomatic.com/', 'yes'),
 (36, 'comment_max_links', '2', 'yes'),
 (37, 'gmt_offset', '3', 'yes'),
 (38, 'default_email_category', '1', 'yes'),
-(39, 'recently_edited', '', 'no'),
+(39, 'recently_edited', 'a:3:{i:0;s:76:"/home/giperilia/www/d0025259.atservers.net/wp-content/themes/zheu/js/zheu.js";i:1;s:75:"/home/giperilia/www/d0025259.atservers.net/wp-content/themes/zheu/style.css";i:2;s:0:"";}', 'no'),
 (40, 'template', 'zheu', 'yes'),
 (41, 'stylesheet', 'zheu', 'yes'),
 (42, 'comment_whitelist', '1', 'yes'),
@@ -183,10 +194,10 @@ INSERT INTO `wp_options` (`option_id`, `option_name`, `option_value`, `autoload`
 (75, 'default_comments_page', 'newest', 'yes'),
 (76, 'comment_order', 'asc', 'yes'),
 (77, 'sticky_posts', 'a:0:{}', 'yes'),
-(78, 'widget_categories', 'a:2:{i:2;a:4:{s:5:\"title\";s:0:\"\";s:5:\"count\";i:0;s:12:\"hierarchical\";i:0;s:8:\"dropdown\";i:0;}s:12:\"_multiwidget\";i:1;}', 'yes'),
-(79, 'widget_text', 'a:2:{i:1;a:0:{}s:12:\"_multiwidget\";i:1;}', 'yes'),
-(80, 'widget_rss', 'a:2:{i:1;a:0:{}s:12:\"_multiwidget\";i:1;}', 'yes'),
-(81, 'uninstall_plugins', 'a:1:{s:27:\"cyr-and-lat/cyr-and-lat.php\";a:2:{i:0;s:13:\"Admin_Notices\";i:1;s:9:\"uninstall\";}}', 'no'),
+(78, 'widget_categories', 'a:2:{i:2;a:4:{s:5:"title";s:0:"";s:5:"count";i:0;s:12:"hierarchical";i:0;s:8:"dropdown";i:0;}s:12:"_multiwidget";i:1;}', 'yes'),
+(79, 'widget_text', 'a:2:{i:1;a:0:{}s:12:"_multiwidget";i:1;}', 'yes'),
+(80, 'widget_rss', 'a:2:{i:1;a:0:{}s:12:"_multiwidget";i:1;}', 'yes'),
+(81, 'uninstall_plugins', 'a:1:{s:27:"cyr-and-lat/cyr-and-lat.php";a:2:{i:0;s:13:"Admin_Notices";i:1;s:9:"uninstall";}}', 'no'),
 (82, 'timezone_string', '', 'yes'),
 (83, 'page_for_posts', '0', 'yes'),
 (84, 'page_on_front', '7', 'yes'),
@@ -198,30 +209,29 @@ INSERT INTO `wp_options` (`option_id`, `option_name`, `option_value`, `autoload`
 (90, 'medium_large_size_h', '0', 'yes'),
 (91, 'wp_page_for_privacy_policy', '3', 'yes'),
 (92, 'initial_db_version', '38590', 'yes'),
-(93, 'wp_user_roles', 'a:5:{s:13:\"administrator\";a:2:{s:4:\"name\";s:13:\"Administrator\";s:12:\"capabilities\";a:61:{s:13:\"switch_themes\";b:1;s:11:\"edit_themes\";b:1;s:16:\"activate_plugins\";b:1;s:12:\"edit_plugins\";b:1;s:10:\"edit_users\";b:1;s:10:\"edit_files\";b:1;s:14:\"manage_options\";b:1;s:17:\"moderate_comments\";b:1;s:17:\"manage_categories\";b:1;s:12:\"manage_links\";b:1;s:12:\"upload_files\";b:1;s:6:\"import\";b:1;s:15:\"unfiltered_html\";b:1;s:10:\"edit_posts\";b:1;s:17:\"edit_others_posts\";b:1;s:20:\"edit_published_posts\";b:1;s:13:\"publish_posts\";b:1;s:10:\"edit_pages\";b:1;s:4:\"read\";b:1;s:8:\"level_10\";b:1;s:7:\"level_9\";b:1;s:7:\"level_8\";b:1;s:7:\"level_7\";b:1;s:7:\"level_6\";b:1;s:7:\"level_5\";b:1;s:7:\"level_4\";b:1;s:7:\"level_3\";b:1;s:7:\"level_2\";b:1;s:7:\"level_1\";b:1;s:7:\"level_0\";b:1;s:17:\"edit_others_pages\";b:1;s:20:\"edit_published_pages\";b:1;s:13:\"publish_pages\";b:1;s:12:\"delete_pages\";b:1;s:19:\"delete_others_pages\";b:1;s:22:\"delete_published_pages\";b:1;s:12:\"delete_posts\";b:1;s:19:\"delete_others_posts\";b:1;s:22:\"delete_published_posts\";b:1;s:20:\"delete_private_posts\";b:1;s:18:\"edit_private_posts\";b:1;s:18:\"read_private_posts\";b:1;s:20:\"delete_private_pages\";b:1;s:18:\"edit_private_pages\";b:1;s:18:\"read_private_pages\";b:1;s:12:\"delete_users\";b:1;s:12:\"create_users\";b:1;s:17:\"unfiltered_upload\";b:1;s:14:\"edit_dashboard\";b:1;s:14:\"update_plugins\";b:1;s:14:\"delete_plugins\";b:1;s:15:\"install_plugins\";b:1;s:13:\"update_themes\";b:1;s:14:\"install_themes\";b:1;s:11:\"update_core\";b:1;s:10:\"list_users\";b:1;s:12:\"remove_users\";b:1;s:13:\"promote_users\";b:1;s:18:\"edit_theme_options\";b:1;s:13:\"delete_themes\";b:1;s:6:\"export\";b:1;}}s:6:\"editor\";a:2:{s:4:\"name\";s:6:\"Editor\";s:12:\"capabilities\";a:34:{s:17:\"moderate_comments\";b:1;s:17:\"manage_categories\";b:1;s:12:\"manage_links\";b:1;s:12:\"upload_files\";b:1;s:15:\"unfiltered_html\";b:1;s:10:\"edit_posts\";b:1;s:17:\"edit_others_posts\";b:1;s:20:\"edit_published_posts\";b:1;s:13:\"publish_posts\";b:1;s:10:\"edit_pages\";b:1;s:4:\"read\";b:1;s:7:\"level_7\";b:1;s:7:\"level_6\";b:1;s:7:\"level_5\";b:1;s:7:\"level_4\";b:1;s:7:\"level_3\";b:1;s:7:\"level_2\";b:1;s:7:\"level_1\";b:1;s:7:\"level_0\";b:1;s:17:\"edit_others_pages\";b:1;s:20:\"edit_published_pages\";b:1;s:13:\"publish_pages\";b:1;s:12:\"delete_pages\";b:1;s:19:\"delete_others_pages\";b:1;s:22:\"delete_published_pages\";b:1;s:12:\"delete_posts\";b:1;s:19:\"delete_others_posts\";b:1;s:22:\"delete_published_posts\";b:1;s:20:\"delete_private_posts\";b:1;s:18:\"edit_private_posts\";b:1;s:18:\"read_private_posts\";b:1;s:20:\"delete_private_pages\";b:1;s:18:\"edit_private_pages\";b:1;s:18:\"read_private_pages\";b:1;}}s:6:\"author\";a:2:{s:4:\"name\";s:6:\"Author\";s:12:\"capabilities\";a:10:{s:12:\"upload_files\";b:1;s:10:\"edit_posts\";b:1;s:20:\"edit_published_posts\";b:1;s:13:\"publish_posts\";b:1;s:4:\"read\";b:1;s:7:\"level_2\";b:1;s:7:\"level_1\";b:1;s:7:\"level_0\";b:1;s:12:\"delete_posts\";b:1;s:22:\"delete_published_posts\";b:1;}}s:11:\"contributor\";a:2:{s:4:\"name\";s:11:\"Contributor\";s:12:\"capabilities\";a:5:{s:10:\"edit_posts\";b:1;s:4:\"read\";b:1;s:7:\"level_1\";b:1;s:7:\"level_0\";b:1;s:12:\"delete_posts\";b:1;}}s:10:\"subscriber\";a:2:{s:4:\"name\";s:10:\"Subscriber\";s:12:\"capabilities\";a:2:{s:4:\"read\";b:1;s:7:\"level_0\";b:1;}}}', 'yes'),
+(93, 'wp_user_roles', 'a:5:{s:13:"administrator";a:2:{s:4:"name";s:13:"Administrator";s:12:"capabilities";a:61:{s:13:"switch_themes";b:1;s:11:"edit_themes";b:1;s:16:"activate_plugins";b:1;s:12:"edit_plugins";b:1;s:10:"edit_users";b:1;s:10:"edit_files";b:1;s:14:"manage_options";b:1;s:17:"moderate_comments";b:1;s:17:"manage_categories";b:1;s:12:"manage_links";b:1;s:12:"upload_files";b:1;s:6:"import";b:1;s:15:"unfiltered_html";b:1;s:10:"edit_posts";b:1;s:17:"edit_others_posts";b:1;s:20:"edit_published_posts";b:1;s:13:"publish_posts";b:1;s:10:"edit_pages";b:1;s:4:"read";b:1;s:8:"level_10";b:1;s:7:"level_9";b:1;s:7:"level_8";b:1;s:7:"level_7";b:1;s:7:"level_6";b:1;s:7:"level_5";b:1;s:7:"level_4";b:1;s:7:"level_3";b:1;s:7:"level_2";b:1;s:7:"level_1";b:1;s:7:"level_0";b:1;s:17:"edit_others_pages";b:1;s:20:"edit_published_pages";b:1;s:13:"publish_pages";b:1;s:12:"delete_pages";b:1;s:19:"delete_others_pages";b:1;s:22:"delete_published_pages";b:1;s:12:"delete_posts";b:1;s:19:"delete_others_posts";b:1;s:22:"delete_published_posts";b:1;s:20:"delete_private_posts";b:1;s:18:"edit_private_posts";b:1;s:18:"read_private_posts";b:1;s:20:"delete_private_pages";b:1;s:18:"edit_private_pages";b:1;s:18:"read_private_pages";b:1;s:12:"delete_users";b:1;s:12:"create_users";b:1;s:17:"unfiltered_upload";b:1;s:14:"edit_dashboard";b:1;s:14:"update_plugins";b:1;s:14:"delete_plugins";b:1;s:15:"install_plugins";b:1;s:13:"update_themes";b:1;s:14:"install_themes";b:1;s:11:"update_core";b:1;s:10:"list_users";b:1;s:12:"remove_users";b:1;s:13:"promote_users";b:1;s:18:"edit_theme_options";b:1;s:13:"delete_themes";b:1;s:6:"export";b:1;}}s:6:"editor";a:2:{s:4:"name";s:6:"Editor";s:12:"capabilities";a:34:{s:17:"moderate_comments";b:1;s:17:"manage_categories";b:1;s:12:"manage_links";b:1;s:12:"upload_files";b:1;s:15:"unfiltered_html";b:1;s:10:"edit_posts";b:1;s:17:"edit_others_posts";b:1;s:20:"edit_published_posts";b:1;s:13:"publish_posts";b:1;s:10:"edit_pages";b:1;s:4:"read";b:1;s:7:"level_7";b:1;s:7:"level_6";b:1;s:7:"level_5";b:1;s:7:"level_4";b:1;s:7:"level_3";b:1;s:7:"level_2";b:1;s:7:"level_1";b:1;s:7:"level_0";b:1;s:17:"edit_others_pages";b:1;s:20:"edit_published_pages";b:1;s:13:"publish_pages";b:1;s:12:"delete_pages";b:1;s:19:"delete_others_pages";b:1;s:22:"delete_published_pages";b:1;s:12:"delete_posts";b:1;s:19:"delete_others_posts";b:1;s:22:"delete_published_posts";b:1;s:20:"delete_private_posts";b:1;s:18:"edit_private_posts";b:1;s:18:"read_private_posts";b:1;s:20:"delete_private_pages";b:1;s:18:"edit_private_pages";b:1;s:18:"read_private_pages";b:1;}}s:6:"author";a:2:{s:4:"name";s:6:"Author";s:12:"capabilities";a:10:{s:12:"upload_files";b:1;s:10:"edit_posts";b:1;s:20:"edit_published_posts";b:1;s:13:"publish_posts";b:1;s:4:"read";b:1;s:7:"level_2";b:1;s:7:"level_1";b:1;s:7:"level_0";b:1;s:12:"delete_posts";b:1;s:22:"delete_published_posts";b:1;}}s:11:"contributor";a:2:{s:4:"name";s:11:"Contributor";s:12:"capabilities";a:5:{s:10:"edit_posts";b:1;s:4:"read";b:1;s:7:"level_1";b:1;s:7:"level_0";b:1;s:12:"delete_posts";b:1;}}s:10:"subscriber";a:2:{s:4:"name";s:10:"Subscriber";s:12:"capabilities";a:2:{s:4:"read";b:1;s:7:"level_0";b:1;}}}', 'yes'),
 (94, 'fresh_site', '0', 'yes'),
 (95, 'WPLANG', 'ru_RU', 'yes'),
-(96, 'widget_search', 'a:2:{i:2;a:1:{s:5:\"title\";s:0:\"\";}s:12:\"_multiwidget\";i:1;}', 'yes'),
-(97, 'widget_recent-posts', 'a:2:{i:2;a:2:{s:5:\"title\";s:0:\"\";s:6:\"number\";i:5;}s:12:\"_multiwidget\";i:1;}', 'yes'),
-(98, 'widget_recent-comments', 'a:2:{i:2;a:2:{s:5:\"title\";s:0:\"\";s:6:\"number\";i:5;}s:12:\"_multiwidget\";i:1;}', 'yes'),
-(99, 'widget_archives', 'a:2:{i:2;a:3:{s:5:\"title\";s:0:\"\";s:5:\"count\";i:0;s:8:\"dropdown\";i:0;}s:12:\"_multiwidget\";i:1;}', 'yes'),
-(100, 'widget_meta', 'a:2:{i:2;a:1:{s:5:\"title\";s:0:\"\";}s:12:\"_multiwidget\";i:1;}', 'yes'),
-(101, 'sidebars_widgets', 'a:2:{s:19:\"wp_inactive_widgets\";a:6:{i:0;s:8:\"search-2\";i:1;s:14:\"recent-posts-2\";i:2;s:17:\"recent-comments-2\";i:3;s:10:\"archives-2\";i:4;s:12:\"categories-2\";i:5;s:6:\"meta-2\";}s:13:\"array_version\";i:3;}', 'yes'),
-(102, 'widget_pages', 'a:1:{s:12:\"_multiwidget\";i:1;}', 'yes'),
-(103, 'widget_calendar', 'a:1:{s:12:\"_multiwidget\";i:1;}', 'yes'),
-(104, 'widget_media_audio', 'a:1:{s:12:\"_multiwidget\";i:1;}', 'yes'),
-(105, 'widget_media_image', 'a:1:{s:12:\"_multiwidget\";i:1;}', 'yes'),
-(106, 'widget_media_gallery', 'a:1:{s:12:\"_multiwidget\";i:1;}', 'yes'),
-(107, 'widget_media_video', 'a:1:{s:12:\"_multiwidget\";i:1;}', 'yes'),
+(96, 'widget_search', 'a:2:{i:2;a:1:{s:5:"title";s:0:"";}s:12:"_multiwidget";i:1;}', 'yes'),
+(97, 'widget_recent-posts', 'a:2:{i:2;a:2:{s:5:"title";s:0:"";s:6:"number";i:5;}s:12:"_multiwidget";i:1;}', 'yes'),
+(98, 'widget_recent-comments', 'a:2:{i:2;a:2:{s:5:"title";s:0:"";s:6:"number";i:5;}s:12:"_multiwidget";i:1;}', 'yes'),
+(99, 'widget_archives', 'a:2:{i:2;a:3:{s:5:"title";s:0:"";s:5:"count";i:0;s:8:"dropdown";i:0;}s:12:"_multiwidget";i:1;}', 'yes'),
+(100, 'widget_meta', 'a:2:{i:2;a:1:{s:5:"title";s:0:"";}s:12:"_multiwidget";i:1;}', 'yes'),
+(101, 'sidebars_widgets', 'a:2:{s:19:"wp_inactive_widgets";a:6:{i:0;s:8:"search-2";i:1;s:14:"recent-posts-2";i:2;s:17:"recent-comments-2";i:3;s:10:"archives-2";i:4;s:12:"categories-2";i:5;s:6:"meta-2";}s:13:"array_version";i:3;}', 'yes'),
+(102, 'widget_pages', 'a:1:{s:12:"_multiwidget";i:1;}', 'yes'),
+(103, 'widget_calendar', 'a:1:{s:12:"_multiwidget";i:1;}', 'yes'),
+(104, 'widget_media_audio', 'a:1:{s:12:"_multiwidget";i:1;}', 'yes'),
+(105, 'widget_media_image', 'a:1:{s:12:"_multiwidget";i:1;}', 'yes'),
+(106, 'widget_media_gallery', 'a:1:{s:12:"_multiwidget";i:1;}', 'yes'),
+(107, 'widget_media_video', 'a:1:{s:12:"_multiwidget";i:1;}', 'yes'),
 (108, 'nonce_key', '~Cuer>U{[g`w^*v!iwN`4W/;]m5rmjG_Qt.-I{54`}e,s|hR@;-=gz`Ak[Ai]8Pp', 'no'),
 (109, 'nonce_salt', ':DXB~c!f~bzb lMs5[Pdc<H>?90@6JbFfZe7}tV/_ZR[pCP&YgPZMt-{k!Z`ga_^', 'no'),
-(110, 'widget_tag_cloud', 'a:1:{s:12:\"_multiwidget\";i:1;}', 'yes'),
-(111, 'widget_nav_menu', 'a:1:{s:12:\"_multiwidget\";i:1;}', 'yes'),
-(112, 'widget_custom_html', 'a:1:{s:12:\"_multiwidget\";i:1;}', 'yes'),
-(113, 'cron', 'a:5:{i:1533741130;a:1:{s:34:\"wp_privacy_delete_old_export_files\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:6:\"hourly\";s:4:\"args\";a:0:{}s:8:\"interval\";i:3600;}}}i:1533751930;a:3:{s:16:\"wp_version_check\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:10:\"twicedaily\";s:4:\"args\";a:0:{}s:8:\"interval\";i:43200;}}s:17:\"wp_update_plugins\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:10:\"twicedaily\";s:4:\"args\";a:0:{}s:8:\"interval\";i:43200;}}s:16:\"wp_update_themes\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:10:\"twicedaily\";s:4:\"args\";a:0:{}s:8:\"interval\";i:43200;}}}i:1533751947;a:2:{s:19:\"wp_scheduled_delete\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:5:\"daily\";s:4:\"args\";a:0:{}s:8:\"interval\";i:86400;}}s:25:\"delete_expired_transients\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:5:\"daily\";s:4:\"args\";a:0:{}s:8:\"interval\";i:86400;}}}i:1533751992;a:1:{s:30:\"wp_scheduled_auto_draft_delete\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:5:\"daily\";s:4:\"args\";a:0:{}s:8:\"interval\";i:86400;}}}s:7:\"version\";i:2;}', 'yes'),
-(114, 'theme_mods_twentyseventeen', 'a:2:{s:18:\"custom_css_post_id\";i:-1;s:16:\"sidebars_widgets\";a:2:{s:4:\"time\";i:1532543292;s:4:\"data\";a:4:{s:19:\"wp_inactive_widgets\";a:0:{}s:9:\"sidebar-1\";a:6:{i:0;s:8:\"search-2\";i:1;s:14:\"recent-posts-2\";i:2;s:17:\"recent-comments-2\";i:3;s:10:\"archives-2\";i:4;s:12:\"categories-2\";i:5;s:6:\"meta-2\";}s:9:\"sidebar-2\";a:0:{}s:9:\"sidebar-3\";a:0:{}}}}', 'yes'),
-(125, '_site_transient_update_core', 'O:8:\"stdClass\":4:{s:7:\"updates\";a:3:{i:0;O:8:\"stdClass\":10:{s:8:\"response\";s:7:\"upgrade\";s:8:\"download\";s:65:\"https://downloads.wordpress.org/release/ru_RU/wordpress-4.9.8.zip\";s:6:\"locale\";s:5:\"ru_RU\";s:8:\"packages\";O:8:\"stdClass\":5:{s:4:\"full\";s:65:\"https://downloads.wordpress.org/release/ru_RU/wordpress-4.9.8.zip\";s:10:\"no_content\";b:0;s:11:\"new_bundled\";b:0;s:7:\"partial\";b:0;s:8:\"rollback\";b:0;}s:7:\"current\";s:5:\"4.9.8\";s:7:\"version\";s:5:\"4.9.8\";s:11:\"php_version\";s:5:\"5.2.4\";s:13:\"mysql_version\";s:3:\"5.0\";s:11:\"new_bundled\";s:3:\"4.7\";s:15:\"partial_version\";s:0:\"\";}i:1;O:8:\"stdClass\":10:{s:8:\"response\";s:7:\"upgrade\";s:8:\"download\";s:59:\"https://downloads.wordpress.org/release/wordpress-4.9.8.zip\";s:6:\"locale\";s:5:\"en_US\";s:8:\"packages\";O:8:\"stdClass\":5:{s:4:\"full\";s:59:\"https://downloads.wordpress.org/release/wordpress-4.9.8.zip\";s:10:\"no_content\";s:70:\"https://downloads.wordpress.org/release/wordpress-4.9.8-no-content.zip\";s:11:\"new_bundled\";s:71:\"https://downloads.wordpress.org/release/wordpress-4.9.8-new-bundled.zip\";s:7:\"partial\";s:69:\"https://downloads.wordpress.org/release/wordpress-4.9.8-partial-7.zip\";s:8:\"rollback\";b:0;}s:7:\"current\";s:5:\"4.9.8\";s:7:\"version\";s:5:\"4.9.8\";s:11:\"php_version\";s:5:\"5.2.4\";s:13:\"mysql_version\";s:3:\"5.0\";s:11:\"new_bundled\";s:3:\"4.7\";s:15:\"partial_version\";s:5:\"4.9.7\";}i:2;O:8:\"stdClass\":11:{s:8:\"response\";s:10:\"autoupdate\";s:8:\"download\";s:65:\"https://downloads.wordpress.org/release/ru_RU/wordpress-4.9.8.zip\";s:6:\"locale\";s:5:\"ru_RU\";s:8:\"packages\";O:8:\"stdClass\":5:{s:4:\"full\";s:65:\"https://downloads.wordpress.org/release/ru_RU/wordpress-4.9.8.zip\";s:10:\"no_content\";b:0;s:11:\"new_bundled\";b:0;s:7:\"partial\";b:0;s:8:\"rollback\";b:0;}s:7:\"current\";s:5:\"4.9.8\";s:7:\"version\";s:5:\"4.9.8\";s:11:\"php_version\";s:5:\"5.2.4\";s:13:\"mysql_version\";s:3:\"5.0\";s:11:\"new_bundled\";s:3:\"4.7\";s:15:\"partial_version\";s:0:\"\";s:9:\"new_files\";s:1:\"1\";}}s:12:\"last_checked\";i:1533711142;s:15:\"version_checked\";s:5:\"4.9.7\";s:12:\"translations\";a:0:{}}', 'no'),
-(126, '_site_transient_update_themes', 'O:8:\"stdClass\":4:{s:12:\"last_checked\";i:1533711144;s:7:\"checked\";a:1:{s:4:\"zheu\";s:3:\"1.0\";}s:8:\"response\";a:0:{}s:12:\"translations\";a:0:{}}', 'no'),
+(110, 'widget_tag_cloud', 'a:1:{s:12:"_multiwidget";i:1;}', 'yes'),
+(111, 'widget_nav_menu', 'a:1:{s:12:"_multiwidget";i:1;}', 'yes'),
+(112, 'widget_custom_html', 'a:1:{s:12:"_multiwidget";i:1;}', 'yes'),
+(113, 'cron', 'a:5:{i:1534853530;a:1:{s:34:"wp_privacy_delete_old_export_files";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:6:"hourly";s:4:"args";a:0:{}s:8:"interval";i:3600;}}}i:1534875130;a:3:{s:16:"wp_version_check";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:10:"twicedaily";s:4:"args";a:0:{}s:8:"interval";i:43200;}}s:17:"wp_update_plugins";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:10:"twicedaily";s:4:"args";a:0:{}s:8:"interval";i:43200;}}s:16:"wp_update_themes";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:10:"twicedaily";s:4:"args";a:0:{}s:8:"interval";i:43200;}}}i:1534875147;a:2:{s:19:"wp_scheduled_delete";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:5:"daily";s:4:"args";a:0:{}s:8:"interval";i:86400;}}s:25:"delete_expired_transients";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:5:"daily";s:4:"args";a:0:{}s:8:"interval";i:86400;}}}i:1534875192;a:1:{s:30:"wp_scheduled_auto_draft_delete";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:5:"daily";s:4:"args";a:0:{}s:8:"interval";i:86400;}}}s:7:"version";i:2;}', 'yes'),
+(114, 'theme_mods_twentyseventeen', 'a:2:{s:18:"custom_css_post_id";i:-1;s:16:"sidebars_widgets";a:2:{s:4:"time";i:1532543292;s:4:"data";a:4:{s:19:"wp_inactive_widgets";a:0:{}s:9:"sidebar-1";a:6:{i:0;s:8:"search-2";i:1;s:14:"recent-posts-2";i:2;s:17:"recent-comments-2";i:3;s:10:"archives-2";i:4;s:12:"categories-2";i:5;s:6:"meta-2";}s:9:"sidebar-2";a:0:{}s:9:"sidebar-3";a:0:{}}}}', 'yes'),
+(126, '_site_transient_update_themes', 'O:8:"stdClass":4:{s:12:"last_checked";i:1534844502;s:7:"checked";a:1:{s:4:"zheu";s:0:"";}s:8:"response";a:0:{}s:12:"translations";a:0:{}}', 'no'),
 (128, 'auth_key', '4FqPBGrXclBJ*X$=T=Jbn65s&5bj0=KKzdjfYj!=Z.L[R%^P.n?o6iEJj@hwN0fn', 'no'),
 (129, 'auth_salt', '7N}6a(P0W$E1plxq6TDkb(,Gpe~tPTo%@RPthu)#:3H&@N>u>*zh}c$D<dPd7Tqb', 'no'),
 (130, 'logged_in_key', '*/x!4csr6x/f99x [f2!>QznpS{`ykA.MNFxmC%:Ueq;Hm#P `|lII_uRqn.:Uwa', 'no'),
@@ -230,18 +240,34 @@ INSERT INTO `wp_options` (`option_id`, `option_name`, `option_value`, `autoload`
 (150, 'can_compress_scripts', '1', 'no'),
 (154, 'new_admin_email', 'giperilia@mail.ru', 'yes'),
 (164, 'current_theme', 'Zheu', 'yes'),
-(165, 'theme_mods_zheu', 'a:3:{i:0;b:0;s:18:\"nav_menu_locations\";a:3:{s:11:\"header-menu\";i:2;s:11:\"footer-menu\";i:7;s:9:\"full-menu\";i:9;}s:18:\"custom_css_post_id\";i:-1;}', 'yes'),
+(165, 'theme_mods_zheu', 'a:3:{i:0;b:0;s:18:"nav_menu_locations";a:3:{s:11:"header-menu";i:2;s:11:"footer-menu";i:7;s:9:"full-menu";i:9;}s:18:"custom_css_post_id";i:-1;}', 'yes'),
 (166, 'theme_switched', '', 'yes'),
 (176, 'wbcr_cyrandlat_an__activated_on', '1532558077', 'yes'),
 (177, 'wbcr_wp_term_1_old_slug', '%d0%b1%d0%b5%d0%b7-%d1%80%d1%83%d0%b1%d1%80%d0%b8%d0%ba%d0%b8', 'no'),
 (178, 'wbcr_wp_term_2_old_slug', '%d0%b3%d0%bb%d0%b0%d0%b2%d0%bd%d0%be%d0%b5-%d0%bc%d0%b5%d0%bd%d1%8e', 'no'),
 (179, 'wbcr_cyrandlat_an__dismissed_suggestions_on', '1532558096', 'yes'),
-(184, 'nav_menu_options', 'a:2:{i:0;b:0;s:8:\"auto_add\";a:0:{}}', 'yes'),
+(184, 'nav_menu_options', 'a:2:{i:0;b:0;s:8:"auto_add";a:0:{}}', 'yes'),
 (205, 'acf_version', '4.4.12', 'yes'),
-(222, '_site_transient_update_plugins', 'O:8:\"stdClass\":5:{s:12:\"last_checked\";i:1533711145;s:7:\"checked\";a:3:{s:30:\"advanced-custom-fields/acf.php\";s:6:\"4.4.12\";s:29:\"acf-repeater/acf-repeater.php\";s:5:\"1.1.1\";s:27:\"cyr-and-lat/cyr-and-lat.php\";s:5:\"1.1.1\";}s:8:\"response\";a:0:{}s:12:\"translations\";a:0:{}s:9:\"no_update\";a:2:{s:30:\"advanced-custom-fields/acf.php\";O:8:\"stdClass\":9:{s:2:\"id\";s:36:\"w.org/plugins/advanced-custom-fields\";s:4:\"slug\";s:22:\"advanced-custom-fields\";s:6:\"plugin\";s:30:\"advanced-custom-fields/acf.php\";s:11:\"new_version\";s:6:\"4.4.12\";s:3:\"url\";s:53:\"https://wordpress.org/plugins/advanced-custom-fields/\";s:7:\"package\";s:72:\"https://downloads.wordpress.org/plugin/advanced-custom-fields.4.4.12.zip\";s:5:\"icons\";a:2:{s:2:\"2x\";s:75:\"https://ps.w.org/advanced-custom-fields/assets/icon-256x256.png?rev=1082746\";s:2:\"1x\";s:75:\"https://ps.w.org/advanced-custom-fields/assets/icon-128x128.png?rev=1082746\";}s:7:\"banners\";a:2:{s:2:\"2x\";s:78:\"https://ps.w.org/advanced-custom-fields/assets/banner-1544x500.jpg?rev=1729099\";s:2:\"1x\";s:77:\"https://ps.w.org/advanced-custom-fields/assets/banner-772x250.jpg?rev=1729102\";}s:11:\"banners_rtl\";a:0:{}}s:27:\"cyr-and-lat/cyr-and-lat.php\";O:8:\"stdClass\":9:{s:2:\"id\";s:25:\"w.org/plugins/cyr-and-lat\";s:4:\"slug\";s:11:\"cyr-and-lat\";s:6:\"plugin\";s:27:\"cyr-and-lat/cyr-and-lat.php\";s:11:\"new_version\";s:5:\"1.1.1\";s:3:\"url\";s:42:\"https://wordpress.org/plugins/cyr-and-lat/\";s:7:\"package\";s:54:\"https://downloads.wordpress.org/plugin/cyr-and-lat.zip\";s:5:\"icons\";a:2:{s:2:\"2x\";s:64:\"https://ps.w.org/cyr-and-lat/assets/icon-256x256.jpg?rev=1877806\";s:2:\"1x\";s:64:\"https://ps.w.org/cyr-and-lat/assets/icon-128x128.jpg?rev=1877806\";}s:7:\"banners\";a:2:{s:2:\"2x\";s:67:\"https://ps.w.org/cyr-and-lat/assets/banner-1544x500.jpg?rev=1877806\";s:2:\"1x\";s:66:\"https://ps.w.org/cyr-and-lat/assets/banner-772x250.jpg?rev=1877806\";}s:11:\"banners_rtl\";a:0:{}}}}', 'no'),
-(329, '_site_transient_timeout_theme_roots', '1533712943', 'no'),
-(330, '_site_transient_theme_roots', 'a:1:{s:4:\"zheu\";s:7:\"/themes\";}', 'no'),
-(340, 'category_children', 'a:0:{}', 'yes');
+(340, 'category_children', 'a:0:{}', 'yes'),
+(349, '_site_transient_update_core', 'O:8:"stdClass":4:{s:7:"updates";a:1:{i:0;O:8:"stdClass":10:{s:8:"response";s:6:"latest";s:8:"download";s:65:"https://downloads.wordpress.org/release/ru_RU/wordpress-4.9.8.zip";s:6:"locale";s:5:"ru_RU";s:8:"packages";O:8:"stdClass":5:{s:4:"full";s:65:"https://downloads.wordpress.org/release/ru_RU/wordpress-4.9.8.zip";s:10:"no_content";b:0;s:11:"new_bundled";b:0;s:7:"partial";b:0;s:8:"rollback";b:0;}s:7:"current";s:5:"4.9.8";s:7:"version";s:5:"4.9.8";s:11:"php_version";s:5:"5.2.4";s:13:"mysql_version";s:3:"5.0";s:11:"new_bundled";s:3:"4.7";s:15:"partial_version";s:0:"";}}s:12:"last_checked";i:1534844501;s:15:"version_checked";s:5:"4.9.8";s:12:"translations";a:0:{}}', 'no'),
+(350, 'auto_core_update_notified', 'a:4:{s:4:"type";s:7:"success";s:5:"email";s:17:"giperilia@mail.ru";s:7:"version";s:5:"4.9.8";s:9:"timestamp";i:1533751954;}', 'no'),
+(402, '_site_transient_timeout_browser_11d9a73fb38b2f1c4799e1f5e17c7b14', '1535048747', 'no'),
+(403, '_site_transient_browser_11d9a73fb38b2f1c4799e1f5e17c7b14', 'a:10:{s:4:"name";s:6:"Chrome";s:7:"version";s:13:"68.0.3440.106";s:8:"platform";s:7:"Windows";s:10:"update_url";s:29:"https://www.google.com/chrome";s:7:"img_src";s:43:"http://s.w.org/images/browsers/chrome.png?1";s:11:"img_src_ssl";s:44:"https://s.w.org/images/browsers/chrome.png?1";s:15:"current_version";s:2:"18";s:7:"upgrade";b:0;s:8:"insecure";b:0;s:6:"mobile";b:0;}', 'no'),
+(442, '_site_transient_timeout_browser_01fe6d96f512df15cc1b10345d6b37d9', '1535389128', 'no'),
+(443, '_site_transient_browser_01fe6d96f512df15cc1b10345d6b37d9', 'a:10:{s:4:"name";s:6:"Chrome";s:7:"version";s:13:"68.0.3440.106";s:8:"platform";s:7:"Windows";s:10:"update_url";s:29:"https://www.google.com/chrome";s:7:"img_src";s:43:"http://s.w.org/images/browsers/chrome.png?1";s:11:"img_src_ssl";s:44:"https://s.w.org/images/browsers/chrome.png?1";s:15:"current_version";s:2:"18";s:7:"upgrade";b:0;s:8:"insecure";b:0;s:6:"mobile";b:0;}', 'no'),
+(450, '_transient_timeout_feed_d117b5738fbd35bd8c0391cda1f2b5d9', '1534827532', 'no'),
+(463, '_site_transient_timeout_available_translations', '1534854983', 'no');
+INSERT INTO `wp_options` (`option_id`, `option_name`, `option_value`, `autoload`) VALUES
+(464, '_site_transient_available_translations', 'a:113:{s:2:"af";a:8:{s:8:"language";s:2:"af";s:7:"version";s:5:"4.9.4";s:7:"updated";s:19:"2018-02-06 13:56:09";s:12:"english_name";s:9:"Afrikaans";s:11:"native_name";s:9:"Afrikaans";s:7:"package";s:61:"https://downloads.wordpress.org/translation/core/4.9.4/af.zip";s:3:"iso";a:2:{i:1;s:2:"af";i:2;s:3:"afr";}s:7:"strings";a:1:{s:8:"continue";s:10:"Gaan voort";}}s:2:"ar";a:8:{s:8:"language";s:2:"ar";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-08-18 03:20:46";s:12:"english_name";s:6:"Arabic";s:11:"native_name";s:14:"العربية";s:7:"package";s:61:"https://downloads.wordpress.org/translation/core/4.9.8/ar.zip";s:3:"iso";a:2:{i:1;s:2:"ar";i:2;s:3:"ara";}s:7:"strings";a:1:{s:8:"continue";s:16:"المتابعة";}}s:3:"ary";a:8:{s:8:"language";s:3:"ary";s:7:"version";s:5:"4.7.7";s:7:"updated";s:19:"2017-01-26 15:42:35";s:12:"english_name";s:15:"Moroccan Arabic";s:11:"native_name";s:31:"العربية المغربية";s:7:"package";s:62:"https://downloads.wordpress.org/translation/core/4.7.7/ary.zip";s:3:"iso";a:2:{i:1;s:2:"ar";i:3;s:3:"ary";}s:7:"strings";a:1:{s:8:"continue";s:16:"المتابعة";}}s:2:"as";a:8:{s:8:"language";s:2:"as";s:7:"version";s:5:"4.7.2";s:7:"updated";s:19:"2016-11-22 18:59:07";s:12:"english_name";s:8:"Assamese";s:11:"native_name";s:21:"অসমীয়া";s:7:"package";s:61:"https://downloads.wordpress.org/translation/core/4.7.2/as.zip";s:3:"iso";a:3:{i:1;s:2:"as";i:2;s:3:"asm";i:3;s:3:"asm";}s:7:"strings";a:1:{s:8:"continue";s:0:"";}}s:3:"azb";a:8:{s:8:"language";s:3:"azb";s:7:"version";s:5:"4.7.2";s:7:"updated";s:19:"2016-09-12 20:34:31";s:12:"english_name";s:17:"South Azerbaijani";s:11:"native_name";s:29:"گؤنئی آذربایجان";s:7:"package";s:62:"https://downloads.wordpress.org/translation/core/4.7.2/azb.zip";s:3:"iso";a:2:{i:1;s:2:"az";i:3;s:3:"azb";}s:7:"strings";a:1:{s:8:"continue";s:8:"Continue";}}s:2:"az";a:8:{s:8:"language";s:2:"az";s:7:"version";s:5:"4.7.2";s:7:"updated";s:19:"2016-11-06 00:09:27";s:12:"english_name";s:11:"Azerbaijani";s:11:"native_name";s:16:"Azərbaycan dili";s:7:"package";s:61:"https://downloads.wordpress.org/translation/core/4.7.2/az.zip";s:3:"iso";a:2:{i:1;s:2:"az";i:2;s:3:"aze";}s:7:"strings";a:1:{s:8:"continue";s:5:"Davam";}}s:3:"bel";a:8:{s:8:"language";s:3:"bel";s:7:"version";s:5:"4.9.5";s:7:"updated";s:19:"2018-04-04 08:43:29";s:12:"english_name";s:10:"Belarusian";s:11:"native_name";s:29:"Беларуская мова";s:7:"package";s:62:"https://downloads.wordpress.org/translation/core/4.9.5/bel.zip";s:3:"iso";a:2:{i:1;s:2:"be";i:2;s:3:"bel";}s:7:"strings";a:1:{s:8:"continue";s:20:"Працягнуць";}}s:5:"bg_BG";a:8:{s:8:"language";s:5:"bg_BG";s:7:"version";s:5:"4.9.6";s:7:"updated";s:19:"2018-06-23 07:27:43";s:12:"english_name";s:9:"Bulgarian";s:11:"native_name";s:18:"Български";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.6/bg_BG.zip";s:3:"iso";a:2:{i:1;s:2:"bg";i:2;s:3:"bul";}s:7:"strings";a:1:{s:8:"continue";s:12:"Напред";}}s:5:"bn_BD";a:8:{s:8:"language";s:5:"bn_BD";s:7:"version";s:5:"4.8.6";s:7:"updated";s:19:"2017-10-01 12:57:10";s:12:"english_name";s:7:"Bengali";s:11:"native_name";s:15:"বাংলা";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.8.6/bn_BD.zip";s:3:"iso";a:1:{i:1;s:2:"bn";}s:7:"strings";a:1:{s:8:"continue";s:23:"এগিয়ে চল.";}}s:2:"bo";a:8:{s:8:"language";s:2:"bo";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-07-26 07:51:00";s:12:"english_name";s:7:"Tibetan";s:11:"native_name";s:21:"བོད་ཡིག";s:7:"package";s:61:"https://downloads.wordpress.org/translation/core/4.9.8/bo.zip";s:3:"iso";a:2:{i:1;s:2:"bo";i:2;s:3:"tib";}s:7:"strings";a:1:{s:8:"continue";s:24:"མུ་མཐུད།";}}s:5:"bs_BA";a:8:{s:8:"language";s:5:"bs_BA";s:7:"version";s:5:"4.7.2";s:7:"updated";s:19:"2016-09-04 20:20:28";s:12:"english_name";s:7:"Bosnian";s:11:"native_name";s:8:"Bosanski";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.7.2/bs_BA.zip";s:3:"iso";a:2:{i:1;s:2:"bs";i:2;s:3:"bos";}s:7:"strings";a:1:{s:8:"continue";s:7:"Nastavi";}}s:2:"ca";a:8:{s:8:"language";s:2:"ca";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-07-25 04:47:06";s:12:"english_name";s:7:"Catalan";s:11:"native_name";s:7:"Català";s:7:"package";s:61:"https://downloads.wordpress.org/translation/core/4.9.8/ca.zip";s:3:"iso";a:2:{i:1;s:2:"ca";i:2;s:3:"cat";}s:7:"strings";a:1:{s:8:"continue";s:8:"Continua";}}s:3:"ceb";a:8:{s:8:"language";s:3:"ceb";s:7:"version";s:5:"4.7.2";s:7:"updated";s:19:"2016-03-02 17:25:51";s:12:"english_name";s:7:"Cebuano";s:11:"native_name";s:7:"Cebuano";s:7:"package";s:62:"https://downloads.wordpress.org/translation/core/4.7.2/ceb.zip";s:3:"iso";a:2:{i:2;s:3:"ceb";i:3;s:3:"ceb";}s:7:"strings";a:1:{s:8:"continue";s:7:"Padayun";}}s:5:"cs_CZ";a:8:{s:8:"language";s:5:"cs_CZ";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-08-03 08:58:57";s:12:"english_name";s:5:"Czech";s:11:"native_name";s:9:"Čeština";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.8/cs_CZ.zip";s:3:"iso";a:2:{i:1;s:2:"cs";i:2;s:3:"ces";}s:7:"strings";a:1:{s:8:"continue";s:11:"Pokračovat";}}s:2:"cy";a:8:{s:8:"language";s:2:"cy";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-07-27 10:53:54";s:12:"english_name";s:5:"Welsh";s:11:"native_name";s:7:"Cymraeg";s:7:"package";s:61:"https://downloads.wordpress.org/translation/core/4.9.8/cy.zip";s:3:"iso";a:2:{i:1;s:2:"cy";i:2;s:3:"cym";}s:7:"strings";a:1:{s:8:"continue";s:6:"Parhau";}}s:5:"da_DK";a:8:{s:8:"language";s:5:"da_DK";s:7:"version";s:5:"4.9.7";s:7:"updated";s:19:"2018-07-06 08:46:24";s:12:"english_name";s:6:"Danish";s:11:"native_name";s:5:"Dansk";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.7/da_DK.zip";s:3:"iso";a:2:{i:1;s:2:"da";i:2;s:3:"dan";}s:7:"strings";a:1:{s:8:"continue";s:8:"Fortsæt";}}s:12:"de_DE_formal";a:8:{s:8:"language";s:12:"de_DE_formal";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-08-03 00:30:25";s:12:"english_name";s:15:"German (Formal)";s:11:"native_name";s:13:"Deutsch (Sie)";s:7:"package";s:71:"https://downloads.wordpress.org/translation/core/4.9.8/de_DE_formal.zip";s:3:"iso";a:1:{i:1;s:2:"de";}s:7:"strings";a:1:{s:8:"continue";s:6:"Weiter";}}s:5:"de_CH";a:8:{s:8:"language";s:5:"de_CH";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-07-28 11:47:36";s:12:"english_name";s:20:"German (Switzerland)";s:11:"native_name";s:17:"Deutsch (Schweiz)";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.8/de_CH.zip";s:3:"iso";a:1:{i:1;s:2:"de";}s:7:"strings";a:1:{s:8:"continue";s:6:"Weiter";}}s:5:"de_DE";a:8:{s:8:"language";s:5:"de_DE";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-08-13 13:32:08";s:12:"english_name";s:6:"German";s:11:"native_name";s:7:"Deutsch";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.8/de_DE.zip";s:3:"iso";a:1:{i:1;s:2:"de";}s:7:"strings";a:1:{s:8:"continue";s:6:"Weiter";}}s:14:"de_CH_informal";a:8:{s:8:"language";s:14:"de_CH_informal";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-07-28 11:48:22";s:12:"english_name";s:30:"German (Switzerland, Informal)";s:11:"native_name";s:21:"Deutsch (Schweiz, Du)";s:7:"package";s:73:"https://downloads.wordpress.org/translation/core/4.9.8/de_CH_informal.zip";s:3:"iso";a:1:{i:1;s:2:"de";}s:7:"strings";a:1:{s:8:"continue";s:6:"Weiter";}}s:3:"dzo";a:8:{s:8:"language";s:3:"dzo";s:7:"version";s:5:"4.7.2";s:7:"updated";s:19:"2016-06-29 08:59:03";s:12:"english_name";s:8:"Dzongkha";s:11:"native_name";s:18:"རྫོང་ཁ";s:7:"package";s:62:"https://downloads.wordpress.org/translation/core/4.7.2/dzo.zip";s:3:"iso";a:2:{i:1;s:2:"dz";i:2;s:3:"dzo";}s:7:"strings";a:1:{s:8:"continue";s:0:"";}}s:2:"el";a:8:{s:8:"language";s:2:"el";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-08-08 13:56:55";s:12:"english_name";s:5:"Greek";s:11:"native_name";s:16:"Ελληνικά";s:7:"package";s:61:"https://downloads.wordpress.org/translation/core/4.9.8/el.zip";s:3:"iso";a:2:{i:1;s:2:"el";i:2;s:3:"ell";}s:7:"strings";a:1:{s:8:"continue";s:16:"Συνέχεια";}}s:5:"en_GB";a:8:{s:8:"language";s:5:"en_GB";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-07-31 14:47:16";s:12:"english_name";s:12:"English (UK)";s:11:"native_name";s:12:"English (UK)";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.8/en_GB.zip";s:3:"iso";a:3:{i:1;s:2:"en";i:2;s:3:"eng";i:3;s:3:"eng";}s:7:"strings";a:1:{s:8:"continue";s:8:"Continue";}}s:5:"en_ZA";a:8:{s:8:"language";s:5:"en_ZA";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-08-16 14:33:05";s:12:"english_name";s:22:"English (South Africa)";s:11:"native_name";s:22:"English (South Africa)";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.8/en_ZA.zip";s:3:"iso";a:3:{i:1;s:2:"en";i:2;s:3:"eng";i:3;s:3:"eng";}s:7:"strings";a:1:{s:8:"continue";s:8:"Continue";}}s:5:"en_NZ";a:8:{s:8:"language";s:5:"en_NZ";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-07-24 23:12:03";s:12:"english_name";s:21:"English (New Zealand)";s:11:"native_name";s:21:"English (New Zealand)";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.8/en_NZ.zip";s:3:"iso";a:3:{i:1;s:2:"en";i:2;s:3:"eng";i:3;s:3:"eng";}s:7:"strings";a:1:{s:8:"continue";s:8:"Continue";}}s:5:"en_AU";a:8:{s:8:"language";s:5:"en_AU";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-07-24 21:31:15";s:12:"english_name";s:19:"English (Australia)";s:11:"native_name";s:19:"English (Australia)";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.8/en_AU.zip";s:3:"iso";a:3:{i:1;s:2:"en";i:2;s:3:"eng";i:3;s:3:"eng";}s:7:"strings";a:1:{s:8:"continue";s:8:"Continue";}}s:5:"en_CA";a:8:{s:8:"language";s:5:"en_CA";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-07-30 17:20:26";s:12:"english_name";s:16:"English (Canada)";s:11:"native_name";s:16:"English (Canada)";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.8/en_CA.zip";s:3:"iso";a:3:{i:1;s:2:"en";i:2;s:3:"eng";i:3;s:3:"eng";}s:7:"strings";a:1:{s:8:"continue";s:8:"Continue";}}s:2:"eo";a:8:{s:8:"language";s:2:"eo";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-08-01 16:09:29";s:12:"english_name";s:9:"Esperanto";s:11:"native_name";s:9:"Esperanto";s:7:"package";s:61:"https://downloads.wordpress.org/translation/core/4.9.8/eo.zip";s:3:"iso";a:2:{i:1;s:2:"eo";i:2;s:3:"epo";}s:7:"strings";a:1:{s:8:"continue";s:8:"Daŭrigi";}}s:5:"es_ES";a:8:{s:8:"language";s:5:"es_ES";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-07-25 19:18:20";s:12:"english_name";s:15:"Spanish (Spain)";s:11:"native_name";s:8:"Español";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.8/es_ES.zip";s:3:"iso";a:3:{i:1;s:2:"es";i:2;s:3:"spa";i:3;s:3:"spa";}s:7:"strings";a:1:{s:8:"continue";s:9:"Continuar";}}s:5:"es_VE";a:8:{s:8:"language";s:5:"es_VE";s:7:"version";s:5:"4.9.6";s:7:"updated";s:19:"2018-06-26 13:11:18";s:12:"english_name";s:19:"Spanish (Venezuela)";s:11:"native_name";s:21:"Español de Venezuela";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.6/es_VE.zip";s:3:"iso";a:3:{i:1;s:2:"es";i:2;s:3:"spa";i:3;s:3:"spa";}s:7:"strings";a:1:{s:8:"continue";s:9:"Continuar";}}s:5:"es_GT";a:8:{s:8:"language";s:5:"es_GT";s:7:"version";s:5:"4.9.2";s:7:"updated";s:19:"2017-11-15 15:03:42";s:12:"english_name";s:19:"Spanish (Guatemala)";s:11:"native_name";s:21:"Español de Guatemala";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.2/es_GT.zip";s:3:"iso";a:3:{i:1;s:2:"es";i:2;s:3:"spa";i:3;s:3:"spa";}s:7:"strings";a:1:{s:8:"continue";s:9:"Continuar";}}s:5:"es_CO";a:8:{s:8:"language";s:5:"es_CO";s:7:"version";s:5:"4.9.2";s:7:"updated";s:19:"2017-11-15 23:17:08";s:12:"english_name";s:18:"Spanish (Colombia)";s:11:"native_name";s:20:"Español de Colombia";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.2/es_CO.zip";s:3:"iso";a:3:{i:1;s:2:"es";i:2;s:3:"spa";i:3;s:3:"spa";}s:7:"strings";a:1:{s:8:"continue";s:9:"Continuar";}}s:5:"es_MX";a:8:{s:8:"language";s:5:"es_MX";s:7:"version";s:5:"4.8.6";s:7:"updated";s:19:"2017-07-31 15:12:02";s:12:"english_name";s:16:"Spanish (Mexico)";s:11:"native_name";s:19:"Español de México";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.8.6/es_MX.zip";s:3:"iso";a:3:{i:1;s:2:"es";i:2;s:3:"spa";i:3;s:3:"spa";}s:7:"strings";a:1:{s:8:"continue";s:9:"Continuar";}}s:5:"es_CR";a:8:{s:8:"language";s:5:"es_CR";s:7:"version";s:5:"4.8.3";s:7:"updated";s:19:"2017-10-01 17:54:52";s:12:"english_name";s:20:"Spanish (Costa Rica)";s:11:"native_name";s:22:"Español de Costa Rica";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.8.3/es_CR.zip";s:3:"iso";a:3:{i:1;s:2:"es";i:2;s:3:"spa";i:3;s:3:"spa";}s:7:"strings";a:1:{s:8:"continue";s:9:"Continuar";}}s:5:"es_PE";a:8:{s:8:"language";s:5:"es_PE";s:7:"version";s:5:"4.7.2";s:7:"updated";s:19:"2016-09-09 09:36:22";s:12:"english_name";s:14:"Spanish (Peru)";s:11:"native_name";s:17:"Español de Perú";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.7.2/es_PE.zip";s:3:"iso";a:3:{i:1;s:2:"es";i:2;s:3:"spa";i:3;s:3:"spa";}s:7:"strings";a:1:{s:8:"continue";s:9:"Continuar";}}s:5:"es_AR";a:8:{s:8:"language";s:5:"es_AR";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-08-03 20:43:09";s:12:"english_name";s:19:"Spanish (Argentina)";s:11:"native_name";s:21:"Español de Argentina";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.8/es_AR.zip";s:3:"iso";a:3:{i:1;s:2:"es";i:2;s:3:"spa";i:3;s:3:"spa";}s:7:"strings";a:1:{s:8:"continue";s:9:"Continuar";}}s:5:"es_CL";a:8:{s:8:"language";s:5:"es_CL";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-08-18 01:54:29";s:12:"english_name";s:15:"Spanish (Chile)";s:11:"native_name";s:17:"Español de Chile";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.8/es_CL.zip";s:3:"iso";a:3:{i:1;s:2:"es";i:2;s:3:"spa";i:3;s:3:"spa";}s:7:"strings";a:1:{s:8:"continue";s:9:"Continuar";}}s:2:"et";a:8:{s:8:"language";s:2:"et";s:7:"version";s:5:"4.9.2";s:7:"updated";s:19:"2017-11-19 14:11:29";s:12:"english_name";s:8:"Estonian";s:11:"native_name";s:5:"Eesti";s:7:"package";s:61:"https://downloads.wordpress.org/translation/core/4.9.2/et.zip";s:3:"iso";a:2:{i:1;s:2:"et";i:2;s:3:"est";}s:7:"strings";a:1:{s:8:"continue";s:6:"Jätka";}}s:2:"eu";a:8:{s:8:"language";s:2:"eu";s:7:"version";s:5:"4.9.2";s:7:"updated";s:19:"2017-12-09 21:12:23";s:12:"english_name";s:6:"Basque";s:11:"native_name";s:7:"Euskara";s:7:"package";s:61:"https://downloads.wordpress.org/translation/core/4.9.2/eu.zip";s:3:"iso";a:2:{i:1;s:2:"eu";i:2;s:3:"eus";}s:7:"strings";a:1:{s:8:"continue";s:8:"Jarraitu";}}s:5:"fa_IR";a:8:{s:8:"language";s:5:"fa_IR";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-08-09 15:53:36";s:12:"english_name";s:7:"Persian";s:11:"native_name";s:10:"فارسی";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.8/fa_IR.zip";s:3:"iso";a:2:{i:1;s:2:"fa";i:2;s:3:"fas";}s:7:"strings";a:1:{s:8:"continue";s:10:"ادامه";}}s:2:"fi";a:8:{s:8:"language";s:2:"fi";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-08-02 12:18:54";s:12:"english_name";s:7:"Finnish";s:11:"native_name";s:5:"Suomi";s:7:"package";s:61:"https://downloads.wordpress.org/translation/core/4.9.8/fi.zip";s:3:"iso";a:2:{i:1;s:2:"fi";i:2;s:3:"fin";}s:7:"strings";a:1:{s:8:"continue";s:5:"Jatka";}}s:5:"fr_FR";a:8:{s:8:"language";s:5:"fr_FR";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-08-18 07:44:40";s:12:"english_name";s:15:"French (France)";s:11:"native_name";s:9:"Français";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.8/fr_FR.zip";s:3:"iso";a:1:{i:1;s:2:"fr";}s:7:"strings";a:1:{s:8:"continue";s:9:"Continuer";}}s:5:"fr_BE";a:8:{s:8:"language";s:5:"fr_BE";s:7:"version";s:5:"4.9.5";s:7:"updated";s:19:"2018-01-31 11:16:06";s:12:"english_name";s:16:"French (Belgium)";s:11:"native_name";s:21:"Français de Belgique";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.5/fr_BE.zip";s:3:"iso";a:2:{i:1;s:2:"fr";i:2;s:3:"fra";}s:7:"strings";a:1:{s:8:"continue";s:9:"Continuer";}}s:5:"fr_CA";a:8:{s:8:"language";s:5:"fr_CA";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-08-06 16:13:32";s:12:"english_name";s:15:"French (Canada)";s:11:"native_name";s:19:"Français du Canada";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.8/fr_CA.zip";s:3:"iso";a:2:{i:1;s:2:"fr";i:2;s:3:"fra";}s:7:"strings";a:1:{s:8:"continue";s:9:"Continuer";}}s:3:"fur";a:8:{s:8:"language";s:3:"fur";s:7:"version";s:5:"4.8.6";s:7:"updated";s:19:"2018-01-29 17:32:35";s:12:"english_name";s:8:"Friulian";s:11:"native_name";s:8:"Friulian";s:7:"package";s:62:"https://downloads.wordpress.org/translation/core/4.8.6/fur.zip";s:3:"iso";a:2:{i:2;s:3:"fur";i:3;s:3:"fur";}s:7:"strings";a:1:{s:8:"continue";s:8:"Continue";}}s:2:"gd";a:8:{s:8:"language";s:2:"gd";s:7:"version";s:5:"4.7.2";s:7:"updated";s:19:"2016-08-23 17:41:37";s:12:"english_name";s:15:"Scottish Gaelic";s:11:"native_name";s:9:"Gàidhlig";s:7:"package";s:61:"https://downloads.wordpress.org/translation/core/4.7.2/gd.zip";s:3:"iso";a:3:{i:1;s:2:"gd";i:2;s:3:"gla";i:3;s:3:"gla";}s:7:"strings";a:1:{s:8:"continue";s:15:"Lean air adhart";}}s:5:"gl_ES";a:8:{s:8:"language";s:5:"gl_ES";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-07-25 14:30:50";s:12:"english_name";s:8:"Galician";s:11:"native_name";s:6:"Galego";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.8/gl_ES.zip";s:3:"iso";a:2:{i:1;s:2:"gl";i:2;s:3:"glg";}s:7:"strings";a:1:{s:8:"continue";s:9:"Continuar";}}s:2:"gu";a:8:{s:8:"language";s:2:"gu";s:7:"version";s:5:"4.9.7";s:7:"updated";s:19:"2018-02-14 06:16:04";s:12:"english_name";s:8:"Gujarati";s:11:"native_name";s:21:"ગુજરાતી";s:7:"package";s:61:"https://downloads.wordpress.org/translation/core/4.9.7/gu.zip";s:3:"iso";a:2:{i:1;s:2:"gu";i:2;s:3:"guj";}s:7:"strings";a:1:{s:8:"continue";s:31:"ચાલુ રાખવું";}}s:3:"haz";a:8:{s:8:"language";s:3:"haz";s:7:"version";s:5:"4.4.2";s:7:"updated";s:19:"2015-12-05 00:59:09";s:12:"english_name";s:8:"Hazaragi";s:11:"native_name";s:15:"هزاره گی";s:7:"package";s:62:"https://downloads.wordpress.org/translation/core/4.4.2/haz.zip";s:3:"iso";a:1:{i:3;s:3:"haz";}s:7:"strings";a:1:{s:8:"continue";s:10:"ادامه";}}s:5:"he_IL";a:8:{s:8:"language";s:5:"he_IL";s:7:"version";s:5:"4.9.5";s:7:"updated";s:19:"2018-04-15 08:49:46";s:12:"english_name";s:6:"Hebrew";s:11:"native_name";s:16:"עִבְרִית";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.5/he_IL.zip";s:3:"iso";a:1:{i:1;s:2:"he";}s:7:"strings";a:1:{s:8:"continue";s:8:"המשך";}}s:5:"hi_IN";a:8:{s:8:"language";s:5:"hi_IN";s:7:"version";s:5:"4.9.7";s:7:"updated";s:19:"2018-06-17 09:33:44";s:12:"english_name";s:5:"Hindi";s:11:"native_name";s:18:"हिन्दी";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.7/hi_IN.zip";s:3:"iso";a:2:{i:1;s:2:"hi";i:2;s:3:"hin";}s:7:"strings";a:1:{s:8:"continue";s:12:"जारी";}}s:2:"hr";a:8:{s:8:"language";s:2:"hr";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-08-14 10:04:37";s:12:"english_name";s:8:"Croatian";s:11:"native_name";s:8:"Hrvatski";s:7:"package";s:61:"https://downloads.wordpress.org/translation/core/4.9.8/hr.zip";s:3:"iso";a:2:{i:1;s:2:"hr";i:2;s:3:"hrv";}s:7:"strings";a:1:{s:8:"continue";s:7:"Nastavi";}}s:5:"hu_HU";a:8:{s:8:"language";s:5:"hu_HU";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-08-03 10:29:39";s:12:"english_name";s:9:"Hungarian";s:11:"native_name";s:6:"Magyar";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.8/hu_HU.zip";s:3:"iso";a:2:{i:1;s:2:"hu";i:2;s:3:"hun";}s:7:"strings";a:1:{s:8:"continue";s:10:"Folytatás";}}s:2:"hy";a:8:{s:8:"language";s:2:"hy";s:7:"version";s:5:"4.7.2";s:7:"updated";s:19:"2016-12-03 16:21:10";s:12:"english_name";s:8:"Armenian";s:11:"native_name";s:14:"Հայերեն";s:7:"package";s:61:"https://downloads.wordpress.org/translation/core/4.7.2/hy.zip";s:3:"iso";a:2:{i:1;s:2:"hy";i:2;s:3:"hye";}s:7:"strings";a:1:{s:8:"continue";s:20:"Շարունակել";}}s:5:"id_ID";a:8:{s:8:"language";s:5:"id_ID";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-07-28 13:16:13";s:12:"english_name";s:10:"Indonesian";s:11:"native_name";s:16:"Bahasa Indonesia";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.8/id_ID.zip";s:3:"iso";a:2:{i:1;s:2:"id";i:2;s:3:"ind";}s:7:"strings";a:1:{s:8:"continue";s:9:"Lanjutkan";}}s:5:"is_IS";a:8:{s:8:"language";s:5:"is_IS";s:7:"version";s:5:"4.7.7";s:7:"updated";s:19:"2017-04-13 13:55:54";s:12:"english_name";s:9:"Icelandic";s:11:"native_name";s:9:"Íslenska";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.7.7/is_IS.zip";s:3:"iso";a:2:{i:1;s:2:"is";i:2;s:3:"isl";}s:7:"strings";a:1:{s:8:"continue";s:6:"Áfram";}}s:5:"it_IT";a:8:{s:8:"language";s:5:"it_IT";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-08-07 11:57:55";s:12:"english_name";s:7:"Italian";s:11:"native_name";s:8:"Italiano";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.8/it_IT.zip";s:3:"iso";a:2:{i:1;s:2:"it";i:2;s:3:"ita";}s:7:"strings";a:1:{s:8:"continue";s:8:"Continua";}}s:2:"ja";a:8:{s:8:"language";s:2:"ja";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-08-21 00:28:52";s:12:"english_name";s:8:"Japanese";s:11:"native_name";s:9:"日本語";s:7:"package";s:61:"https://downloads.wordpress.org/translation/core/4.9.8/ja.zip";s:3:"iso";a:1:{i:1;s:2:"ja";}s:7:"strings";a:1:{s:8:"continue";s:9:"続ける";}}s:5:"jv_ID";a:8:{s:8:"language";s:5:"jv_ID";s:7:"version";s:5:"4.9.5";s:7:"updated";s:19:"2018-03-24 13:53:29";s:12:"english_name";s:8:"Javanese";s:11:"native_name";s:9:"Basa Jawa";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.5/jv_ID.zip";s:3:"iso";a:2:{i:1;s:2:"jv";i:2;s:3:"jav";}s:7:"strings";a:1:{s:8:"continue";s:9:"Nerusaké";}}s:5:"ka_GE";a:8:{s:8:"language";s:5:"ka_GE";s:7:"version";s:5:"4.9.4";s:7:"updated";s:19:"2018-02-08 06:01:48";s:12:"english_name";s:8:"Georgian";s:11:"native_name";s:21:"ქართული";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.4/ka_GE.zip";s:3:"iso";a:2:{i:1;s:2:"ka";i:2;s:3:"kat";}s:7:"strings";a:1:{s:8:"continue";s:30:"გაგრძელება";}}s:3:"kab";a:8:{s:8:"language";s:3:"kab";s:7:"version";s:5:"4.9.5";s:7:"updated";s:19:"2018-03-22 22:24:38";s:12:"english_name";s:6:"Kabyle";s:11:"native_name";s:9:"Taqbaylit";s:7:"package";s:62:"https://downloads.wordpress.org/translation/core/4.9.5/kab.zip";s:3:"iso";a:2:{i:2;s:3:"kab";i:3;s:3:"kab";}s:7:"strings";a:1:{s:8:"continue";s:6:"Kemmel";}}s:2:"kk";a:8:{s:8:"language";s:2:"kk";s:7:"version";s:5:"4.9.5";s:7:"updated";s:19:"2018-03-12 08:08:32";s:12:"english_name";s:6:"Kazakh";s:11:"native_name";s:19:"Қазақ тілі";s:7:"package";s:61:"https://downloads.wordpress.org/translation/core/4.9.5/kk.zip";s:3:"iso";a:2:{i:1;s:2:"kk";i:2;s:3:"kaz";}s:7:"strings";a:1:{s:8:"continue";s:20:"Жалғастыру";}}s:2:"km";a:8:{s:8:"language";s:2:"km";s:7:"version";s:5:"4.7.2";s:7:"updated";s:19:"2016-12-07 02:07:59";s:12:"english_name";s:5:"Khmer";s:11:"native_name";s:27:"ភាសាខ្មែរ";s:7:"package";s:61:"https://downloads.wordpress.org/translation/core/4.7.2/km.zip";s:3:"iso";a:2:{i:1;s:2:"km";i:2;s:3:"khm";}s:7:"strings";a:1:{s:8:"continue";s:12:"បន្ត";}}s:5:"ko_KR";a:8:{s:8:"language";s:5:"ko_KR";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-08-04 12:57:46";s:12:"english_name";s:6:"Korean";s:11:"native_name";s:9:"한국어";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.8/ko_KR.zip";s:3:"iso";a:2:{i:1;s:2:"ko";i:2;s:3:"kor";}s:7:"strings";a:1:{s:8:"continue";s:6:"계속";}}s:3:"ckb";a:8:{s:8:"language";s:3:"ckb";s:7:"version";s:5:"4.7.2";s:7:"updated";s:19:"2017-01-26 15:48:25";s:12:"english_name";s:16:"Kurdish (Sorani)";s:11:"native_name";s:13:"كوردی‎";s:7:"package";s:62:"https://downloads.wordpress.org/translation/core/4.7.2/ckb.zip";s:3:"iso";a:2:{i:1;s:2:"ku";i:3;s:3:"ckb";}s:7:"strings";a:1:{s:8:"continue";s:30:"به‌رده‌وام به‌";}}s:2:"lo";a:8:{s:8:"language";s:2:"lo";s:7:"version";s:5:"4.7.2";s:7:"updated";s:19:"2016-11-12 09:59:23";s:12:"english_name";s:3:"Lao";s:11:"native_name";s:21:"ພາສາລາວ";s:7:"package";s:61:"https://downloads.wordpress.org/translation/core/4.7.2/lo.zip";s:3:"iso";a:2:{i:1;s:2:"lo";i:2;s:3:"lao";}s:7:"strings";a:1:{s:8:"continue";s:18:"ຕໍ່​ໄປ";}}s:5:"lt_LT";a:8:{s:8:"language";s:5:"lt_LT";s:7:"version";s:5:"4.9.6";s:7:"updated";s:19:"2018-05-24 09:42:27";s:12:"english_name";s:10:"Lithuanian";s:11:"native_name";s:15:"Lietuvių kalba";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.6/lt_LT.zip";s:3:"iso";a:2:{i:1;s:2:"lt";i:2;s:3:"lit";}s:7:"strings";a:1:{s:8:"continue";s:6:"Tęsti";}}s:2:"lv";a:8:{s:8:"language";s:2:"lv";s:7:"version";s:5:"4.7.7";s:7:"updated";s:19:"2017-03-17 20:40:40";s:12:"english_name";s:7:"Latvian";s:11:"native_name";s:16:"Latviešu valoda";s:7:"package";s:61:"https://downloads.wordpress.org/translation/core/4.7.7/lv.zip";s:3:"iso";a:2:{i:1;s:2:"lv";i:2;s:3:"lav";}s:7:"strings";a:1:{s:8:"continue";s:9:"Turpināt";}}s:5:"mk_MK";a:8:{s:8:"language";s:5:"mk_MK";s:7:"version";s:5:"4.7.7";s:7:"updated";s:19:"2017-01-26 15:54:41";s:12:"english_name";s:10:"Macedonian";s:11:"native_name";s:31:"Македонски јазик";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.7.7/mk_MK.zip";s:3:"iso";a:2:{i:1;s:2:"mk";i:2;s:3:"mkd";}s:7:"strings";a:1:{s:8:"continue";s:16:"Продолжи";}}s:5:"ml_IN";a:8:{s:8:"language";s:5:"ml_IN";s:7:"version";s:5:"4.7.2";s:7:"updated";s:19:"2017-01-27 03:43:32";s:12:"english_name";s:9:"Malayalam";s:11:"native_name";s:18:"മലയാളം";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.7.2/ml_IN.zip";s:3:"iso";a:2:{i:1;s:2:"ml";i:2;s:3:"mal";}s:7:"strings";a:1:{s:8:"continue";s:18:"തുടരുക";}}s:2:"mn";a:8:{s:8:"language";s:2:"mn";s:7:"version";s:5:"4.7.2";s:7:"updated";s:19:"2017-01-12 07:29:35";s:12:"english_name";s:9:"Mongolian";s:11:"native_name";s:12:"Монгол";s:7:"package";s:61:"https://downloads.wordpress.org/translation/core/4.7.2/mn.zip";s:3:"iso";a:2:{i:1;s:2:"mn";i:2;s:3:"mon";}s:7:"strings";a:1:{s:8:"continue";s:24:"Үргэлжлүүлэх";}}s:2:"mr";a:8:{s:8:"language";s:2:"mr";s:7:"version";s:5:"4.8.6";s:7:"updated";s:19:"2018-02-13 07:38:55";s:12:"english_name";s:7:"Marathi";s:11:"native_name";s:15:"मराठी";s:7:"package";s:61:"https://downloads.wordpress.org/translation/core/4.8.6/mr.zip";s:3:"iso";a:2:{i:1;s:2:"mr";i:2;s:3:"mar";}s:7:"strings";a:1:{s:8:"continue";s:25:"सुरु ठेवा";}}s:5:"ms_MY";a:8:{s:8:"language";s:5:"ms_MY";s:7:"version";s:5:"4.9.6";s:7:"updated";s:19:"2018-05-23 08:05:19";s:12:"english_name";s:5:"Malay";s:11:"native_name";s:13:"Bahasa Melayu";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.6/ms_MY.zip";s:3:"iso";a:2:{i:1;s:2:"ms";i:2;s:3:"msa";}s:7:"strings";a:1:{s:8:"continue";s:8:"Teruskan";}}s:5:"my_MM";a:8:{s:8:"language";s:5:"my_MM";s:7:"version";s:6:"4.1.20";s:7:"updated";s:19:"2015-03-26 15:57:42";s:12:"english_name";s:17:"Myanmar (Burmese)";s:11:"native_name";s:15:"ဗမာစာ";s:7:"package";s:65:"https://downloads.wordpress.org/translation/core/4.1.20/my_MM.zip";s:3:"iso";a:2:{i:1;s:2:"my";i:2;s:3:"mya";}s:7:"strings";a:1:{s:8:"continue";s:54:"ဆက်လက်လုပ်ဆောင်ပါ။";}}s:5:"nb_NO";a:8:{s:8:"language";s:5:"nb_NO";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-08-03 07:24:43";s:12:"english_name";s:19:"Norwegian (Bokmål)";s:11:"native_name";s:13:"Norsk bokmål";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.8/nb_NO.zip";s:3:"iso";a:2:{i:1;s:2:"nb";i:2;s:3:"nob";}s:7:"strings";a:1:{s:8:"continue";s:8:"Fortsett";}}s:5:"ne_NP";a:8:{s:8:"language";s:5:"ne_NP";s:7:"version";s:5:"4.9.5";s:7:"updated";s:19:"2018-03-27 10:30:26";s:12:"english_name";s:6:"Nepali";s:11:"native_name";s:18:"नेपाली";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.5/ne_NP.zip";s:3:"iso";a:2:{i:1;s:2:"ne";i:2;s:3:"nep";}s:7:"strings";a:1:{s:8:"continue";s:43:"जारी राख्नुहोस्";}}s:12:"nl_NL_formal";a:8:{s:8:"language";s:12:"nl_NL_formal";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-08-06 12:43:59";s:12:"english_name";s:14:"Dutch (Formal)";s:11:"native_name";s:20:"Nederlands (Formeel)";s:7:"package";s:71:"https://downloads.wordpress.org/translation/core/4.9.8/nl_NL_formal.zip";s:3:"iso";a:2:{i:1;s:2:"nl";i:2;s:3:"nld";}s:7:"strings";a:1:{s:8:"continue";s:8:"Doorgaan";}}s:5:"nl_NL";a:8:{s:8:"language";s:5:"nl_NL";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-08-15 06:55:24";s:12:"english_name";s:5:"Dutch";s:11:"native_name";s:10:"Nederlands";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.8/nl_NL.zip";s:3:"iso";a:2:{i:1;s:2:"nl";i:2;s:3:"nld";}s:7:"strings";a:1:{s:8:"continue";s:8:"Doorgaan";}}s:5:"nl_BE";a:8:{s:8:"language";s:5:"nl_BE";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-07-29 11:28:05";s:12:"english_name";s:15:"Dutch (Belgium)";s:11:"native_name";s:20:"Nederlands (België)";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.8/nl_BE.zip";s:3:"iso";a:2:{i:1;s:2:"nl";i:2;s:3:"nld";}s:7:"strings";a:1:{s:8:"continue";s:8:"Doorgaan";}}s:5:"nn_NO";a:8:{s:8:"language";s:5:"nn_NO";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-08-13 11:47:22";s:12:"english_name";s:19:"Norwegian (Nynorsk)";s:11:"native_name";s:13:"Norsk nynorsk";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.8/nn_NO.zip";s:3:"iso";a:2:{i:1;s:2:"nn";i:2;s:3:"nno";}s:7:"strings";a:1:{s:8:"continue";s:9:"Hald fram";}}s:3:"oci";a:8:{s:8:"language";s:3:"oci";s:7:"version";s:5:"4.8.3";s:7:"updated";s:19:"2017-08-25 10:03:08";s:12:"english_name";s:7:"Occitan";s:11:"native_name";s:7:"Occitan";s:7:"package";s:62:"https://downloads.wordpress.org/translation/core/4.8.3/oci.zip";s:3:"iso";a:2:{i:1;s:2:"oc";i:2;s:3:"oci";}s:7:"strings";a:1:{s:8:"continue";s:9:"Contunhar";}}s:5:"pa_IN";a:8:{s:8:"language";s:5:"pa_IN";s:7:"version";s:5:"4.7.2";s:7:"updated";s:19:"2017-01-16 05:19:43";s:12:"english_name";s:7:"Punjabi";s:11:"native_name";s:18:"ਪੰਜਾਬੀ";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.7.2/pa_IN.zip";s:3:"iso";a:2:{i:1;s:2:"pa";i:2;s:3:"pan";}s:7:"strings";a:1:{s:8:"continue";s:25:"ਜਾਰੀ ਰੱਖੋ";}}s:5:"pl_PL";a:8:{s:8:"language";s:5:"pl_PL";s:7:"version";s:5:"4.9.6";s:7:"updated";s:19:"2018-06-12 12:14:24";s:12:"english_name";s:6:"Polish";s:11:"native_name";s:6:"Polski";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.6/pl_PL.zip";s:3:"iso";a:2:{i:1;s:2:"pl";i:2;s:3:"pol";}s:7:"strings";a:1:{s:8:"continue";s:9:"Kontynuuj";}}s:2:"ps";a:8:{s:8:"language";s:2:"ps";s:7:"version";s:6:"4.1.20";s:7:"updated";s:19:"2015-03-29 22:19:48";s:12:"english_name";s:6:"Pashto";s:11:"native_name";s:8:"پښتو";s:7:"package";s:62:"https://downloads.wordpress.org/translation/core/4.1.20/ps.zip";s:3:"iso";a:2:{i:1;s:2:"ps";i:2;s:3:"pus";}s:7:"strings";a:1:{s:8:"continue";s:19:"دوام ورکړه";}}s:5:"pt_PT";a:8:{s:8:"language";s:5:"pt_PT";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-07-24 16:20:30";s:12:"english_name";s:21:"Portuguese (Portugal)";s:11:"native_name";s:10:"Português";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.8/pt_PT.zip";s:3:"iso";a:1:{i:1;s:2:"pt";}s:7:"strings";a:1:{s:8:"continue";s:9:"Continuar";}}s:5:"pt_BR";a:8:{s:8:"language";s:5:"pt_BR";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-08-09 13:28:31";s:12:"english_name";s:19:"Portuguese (Brazil)";s:11:"native_name";s:20:"Português do Brasil";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.8/pt_BR.zip";s:3:"iso";a:2:{i:1;s:2:"pt";i:2;s:3:"por";}s:7:"strings";a:1:{s:8:"continue";s:9:"Continuar";}}s:10:"pt_PT_ao90";a:8:{s:8:"language";s:10:"pt_PT_ao90";s:7:"version";s:5:"4.9.5";s:7:"updated";s:19:"2018-03-09 09:30:48";s:12:"english_name";s:27:"Portuguese (Portugal, AO90)";s:11:"native_name";s:17:"Português (AO90)";s:7:"package";s:69:"https://downloads.wordpress.org/translation/core/4.9.5/pt_PT_ao90.zip";s:3:"iso";a:1:{i:1;s:2:"pt";}s:7:"strings";a:1:{s:8:"continue";s:9:"Continuar";}}s:3:"rhg";a:8:{s:8:"language";s:3:"rhg";s:7:"version";s:5:"4.7.2";s:7:"updated";s:19:"2016-03-16 13:03:18";s:12:"english_name";s:8:"Rohingya";s:11:"native_name";s:8:"Ruáinga";s:7:"package";s:62:"https://downloads.wordpress.org/translation/core/4.7.2/rhg.zip";s:3:"iso";a:1:{i:3;s:3:"rhg";}s:7:"strings";a:1:{s:8:"continue";s:0:"";}}s:5:"ro_RO";a:8:{s:8:"language";s:5:"ro_RO";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-08-19 09:09:45";s:12:"english_name";s:8:"Romanian";s:11:"native_name";s:8:"Română";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.8/ro_RO.zip";s:3:"iso";a:2:{i:1;s:2:"ro";i:2;s:3:"ron";}s:7:"strings";a:1:{s:8:"continue";s:9:"Continuă";}}s:5:"ru_RU";a:8:{s:8:"language";s:5:"ru_RU";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-08-03 12:07:46";s:12:"english_name";s:7:"Russian";s:11:"native_name";s:14:"Русский";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.8/ru_RU.zip";s:3:"iso";a:2:{i:1;s:2:"ru";i:2;s:3:"rus";}s:7:"strings";a:1:{s:8:"continue";s:20:"Продолжить";}}s:3:"sah";a:8:{s:8:"language";s:3:"sah";s:7:"version";s:5:"4.7.2";s:7:"updated";s:19:"2017-01-21 02:06:41";s:12:"english_name";s:5:"Sakha";s:11:"native_name";s:14:"Сахалыы";s:7:"package";s:62:"https://downloads.wordpress.org/translation/core/4.7.2/sah.zip";s:3:"iso";a:2:{i:2;s:3:"sah";i:3;s:3:"sah";}s:7:"strings";a:1:{s:8:"continue";s:12:"Салҕаа";}}s:5:"si_LK";a:8:{s:8:"language";s:5:"si_LK";s:7:"version";s:5:"4.7.2";s:7:"updated";s:19:"2016-11-12 06:00:52";s:12:"english_name";s:7:"Sinhala";s:11:"native_name";s:15:"සිංහල";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.7.2/si_LK.zip";s:3:"iso";a:2:{i:1;s:2:"si";i:2;s:3:"sin";}s:7:"strings";a:1:{s:8:"continue";s:44:"දිගටම කරගෙන යන්න";}}s:5:"sk_SK";a:8:{s:8:"language";s:5:"sk_SK";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-07-26 09:20:25";s:12:"english_name";s:6:"Slovak";s:11:"native_name";s:11:"Slovenčina";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.8/sk_SK.zip";s:3:"iso";a:2:{i:1;s:2:"sk";i:2;s:3:"slk";}s:7:"strings";a:1:{s:8:"continue";s:12:"Pokračovať";}}s:5:"sl_SI";a:8:{s:8:"language";s:5:"sl_SI";s:7:"version";s:5:"4.9.2";s:7:"updated";s:19:"2018-01-04 13:33:13";s:12:"english_name";s:9:"Slovenian";s:11:"native_name";s:13:"Slovenščina";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.2/sl_SI.zip";s:3:"iso";a:2:{i:1;s:2:"sl";i:2;s:3:"slv";}s:7:"strings";a:1:{s:8:"continue";s:8:"Nadaljuj";}}s:2:"sq";a:8:{s:8:"language";s:2:"sq";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-07-24 22:24:39";s:12:"english_name";s:8:"Albanian";s:11:"native_name";s:5:"Shqip";s:7:"package";s:61:"https://downloads.wordpress.org/translation/core/4.9.8/sq.zip";s:3:"iso";a:2:{i:1;s:2:"sq";i:2;s:3:"sqi";}s:7:"strings";a:1:{s:8:"continue";s:6:"Vazhdo";}}s:5:"sr_RS";a:8:{s:8:"language";s:5:"sr_RS";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-08-02 20:59:54";s:12:"english_name";s:7:"Serbian";s:11:"native_name";s:23:"Српски језик";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.8/sr_RS.zip";s:3:"iso";a:2:{i:1;s:2:"sr";i:2;s:3:"srp";}s:7:"strings";a:1:{s:8:"continue";s:14:"Настави";}}s:5:"sv_SE";a:8:{s:8:"language";s:5:"sv_SE";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-07-24 18:15:31";s:12:"english_name";s:7:"Swedish";s:11:"native_name";s:7:"Svenska";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.8/sv_SE.zip";s:3:"iso";a:2:{i:1;s:2:"sv";i:2;s:3:"swe";}s:7:"strings";a:1:{s:8:"continue";s:9:"Fortsätt";}}s:3:"szl";a:8:{s:8:"language";s:3:"szl";s:7:"version";s:5:"4.7.2";s:7:"updated";s:19:"2016-09-24 19:58:14";s:12:"english_name";s:8:"Silesian";s:11:"native_name";s:17:"Ślōnskŏ gŏdka";s:7:"package";s:62:"https://downloads.wordpress.org/translation/core/4.7.2/szl.zip";s:3:"iso";a:1:{i:3;s:3:"szl";}s:7:"strings";a:1:{s:8:"continue";s:13:"Kōntynuować";}}s:5:"ta_IN";a:8:{s:8:"language";s:5:"ta_IN";s:7:"version";s:5:"4.7.2";s:7:"updated";s:19:"2017-01-27 03:22:47";s:12:"english_name";s:5:"Tamil";s:11:"native_name";s:15:"தமிழ்";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.7.2/ta_IN.zip";s:3:"iso";a:2:{i:1;s:2:"ta";i:2;s:3:"tam";}s:7:"strings";a:1:{s:8:"continue";s:24:"தொடரவும்";}}s:2:"te";a:8:{s:8:"language";s:2:"te";s:7:"version";s:5:"4.7.2";s:7:"updated";s:19:"2017-01-26 15:47:39";s:12:"english_name";s:6:"Telugu";s:11:"native_name";s:18:"తెలుగు";s:7:"package";s:61:"https://downloads.wordpress.org/translation/core/4.7.2/te.zip";s:3:"iso";a:2:{i:1;s:2:"te";i:2;s:3:"tel";}s:7:"strings";a:1:{s:8:"continue";s:30:"కొనసాగించు";}}s:2:"th";a:8:{s:8:"language";s:2:"th";s:7:"version";s:5:"4.9.5";s:7:"updated";s:19:"2018-03-02 17:08:41";s:12:"english_name";s:4:"Thai";s:11:"native_name";s:9:"ไทย";s:7:"package";s:61:"https://downloads.wordpress.org/translation/core/4.9.5/th.zip";s:3:"iso";a:2:{i:1;s:2:"th";i:2;s:3:"tha";}s:7:"strings";a:1:{s:8:"continue";s:15:"ต่อไป";}}s:2:"tl";a:8:{s:8:"language";s:2:"tl";s:7:"version";s:5:"4.7.2";s:7:"updated";s:19:"2016-12-30 02:38:08";s:12:"english_name";s:7:"Tagalog";s:11:"native_name";s:7:"Tagalog";s:7:"package";s:61:"https://downloads.wordpress.org/translation/core/4.7.2/tl.zip";s:3:"iso";a:2:{i:1;s:2:"tl";i:2;s:3:"tgl";}s:7:"strings";a:1:{s:8:"continue";s:10:"Magpatuloy";}}s:5:"tr_TR";a:8:{s:8:"language";s:5:"tr_TR";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-08-02 21:09:54";s:12:"english_name";s:7:"Turkish";s:11:"native_name";s:8:"Türkçe";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.8/tr_TR.zip";s:3:"iso";a:2:{i:1;s:2:"tr";i:2;s:3:"tur";}s:7:"strings";a:1:{s:8:"continue";s:5:"Devam";}}s:5:"tt_RU";a:8:{s:8:"language";s:5:"tt_RU";s:7:"version";s:5:"4.7.2";s:7:"updated";s:19:"2016-11-20 20:20:50";s:12:"english_name";s:5:"Tatar";s:11:"native_name";s:19:"Татар теле";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.7.2/tt_RU.zip";s:3:"iso";a:2:{i:1;s:2:"tt";i:2;s:3:"tat";}s:7:"strings";a:1:{s:8:"continue";s:17:"дәвам итү";}}s:3:"tah";a:8:{s:8:"language";s:3:"tah";s:7:"version";s:5:"4.7.2";s:7:"updated";s:19:"2016-03-06 18:39:39";s:12:"english_name";s:8:"Tahitian";s:11:"native_name";s:10:"Reo Tahiti";s:7:"package";s:62:"https://downloads.wordpress.org/translation/core/4.7.2/tah.zip";s:3:"iso";a:3:{i:1;s:2:"ty";i:2;s:3:"tah";i:3;s:3:"tah";}s:7:"strings";a:1:{s:8:"continue";s:0:"";}}s:5:"ug_CN";a:8:{s:8:"language";s:5:"ug_CN";s:7:"version";s:5:"4.9.5";s:7:"updated";s:19:"2018-04-12 12:31:53";s:12:"english_name";s:6:"Uighur";s:11:"native_name";s:16:"ئۇيغۇرچە";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.5/ug_CN.zip";s:3:"iso";a:2:{i:1;s:2:"ug";i:2;s:3:"uig";}s:7:"strings";a:1:{s:8:"continue";s:26:"داۋاملاشتۇرۇش";}}s:2:"uk";a:8:{s:8:"language";s:2:"uk";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-08-05 13:55:11";s:12:"english_name";s:9:"Ukrainian";s:11:"native_name";s:20:"Українська";s:7:"package";s:61:"https://downloads.wordpress.org/translation/core/4.9.8/uk.zip";s:3:"iso";a:2:{i:1;s:2:"uk";i:2;s:3:"ukr";}s:7:"strings";a:1:{s:8:"continue";s:20:"Продовжити";}}s:2:"ur";a:8:{s:8:"language";s:2:"ur";s:7:"version";s:5:"4.9.6";s:7:"updated";s:19:"2018-06-20 11:37:47";s:12:"english_name";s:4:"Urdu";s:11:"native_name";s:8:"اردو";s:7:"package";s:61:"https://downloads.wordpress.org/translation/core/4.9.6/ur.zip";s:3:"iso";a:2:{i:1;s:2:"ur";i:2;s:3:"urd";}s:7:"strings";a:1:{s:8:"continue";s:19:"جاری رکھیں";}}s:5:"uz_UZ";a:8:{s:8:"language";s:5:"uz_UZ";s:7:"version";s:5:"4.9.5";s:7:"updated";s:19:"2018-03-09 10:37:43";s:12:"english_name";s:5:"Uzbek";s:11:"native_name";s:11:"O‘zbekcha";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.5/uz_UZ.zip";s:3:"iso";a:2:{i:1;s:2:"uz";i:2;s:3:"uzb";}s:7:"strings";a:1:{s:8:"continue";s:11:"Davom etish";}}s:2:"vi";a:8:{s:8:"language";s:2:"vi";s:7:"version";s:5:"4.9.8";s:7:"updated";s:19:"2018-08-03 15:34:53";s:12:"english_name";s:10:"Vietnamese";s:11:"native_name";s:14:"Tiếng Việt";s:7:"package";s:61:"https://downloads.wordpress.org/translation/core/4.9.8/vi.zip";s:3:"iso";a:2:{i:1;s:2:"vi";i:2;s:3:"vie";}s:7:"strings";a:1:{s:8:"continue";s:12:"Tiếp tục";}}s:5:"zh_HK";a:8:{s:8:"language";s:5:"zh_HK";s:7:"version";s:5:"4.9.5";s:7:"updated";s:19:"2018-04-09 00:56:52";s:12:"english_name";s:19:"Chinese (Hong Kong)";s:11:"native_name";s:16:"香港中文版	";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.5/zh_HK.zip";s:3:"iso";a:2:{i:1;s:2:"zh";i:2;s:3:"zho";}s:7:"strings";a:1:{s:8:"continue";s:6:"繼續";}}s:5:"zh_TW";a:8:{s:8:"language";s:5:"zh_TW";s:7:"version";s:5:"4.9.4";s:7:"updated";s:19:"2018-02-13 02:41:15";s:12:"english_name";s:16:"Chinese (Taiwan)";s:11:"native_name";s:12:"繁體中文";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.4/zh_TW.zip";s:3:"iso";a:2:{i:1;s:2:"zh";i:2;s:3:"zho";}s:7:"strings";a:1:{s:8:"continue";s:6:"繼續";}}s:5:"zh_CN";a:8:{s:8:"language";s:5:"zh_CN";s:7:"version";s:5:"4.9.2";s:7:"updated";s:19:"2017-11-17 22:20:52";s:12:"english_name";s:15:"Chinese (China)";s:11:"native_name";s:12:"简体中文";s:7:"package";s:64:"https://downloads.wordpress.org/translation/core/4.9.2/zh_CN.zip";s:3:"iso";a:2:{i:1;s:2:"zh";i:2;s:3:"zho";}s:7:"strings";a:1:{s:8:"continue";s:6:"继续";}}}', 'no'),
+(465, '_transient_timeout_plugin_slugs', '1534930909', 'no'),
+(466, '_transient_plugin_slugs', 'a:4:{i:0;s:30:"advanced-custom-fields/acf.php";i:1;s:29:"acf-repeater/acf-repeater.php";i:2;s:27:"svg-support/svg-support.php";i:3;s:27:"cyr-and-lat/cyr-and-lat.php";}', 'no'),
+(467, '_site_transient_timeout_poptags_40cd750bba9870f18aada2478b24840a', '1534855292', 'no');
+INSERT INTO `wp_options` (`option_id`, `option_name`, `option_value`, `autoload`) VALUES
+(468, '_site_transient_poptags_40cd750bba9870f18aada2478b24840a', 'O:8:"stdClass":100:{s:6:"widget";a:3:{s:4:"name";s:6:"widget";s:4:"slug";s:6:"widget";s:5:"count";i:4493;}s:11:"woocommerce";a:3:{s:4:"name";s:11:"woocommerce";s:4:"slug";s:11:"woocommerce";s:5:"count";i:2941;}s:4:"post";a:3:{s:4:"name";s:4:"post";s:4:"slug";s:4:"post";s:5:"count";i:2582;}s:5:"admin";a:3:{s:4:"name";s:5:"admin";s:4:"slug";s:5:"admin";s:5:"count";i:2446;}s:5:"posts";a:3:{s:4:"name";s:5:"posts";s:4:"slug";s:5:"posts";s:5:"count";i:1882;}s:9:"shortcode";a:3:{s:4:"name";s:9:"shortcode";s:4:"slug";s:9:"shortcode";s:5:"count";i:1673;}s:8:"comments";a:3:{s:4:"name";s:8:"comments";s:4:"slug";s:8:"comments";s:5:"count";i:1670;}s:7:"twitter";a:3:{s:4:"name";s:7:"twitter";s:4:"slug";s:7:"twitter";s:5:"count";i:1458;}s:6:"images";a:3:{s:4:"name";s:6:"images";s:4:"slug";s:6:"images";s:5:"count";i:1404;}s:6:"google";a:3:{s:4:"name";s:6:"google";s:4:"slug";s:6:"google";s:5:"count";i:1398;}s:8:"facebook";a:3:{s:4:"name";s:8:"facebook";s:4:"slug";s:8:"facebook";s:5:"count";i:1392;}s:5:"image";a:3:{s:4:"name";s:5:"image";s:4:"slug";s:5:"image";s:5:"count";i:1328;}s:7:"sidebar";a:3:{s:4:"name";s:7:"sidebar";s:4:"slug";s:7:"sidebar";s:5:"count";i:1284;}s:3:"seo";a:3:{s:4:"name";s:3:"seo";s:4:"slug";s:3:"seo";s:5:"count";i:1237;}s:7:"gallery";a:3:{s:4:"name";s:7:"gallery";s:4:"slug";s:7:"gallery";s:5:"count";i:1111;}s:4:"page";a:3:{s:4:"name";s:4:"page";s:4:"slug";s:4:"page";s:5:"count";i:1071;}s:5:"email";a:3:{s:4:"name";s:5:"email";s:4:"slug";s:5:"email";s:5:"count";i:1033;}s:6:"social";a:3:{s:4:"name";s:6:"social";s:4:"slug";s:6:"social";s:5:"count";i:1030;}s:9:"ecommerce";a:3:{s:4:"name";s:9:"ecommerce";s:4:"slug";s:9:"ecommerce";s:5:"count";i:919;}s:5:"login";a:3:{s:4:"name";s:5:"login";s:4:"slug";s:5:"login";s:5:"count";i:888;}s:5:"links";a:3:{s:4:"name";s:5:"links";s:4:"slug";s:5:"links";s:5:"count";i:834;}s:7:"widgets";a:3:{s:4:"name";s:7:"widgets";s:4:"slug";s:7:"widgets";s:5:"count";i:811;}s:5:"video";a:3:{s:4:"name";s:5:"video";s:4:"slug";s:5:"video";s:5:"count";i:806;}s:8:"security";a:3:{s:4:"name";s:8:"security";s:4:"slug";s:8:"security";s:5:"count";i:730;}s:7:"content";a:3:{s:4:"name";s:7:"content";s:4:"slug";s:7:"content";s:5:"count";i:703;}s:10:"buddypress";a:3:{s:4:"name";s:10:"buddypress";s:4:"slug";s:10:"buddypress";s:5:"count";i:695;}s:3:"rss";a:3:{s:4:"name";s:3:"rss";s:4:"slug";s:3:"rss";s:5:"count";i:689;}s:4:"spam";a:3:{s:4:"name";s:4:"spam";s:4:"slug";s:4:"spam";s:5:"count";i:684;}s:6:"slider";a:3:{s:4:"name";s:6:"slider";s:4:"slug";s:6:"slider";s:5:"count";i:672;}s:5:"pages";a:3:{s:4:"name";s:5:"pages";s:4:"slug";s:5:"pages";s:5:"count";i:665;}s:10:"e-commerce";a:3:{s:4:"name";s:10:"e-commerce";s:4:"slug";s:10:"e-commerce";s:5:"count";i:658;}s:9:"analytics";a:3:{s:4:"name";s:9:"analytics";s:4:"slug";s:9:"analytics";s:5:"count";i:658;}s:5:"media";a:3:{s:4:"name";s:5:"media";s:4:"slug";s:5:"media";s:5:"count";i:645;}s:6:"jquery";a:3:{s:4:"name";s:6:"jquery";s:4:"slug";s:6:"jquery";s:5:"count";i:642;}s:4:"feed";a:3:{s:4:"name";s:4:"feed";s:4:"slug";s:4:"feed";s:5:"count";i:617;}s:6:"search";a:3:{s:4:"name";s:6:"search";s:4:"slug";s:6:"search";s:5:"count";i:613;}s:4:"form";a:3:{s:4:"name";s:4:"form";s:4:"slug";s:4:"form";s:5:"count";i:610;}s:4:"ajax";a:3:{s:4:"name";s:4:"ajax";s:4:"slug";s:4:"ajax";s:5:"count";i:607;}s:8:"category";a:3:{s:4:"name";s:8:"category";s:4:"slug";s:8:"category";s:5:"count";i:600;}s:4:"menu";a:3:{s:4:"name";s:4:"menu";s:4:"slug";s:4:"menu";s:5:"count";i:595;}s:5:"embed";a:3:{s:4:"name";s:5:"embed";s:4:"slug";s:5:"embed";s:5:"count";i:573;}s:10:"javascript";a:3:{s:4:"name";s:10:"javascript";s:4:"slug";s:10:"javascript";s:5:"count";i:550;}s:3:"css";a:3:{s:4:"name";s:3:"css";s:4:"slug";s:3:"css";s:5:"count";i:544;}s:4:"link";a:3:{s:4:"name";s:4:"link";s:4:"slug";s:4:"link";s:5:"count";i:543;}s:7:"youtube";a:3:{s:4:"name";s:7:"youtube";s:4:"slug";s:7:"youtube";s:5:"count";i:530;}s:5:"share";a:3:{s:4:"name";s:5:"share";s:4:"slug";s:5:"share";s:5:"count";i:523;}s:5:"theme";a:3:{s:4:"name";s:5:"theme";s:4:"slug";s:5:"theme";s:5:"count";i:514;}s:7:"comment";a:3:{s:4:"name";s:7:"comment";s:4:"slug";s:7:"comment";s:5:"count";i:514;}s:6:"editor";a:3:{s:4:"name";s:6:"editor";s:4:"slug";s:6:"editor";s:5:"count";i:513;}s:10:"responsive";a:3:{s:4:"name";s:10:"responsive";s:4:"slug";s:10:"responsive";s:5:"count";i:506;}s:9:"dashboard";a:3:{s:4:"name";s:9:"dashboard";s:4:"slug";s:9:"dashboard";s:5:"count";i:493;}s:12:"contact-form";a:3:{s:4:"name";s:12:"contact form";s:4:"slug";s:12:"contact-form";s:5:"count";i:491;}s:6:"custom";a:3:{s:4:"name";s:6:"custom";s:4:"slug";s:6:"custom";s:5:"count";i:490;}s:10:"categories";a:3:{s:4:"name";s:10:"categories";s:4:"slug";s:10:"categories";s:5:"count";i:484;}s:9:"affiliate";a:3:{s:4:"name";s:9:"affiliate";s:4:"slug";s:9:"affiliate";s:5:"count";i:481;}s:3:"ads";a:3:{s:4:"name";s:3:"ads";s:4:"slug";s:3:"ads";s:5:"count";i:479;}s:6:"button";a:3:{s:4:"name";s:6:"button";s:4:"slug";s:6:"button";s:5:"count";i:459;}s:4:"tags";a:3:{s:4:"name";s:4:"tags";s:4:"slug";s:4:"tags";s:5:"count";i:457;}s:4:"user";a:3:{s:4:"name";s:4:"user";s:4:"slug";s:4:"user";s:5:"count";i:452;}s:7:"contact";a:3:{s:4:"name";s:7:"contact";s:4:"slug";s:7:"contact";s:5:"count";i:441;}s:6:"mobile";a:3:{s:4:"name";s:6:"mobile";s:4:"slug";s:6:"mobile";s:5:"count";i:439;}s:3:"api";a:3:{s:4:"name";s:3:"api";s:4:"slug";s:3:"api";s:5:"count";i:436;}s:5:"photo";a:3:{s:4:"name";s:5:"photo";s:4:"slug";s:5:"photo";s:5:"count";i:422;}s:5:"users";a:3:{s:4:"name";s:5:"users";s:4:"slug";s:5:"users";s:5:"count";i:419;}s:5:"stats";a:3:{s:4:"name";s:5:"stats";s:4:"slug";s:5:"stats";s:5:"count";i:417;}s:6:"events";a:3:{s:4:"name";s:6:"events";s:4:"slug";s:6:"events";s:5:"count";i:416;}s:9:"slideshow";a:3:{s:4:"name";s:9:"slideshow";s:4:"slug";s:9:"slideshow";s:5:"count";i:414;}s:7:"payment";a:3:{s:4:"name";s:7:"payment";s:4:"slug";s:7:"payment";s:5:"count";i:414;}s:6:"photos";a:3:{s:4:"name";s:6:"photos";s:4:"slug";s:6:"photos";s:5:"count";i:408;}s:10:"navigation";a:3:{s:4:"name";s:10:"navigation";s:4:"slug";s:10:"navigation";s:5:"count";i:389;}s:10:"statistics";a:3:{s:4:"name";s:10:"statistics";s:4:"slug";s:10:"statistics";s:5:"count";i:388;}s:8:"calendar";a:3:{s:4:"name";s:8:"calendar";s:4:"slug";s:8:"calendar";s:5:"count";i:372;}s:15:"payment-gateway";a:3:{s:4:"name";s:15:"payment gateway";s:4:"slug";s:15:"payment-gateway";s:5:"count";i:371;}s:4:"news";a:3:{s:4:"name";s:4:"news";s:4:"slug";s:4:"news";s:5:"count";i:371;}s:10:"shortcodes";a:3:{s:4:"name";s:10:"shortcodes";s:4:"slug";s:10:"shortcodes";s:5:"count";i:366;}s:5:"popup";a:3:{s:4:"name";s:5:"popup";s:4:"slug";s:5:"popup";s:5:"count";i:362;}s:4:"chat";a:3:{s:4:"name";s:4:"chat";s:4:"slug";s:4:"chat";s:5:"count";i:358;}s:9:"marketing";a:3:{s:4:"name";s:9:"marketing";s:4:"slug";s:9:"marketing";s:5:"count";i:358;}s:12:"social-media";a:3:{s:4:"name";s:12:"social media";s:4:"slug";s:12:"social-media";s:5:"count";i:350;}s:7:"plugins";a:3:{s:4:"name";s:7:"plugins";s:4:"slug";s:7:"plugins";s:5:"count";i:348;}s:10:"newsletter";a:3:{s:4:"name";s:10:"newsletter";s:4:"slug";s:10:"newsletter";s:5:"count";i:346;}s:9:"multisite";a:3:{s:4:"name";s:9:"multisite";s:4:"slug";s:9:"multisite";s:5:"count";i:344;}s:4:"code";a:3:{s:4:"name";s:4:"code";s:4:"slug";s:4:"code";s:5:"count";i:344;}s:4:"meta";a:3:{s:4:"name";s:4:"meta";s:4:"slug";s:4:"meta";s:5:"count";i:339;}s:3:"url";a:3:{s:4:"name";s:3:"url";s:4:"slug";s:3:"url";s:5:"count";i:338;}s:4:"list";a:3:{s:4:"name";s:4:"list";s:4:"slug";s:4:"list";s:5:"count";i:334;}s:8:"redirect";a:3:{s:4:"name";s:8:"redirect";s:4:"slug";s:8:"redirect";s:5:"count";i:329;}s:5:"forms";a:3:{s:4:"name";s:5:"forms";s:4:"slug";s:5:"forms";s:5:"count";i:325;}s:11:"advertising";a:3:{s:4:"name";s:11:"advertising";s:4:"slug";s:11:"advertising";s:5:"count";i:312;}s:6:"simple";a:3:{s:4:"name";s:6:"simple";s:4:"slug";s:6:"simple";s:5:"count";i:309;}s:16:"custom-post-type";a:3:{s:4:"name";s:16:"custom post type";s:4:"slug";s:16:"custom-post-type";s:5:"count";i:307;}s:3:"tag";a:3:{s:4:"name";s:3:"tag";s:4:"slug";s:3:"tag";s:5:"count";i:303;}s:7:"adsense";a:3:{s:4:"name";s:7:"adsense";s:4:"slug";s:7:"adsense";s:5:"count";i:303;}s:11:"performance";a:3:{s:4:"name";s:11:"performance";s:4:"slug";s:11:"performance";s:5:"count";i:303;}s:12:"notification";a:3:{s:4:"name";s:12:"notification";s:4:"slug";s:12:"notification";s:5:"count";i:302;}s:4:"html";a:3:{s:4:"name";s:4:"html";s:4:"slug";s:4:"html";s:5:"count";i:301;}s:8:"tracking";a:3:{s:4:"name";s:8:"tracking";s:4:"slug";s:8:"tracking";s:5:"count";i:299;}s:16:"google-analytics";a:3:{s:4:"name";s:16:"google analytics";s:4:"slug";s:16:"google-analytics";s:5:"count";i:298;}s:6:"author";a:3:{s:4:"name";s:6:"author";s:4:"slug";s:6:"author";s:5:"count";i:296;}s:14:"contact-form-7";a:3:{s:4:"name";s:14:"contact form 7";s:4:"slug";s:14:"contact-form-7";s:5:"count";i:291;}}', 'no'),
+(470, '_site_transient_timeout_theme_roots', '1534846302', 'no'),
+(471, '_site_transient_theme_roots', 'a:1:{s:4:"zheu";s:7:"/themes";}', 'no'),
+(472, '_site_transient_update_plugins', 'O:8:"stdClass":5:{s:12:"last_checked";i:1534844505;s:7:"checked";a:4:{s:30:"advanced-custom-fields/acf.php";s:6:"4.4.12";s:29:"acf-repeater/acf-repeater.php";s:5:"1.1.1";s:27:"svg-support/svg-support.php";s:6:"2.3.15";s:27:"cyr-and-lat/cyr-and-lat.php";s:5:"1.1.1";}s:8:"response";a:1:{s:29:"acf-repeater/acf-repeater.php";O:8:"stdClass":4:{s:4:"slug";s:12:"acf-repeater";s:11:"new_version";s:5:"2.1.0";s:3:"url";s:36:"http://www.advancedcustomfields.com/";s:7:"package";s:148:"https://connect.advancedcustomfields.com/index.php?a=download&p=repeater&k=QJF7-L4IX-UCNP-RF2W&wp_url=http://d0025259.atservers.net&wp_version=4.9.8";}}s:12:"translations";a:0:{}s:9:"no_update";a:3:{s:30:"advanced-custom-fields/acf.php";O:8:"stdClass":9:{s:2:"id";s:36:"w.org/plugins/advanced-custom-fields";s:4:"slug";s:22:"advanced-custom-fields";s:6:"plugin";s:30:"advanced-custom-fields/acf.php";s:11:"new_version";s:6:"4.4.12";s:3:"url";s:53:"https://wordpress.org/plugins/advanced-custom-fields/";s:7:"package";s:72:"https://downloads.wordpress.org/plugin/advanced-custom-fields.4.4.12.zip";s:5:"icons";a:2:{s:2:"2x";s:75:"https://ps.w.org/advanced-custom-fields/assets/icon-256x256.png?rev=1082746";s:2:"1x";s:75:"https://ps.w.org/advanced-custom-fields/assets/icon-128x128.png?rev=1082746";}s:7:"banners";a:2:{s:2:"2x";s:78:"https://ps.w.org/advanced-custom-fields/assets/banner-1544x500.jpg?rev=1729099";s:2:"1x";s:77:"https://ps.w.org/advanced-custom-fields/assets/banner-772x250.jpg?rev=1729102";}s:11:"banners_rtl";a:0:{}}s:27:"svg-support/svg-support.php";O:8:"stdClass":9:{s:2:"id";s:25:"w.org/plugins/svg-support";s:4:"slug";s:11:"svg-support";s:6:"plugin";s:27:"svg-support/svg-support.php";s:11:"new_version";s:6:"2.3.15";s:3:"url";s:42:"https://wordpress.org/plugins/svg-support/";s:7:"package";s:61:"https://downloads.wordpress.org/plugin/svg-support.2.3.15.zip";s:5:"icons";a:3:{s:2:"2x";s:64:"https://ps.w.org/svg-support/assets/icon-256x256.png?rev=1417738";s:2:"1x";s:56:"https://ps.w.org/svg-support/assets/icon.svg?rev=1417738";s:3:"svg";s:56:"https://ps.w.org/svg-support/assets/icon.svg?rev=1417738";}s:7:"banners";a:2:{s:2:"2x";s:67:"https://ps.w.org/svg-support/assets/banner-1544x500.jpg?rev=1215377";s:2:"1x";s:66:"https://ps.w.org/svg-support/assets/banner-772x250.jpg?rev=1215377";}s:11:"banners_rtl";a:0:{}}s:27:"cyr-and-lat/cyr-and-lat.php";O:8:"stdClass":9:{s:2:"id";s:25:"w.org/plugins/cyr-and-lat";s:4:"slug";s:11:"cyr-and-lat";s:6:"plugin";s:27:"cyr-and-lat/cyr-and-lat.php";s:11:"new_version";s:5:"1.1.1";s:3:"url";s:42:"https://wordpress.org/plugins/cyr-and-lat/";s:7:"package";s:54:"https://downloads.wordpress.org/plugin/cyr-and-lat.zip";s:5:"icons";a:2:{s:2:"2x";s:64:"https://ps.w.org/cyr-and-lat/assets/icon-256x256.jpg?rev=1877806";s:2:"1x";s:64:"https://ps.w.org/cyr-and-lat/assets/icon-128x128.jpg?rev=1877806";}s:7:"banners";a:2:{s:2:"2x";s:67:"https://ps.w.org/cyr-and-lat/assets/banner-1544x500.jpg?rev=1877806";s:2:"1x";s:66:"https://ps.w.org/cyr-and-lat/assets/banner-772x250.jpg?rev=1877806";}s:11:"banners_rtl";a:0:{}}}}', 'no'),
+(473, 'bodhi_svgs_plugin_version', '2.3.15', 'yes');
 
 -- --------------------------------------------------------
 
@@ -249,12 +275,15 @@ INSERT INTO `wp_options` (`option_id`, `option_name`, `option_value`, `autoload`
 -- Структура таблицы `wp_postmeta`
 --
 
-CREATE TABLE `wp_postmeta` (
-  `meta_id` bigint(20) UNSIGNED NOT NULL,
-  `post_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
-  `meta_key` varchar(255) COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
-  `meta_value` longtext COLLATE utf8mb4_unicode_520_ci
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+CREATE TABLE IF NOT EXISTS `wp_postmeta` (
+  `meta_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `post_id` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `meta_key` varchar(255) DEFAULT NULL,
+  `meta_value` longtext,
+  PRIMARY KEY (`meta_id`),
+  KEY `post_id` (`post_id`),
+  KEY `meta_key` (`meta_key`(191))
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1664 ;
 
 --
 -- Дамп данных таблицы `wp_postmeta`
@@ -270,23 +299,15 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (7, 2, '_wp_trash_meta_time', '1532542385'),
 (8, 2, '_wp_desired_post_slug', 'sample-page'),
 (9, 7, '_edit_last', '1'),
-(10, 7, '_edit_lock', '1533387111:1'),
+(10, 7, '_edit_lock', '1534844021:1'),
 (11, 1, 'wbcr_wp_old_slug', '%d0%bf%d1%80%d0%b8%d0%b2%d0%b5%d1%82-%d0%bc%d0%b8%d1%80'),
 (12, 7, 'wbcr_wp_old_slug', '%d0%b3%d0%bb%d0%b0%d0%b2%d0%bd%d0%b0%d1%8f-%d1%81%d1%82%d1%80%d0%b0%d0%bd%d0%b8%d1%86%d0%b0'),
-(22, 10, '_menu_item_type', 'taxonomy'),
-(23, 10, '_menu_item_menu_item_parent', '0'),
-(24, 10, '_menu_item_object_id', '4'),
-(25, 10, '_menu_item_object', 'category'),
-(26, 10, '_menu_item_target', ''),
-(27, 10, '_menu_item_classes', 'a:1:{i:0;s:0:\"\";}'),
-(28, 10, '_menu_item_xfn', ''),
-(29, 10, '_menu_item_url', ''),
 (31, 11, '_menu_item_type', 'taxonomy'),
 (32, 11, '_menu_item_menu_item_parent', '0'),
 (33, 11, '_menu_item_object_id', '5'),
 (34, 11, '_menu_item_object', 'category'),
 (35, 11, '_menu_item_target', ''),
-(36, 11, '_menu_item_classes', 'a:1:{i:0;s:0:\"\";}'),
+(36, 11, '_menu_item_classes', 'a:1:{i:0;s:0:"";}'),
 (37, 11, '_menu_item_xfn', ''),
 (38, 11, '_menu_item_url', ''),
 (40, 12, '_edit_last', '1'),
@@ -294,7 +315,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (42, 14, '_edit_last', '1'),
 (43, 14, '_edit_lock', '1533638188:1'),
 (44, 16, '_edit_last', '1'),
-(45, 16, '_edit_lock', '1533638200:1'),
+(45, 16, '_edit_lock', '1534851485:1'),
 (46, 18, '_edit_last', '1'),
 (47, 18, '_edit_lock', '1533638226:1'),
 (48, 20, '_menu_item_type', 'post_type'),
@@ -302,7 +323,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (50, 20, '_menu_item_object_id', '14'),
 (51, 20, '_menu_item_object', 'page'),
 (52, 20, '_menu_item_target', ''),
-(53, 20, '_menu_item_classes', 'a:1:{i:0;s:0:\"\";}'),
+(53, 20, '_menu_item_classes', 'a:1:{i:0;s:0:"";}'),
 (54, 20, '_menu_item_xfn', ''),
 (55, 20, '_menu_item_url', ''),
 (56, 20, '_menu_item_orphaned', '1532559386'),
@@ -311,7 +332,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (59, 21, '_menu_item_object_id', '18'),
 (60, 21, '_menu_item_object', 'page'),
 (61, 21, '_menu_item_target', ''),
-(62, 21, '_menu_item_classes', 'a:1:{i:0;s:0:\"\";}'),
+(62, 21, '_menu_item_classes', 'a:1:{i:0;s:0:"";}'),
 (63, 21, '_menu_item_xfn', ''),
 (64, 21, '_menu_item_url', ''),
 (65, 21, '_menu_item_orphaned', '1532559387'),
@@ -320,7 +341,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (68, 22, '_menu_item_object_id', '16'),
 (69, 22, '_menu_item_object', 'page'),
 (70, 22, '_menu_item_target', ''),
-(71, 22, '_menu_item_classes', 'a:1:{i:0;s:0:\"\";}'),
+(71, 22, '_menu_item_classes', 'a:1:{i:0;s:0:"";}'),
 (72, 22, '_menu_item_xfn', ''),
 (73, 22, '_menu_item_url', ''),
 (74, 22, '_menu_item_orphaned', '1532559387'),
@@ -329,7 +350,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (77, 23, '_menu_item_object_id', '12'),
 (78, 23, '_menu_item_object', 'page'),
 (79, 23, '_menu_item_target', ''),
-(80, 23, '_menu_item_classes', 'a:1:{i:0;s:0:\"\";}'),
+(80, 23, '_menu_item_classes', 'a:1:{i:0;s:0:"";}'),
 (81, 23, '_menu_item_xfn', ''),
 (82, 23, '_menu_item_url', ''),
 (83, 23, '_menu_item_orphaned', '1532559401'),
@@ -338,7 +359,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (95, 25, '_menu_item_object_id', '18'),
 (96, 25, '_menu_item_object', 'page'),
 (97, 25, '_menu_item_target', ''),
-(98, 25, '_menu_item_classes', 'a:1:{i:0;s:0:\"\";}'),
+(98, 25, '_menu_item_classes', 'a:1:{i:0;s:0:"";}'),
 (99, 25, '_menu_item_xfn', ''),
 (100, 25, '_menu_item_url', ''),
 (102, 26, '_menu_item_type', 'post_type'),
@@ -346,7 +367,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (104, 26, '_menu_item_object_id', '16'),
 (105, 26, '_menu_item_object', 'page'),
 (106, 26, '_menu_item_target', ''),
-(107, 26, '_menu_item_classes', 'a:1:{i:0;s:0:\"\";}'),
+(107, 26, '_menu_item_classes', 'a:1:{i:0;s:0:"";}'),
 (108, 26, '_menu_item_xfn', ''),
 (109, 26, '_menu_item_url', ''),
 (111, 27, '_menu_item_type', 'post_type'),
@@ -354,15 +375,15 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (113, 27, '_menu_item_object_id', '12'),
 (114, 27, '_menu_item_object', 'page'),
 (115, 27, '_menu_item_target', ''),
-(116, 27, '_menu_item_classes', 'a:1:{i:0;s:0:\"\";}'),
+(116, 27, '_menu_item_classes', 'a:1:{i:0;s:0:"";}'),
 (117, 27, '_menu_item_xfn', ''),
 (118, 27, '_menu_item_url', ''),
 (129, 29, '_edit_last', '1'),
-(130, 29, 'field_5b5c0da05cbfa', 'a:14:{s:3:\"key\";s:19:\"field_5b5c0da05cbfa\";s:5:\"label\";s:31:\"Телефон приёмной\";s:4:\"name\";s:12:\"header_phone\";s:4:\"type\";s:4:\"text\";s:12:\"instructions\";s:0:\"\";s:8:\"required\";s:1:\"0\";s:13:\"default_value\";s:0:\"\";s:11:\"placeholder\";s:0:\"\";s:7:\"prepend\";s:0:\"\";s:6:\"append\";s:0:\"\";s:10:\"formatting\";s:4:\"html\";s:9:\"maxlength\";s:0:\"\";s:17:\"conditional_logic\";a:3:{s:6:\"status\";s:1:\"0\";s:5:\"rules\";a:1:{i:0;a:3:{s:5:\"field\";s:4:\"null\";s:8:\"operator\";s:2:\"==\";s:5:\"value\";s:0:\"\";}}s:8:\"allorany\";s:3:\"all\";}s:8:\"order_no\";i:0;}'),
+(130, 29, 'field_5b5c0da05cbfa', 'a:14:{s:3:"key";s:19:"field_5b5c0da05cbfa";s:5:"label";s:31:"Телефон приёмной";s:4:"name";s:12:"header_phone";s:4:"type";s:4:"text";s:12:"instructions";s:0:"";s:8:"required";s:1:"0";s:13:"default_value";s:0:"";s:11:"placeholder";s:0:"";s:7:"prepend";s:0:"";s:6:"append";s:0:"";s:10:"formatting";s:4:"html";s:9:"maxlength";s:0:"";s:17:"conditional_logic";a:3:{s:6:"status";s:1:"0";s:5:"rules";a:1:{i:0;a:3:{s:5:"field";s:4:"null";s:8:"operator";s:2:"==";s:5:"value";s:0:"";}}s:8:"allorany";s:3:"all";}s:8:"order_no";i:0;}'),
 (132, 29, 'position', 'normal'),
 (133, 29, 'layout', 'no_box'),
 (134, 29, 'hide_on_screen', ''),
-(135, 29, '_edit_lock', '1533379215:1'),
+(135, 29, '_edit_lock', '1533797478:1'),
 (137, 30, 'header_phone', '+375 17 234-41-94'),
 (138, 30, '_header_phone', 'field_5b5c0da05cbfa'),
 (139, 7, 'header_phone', '+375 17 234-41-94'),
@@ -372,7 +393,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (144, 1, '_wp_trash_meta_status', 'publish'),
 (145, 1, '_wp_trash_meta_time', '1532765529'),
 (146, 1, '_wp_desired_post_slug', 'privet-mir'),
-(147, 1, '_wp_trash_meta_comments_status', 'a:1:{i:1;s:1:\"1\";}'),
+(147, 1, '_wp_trash_meta_comments_status', 'a:1:{i:1;s:1:"1";}'),
 (148, 34, '_edit_last', '1'),
 (149, 34, '_edit_lock', '1532765479:1'),
 (151, 36, '_edit_last', '1'),
@@ -380,17 +401,15 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (154, 38, '_edit_last', '1'),
 (155, 38, '_edit_lock', '1532769383:1'),
 (156, 39, '_edit_last', '1'),
-(157, 39, 'field_5b5c34cbb28f9', 'a:11:{s:3:\"key\";s:19:\"field_5b5c34cbb28f9\";s:5:\"label\";s:12:\"Иконка\";s:4:\"name\";s:4:\"icon\";s:4:\"type\";s:5:\"image\";s:12:\"instructions\";s:0:\"\";s:8:\"required\";s:1:\"0\";s:11:\"save_format\";s:3:\"url\";s:12:\"preview_size\";s:4:\"full\";s:7:\"library\";s:3:\"all\";s:17:\"conditional_logic\";a:3:{s:6:\"status\";s:1:\"0\";s:5:\"rules\";a:1:{i:0;a:2:{s:5:\"field\";s:4:\"null\";s:8:\"operator\";s:2:\"==\";}}s:8:\"allorany\";s:3:\"all\";}s:8:\"order_no\";i:0;}'),
-(158, 39, 'rule', 'a:5:{s:5:\"param\";s:9:\"post_type\";s:8:\"operator\";s:2:\"==\";s:5:\"value\";s:4:\"post\";s:8:\"order_no\";i:0;s:8:\"group_no\";i:0;}'),
-(159, 39, 'rule', 'a:5:{s:5:\"param\";s:13:\"post_category\";s:8:\"operator\";s:2:\"==\";s:5:\"value\";s:1:\"3\";s:8:\"order_no\";i:1;s:8:\"group_no\";i:0;}'),
+(157, 39, 'field_5b5c34cbb28f9', 'a:11:{s:3:"key";s:19:"field_5b5c34cbb28f9";s:5:"label";s:12:"Иконка";s:4:"name";s:4:"icon";s:4:"type";s:5:"image";s:12:"instructions";s:0:"";s:8:"required";s:1:"0";s:11:"save_format";s:3:"url";s:12:"preview_size";s:4:"full";s:7:"library";s:3:"all";s:17:"conditional_logic";a:3:{s:6:"status";s:1:"0";s:5:"rules";a:1:{i:0;a:3:{s:5:"field";s:4:"null";s:8:"operator";s:2:"==";s:5:"value";s:0:"";}}s:8:"allorany";s:3:"all";}s:8:"order_no";i:0;}'),
 (160, 39, 'position', 'normal'),
 (161, 39, 'layout', 'no_box'),
 (162, 39, 'hide_on_screen', ''),
-(163, 39, '_edit_lock', '1532769434:1'),
+(163, 39, '_edit_lock', '1534844100:1'),
 (166, 41, '_edit_last', '1'),
 (167, 41, '_edit_lock', '1533737243:1'),
 (168, 42, '_wp_attached_file', '2018/07/icon_elektrik.png'),
-(169, 42, '_wp_attachment_metadata', 'a:5:{s:5:\"width\";i:40;s:6:\"height\";i:50;s:4:\"file\";s:25:\"2018/07/icon_elektrik.png\";s:5:\"sizes\";a:0:{}s:10:\"image_meta\";a:12:{s:8:\"aperture\";s:1:\"0\";s:6:\"credit\";s:0:\"\";s:6:\"camera\";s:0:\"\";s:7:\"caption\";s:0:\"\";s:17:\"created_timestamp\";s:1:\"0\";s:9:\"copyright\";s:0:\"\";s:12:\"focal_length\";s:1:\"0\";s:3:\"iso\";s:1:\"0\";s:13:\"shutter_speed\";s:1:\"0\";s:5:\"title\";s:0:\"\";s:11:\"orientation\";s:1:\"0\";s:8:\"keywords\";a:0:{}}}'),
+(169, 42, '_wp_attachment_metadata', 'a:5:{s:5:"width";i:40;s:6:"height";i:50;s:4:"file";s:25:"2018/07/icon_elektrik.png";s:5:"sizes";a:0:{}s:10:"image_meta";a:12:{s:8:"aperture";s:1:"0";s:6:"credit";s:0:"";s:6:"camera";s:0:"";s:7:"caption";s:0:"";s:17:"created_timestamp";s:1:"0";s:9:"copyright";s:0:"";s:12:"focal_length";s:1:"0";s:3:"iso";s:1:"0";s:13:"shutter_speed";s:1:"0";s:5:"title";s:0:"";s:11:"orientation";s:1:"0";s:8:"keywords";a:0:{}}}'),
 (171, 43, 'icon', '42'),
 (172, 43, '_icon', 'field_5b5c34cbb28f9'),
 (173, 41, 'icon', '42'),
@@ -398,7 +417,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (175, 44, '_edit_last', '1'),
 (176, 44, '_edit_lock', '1532769787:1'),
 (177, 45, '_wp_attached_file', '2018/07/icon_plotnik.png'),
-(178, 45, '_wp_attachment_metadata', 'a:5:{s:5:\"width\";i:60;s:6:\"height\";i:26;s:4:\"file\";s:24:\"2018/07/icon_plotnik.png\";s:5:\"sizes\";a:0:{}s:10:\"image_meta\";a:12:{s:8:\"aperture\";s:1:\"0\";s:6:\"credit\";s:0:\"\";s:6:\"camera\";s:0:\"\";s:7:\"caption\";s:0:\"\";s:17:\"created_timestamp\";s:1:\"0\";s:9:\"copyright\";s:0:\"\";s:12:\"focal_length\";s:1:\"0\";s:3:\"iso\";s:1:\"0\";s:13:\"shutter_speed\";s:1:\"0\";s:5:\"title\";s:0:\"\";s:11:\"orientation\";s:1:\"0\";s:8:\"keywords\";a:0:{}}}'),
+(178, 45, '_wp_attachment_metadata', 'a:5:{s:5:"width";i:60;s:6:"height";i:26;s:4:"file";s:24:"2018/07/icon_plotnik.png";s:5:"sizes";a:0:{}s:10:"image_meta";a:12:{s:8:"aperture";s:1:"0";s:6:"credit";s:0:"";s:6:"camera";s:0:"";s:7:"caption";s:0:"";s:17:"created_timestamp";s:1:"0";s:9:"copyright";s:0:"";s:12:"focal_length";s:1:"0";s:3:"iso";s:1:"0";s:13:"shutter_speed";s:1:"0";s:5:"title";s:0:"";s:11:"orientation";s:1:"0";s:8:"keywords";a:0:{}}}'),
 (180, 46, 'icon', '45'),
 (181, 46, '_icon', 'field_5b5c34cbb28f9'),
 (182, 44, 'icon', '45'),
@@ -406,7 +425,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (184, 47, '_edit_last', '1'),
 (185, 47, '_edit_lock', '1532769841:1'),
 (186, 48, '_wp_attached_file', '2018/07/icon_santehnik.png'),
-(187, 48, '_wp_attachment_metadata', 'a:5:{s:5:\"width\";i:50;s:6:\"height\";i:50;s:4:\"file\";s:26:\"2018/07/icon_santehnik.png\";s:5:\"sizes\";a:0:{}s:10:\"image_meta\";a:12:{s:8:\"aperture\";s:1:\"0\";s:6:\"credit\";s:0:\"\";s:6:\"camera\";s:0:\"\";s:7:\"caption\";s:0:\"\";s:17:\"created_timestamp\";s:1:\"0\";s:9:\"copyright\";s:0:\"\";s:12:\"focal_length\";s:1:\"0\";s:3:\"iso\";s:1:\"0\";s:13:\"shutter_speed\";s:1:\"0\";s:5:\"title\";s:0:\"\";s:11:\"orientation\";s:1:\"0\";s:8:\"keywords\";a:0:{}}}'),
+(187, 48, '_wp_attachment_metadata', 'a:5:{s:5:"width";i:50;s:6:"height";i:50;s:4:"file";s:26:"2018/07/icon_santehnik.png";s:5:"sizes";a:0:{}s:10:"image_meta";a:12:{s:8:"aperture";s:1:"0";s:6:"credit";s:0:"";s:6:"camera";s:0:"";s:7:"caption";s:0:"";s:17:"created_timestamp";s:1:"0";s:9:"copyright";s:0:"";s:12:"focal_length";s:1:"0";s:3:"iso";s:1:"0";s:13:"shutter_speed";s:1:"0";s:5:"title";s:0:"";s:11:"orientation";s:1:"0";s:8:"keywords";a:0:{}}}'),
 (189, 49, 'icon', '48'),
 (190, 49, '_icon', 'field_5b5c34cbb28f9'),
 (191, 47, 'icon', '48'),
@@ -414,12 +433,12 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (193, 50, '_edit_last', '1'),
 (194, 50, '_edit_lock', '1532769904:1'),
 (195, 51, '_wp_attached_file', '2018/07/icon_vyvoz_musora.png'),
-(196, 51, '_wp_attachment_metadata', 'a:5:{s:5:\"width\";i:28;s:6:\"height\";i:50;s:4:\"file\";s:29:\"2018/07/icon_vyvoz_musora.png\";s:5:\"sizes\";a:0:{}s:10:\"image_meta\";a:12:{s:8:\"aperture\";s:1:\"0\";s:6:\"credit\";s:0:\"\";s:6:\"camera\";s:0:\"\";s:7:\"caption\";s:0:\"\";s:17:\"created_timestamp\";s:1:\"0\";s:9:\"copyright\";s:0:\"\";s:12:\"focal_length\";s:1:\"0\";s:3:\"iso\";s:1:\"0\";s:13:\"shutter_speed\";s:1:\"0\";s:5:\"title\";s:0:\"\";s:11:\"orientation\";s:1:\"0\";s:8:\"keywords\";a:0:{}}}'),
+(196, 51, '_wp_attachment_metadata', 'a:5:{s:5:"width";i:28;s:6:"height";i:50;s:4:"file";s:29:"2018/07/icon_vyvoz_musora.png";s:5:"sizes";a:0:{}s:10:"image_meta";a:12:{s:8:"aperture";s:1:"0";s:6:"credit";s:0:"";s:6:"camera";s:0:"";s:7:"caption";s:0:"";s:17:"created_timestamp";s:1:"0";s:9:"copyright";s:0:"";s:12:"focal_length";s:1:"0";s:3:"iso";s:1:"0";s:13:"shutter_speed";s:1:"0";s:5:"title";s:0:"";s:11:"orientation";s:1:"0";s:8:"keywords";a:0:{}}}'),
 (198, 52, 'icon', '51'),
 (199, 52, '_icon', 'field_5b5c34cbb28f9'),
 (200, 50, 'icon', '51'),
 (201, 50, '_icon', 'field_5b5c34cbb28f9'),
-(202, 29, 'field_5b5c370a8462a', 'a:13:{s:3:\"key\";s:19:\"field_5b5c370a8462a\";s:5:\"label\";s:12:\"Услуги\";s:4:\"name\";s:8:\"services\";s:4:\"type\";s:8:\"repeater\";s:12:\"instructions\";s:0:\"\";s:8:\"required\";s:1:\"0\";s:10:\"sub_fields\";a:1:{i:0;a:13:{s:3:\"key\";s:19:\"field_5b5c371d8462b\";s:5:\"label\";s:12:\"Услуга\";s:4:\"name\";s:7:\"service\";s:4:\"type\";s:11:\"post_object\";s:12:\"instructions\";s:0:\"\";s:8:\"required\";s:1:\"0\";s:12:\"column_width\";s:0:\"\";s:9:\"post_type\";a:1:{i:0;s:4:\"post\";}s:8:\"taxonomy\";a:1:{i:0;s:3:\"all\";}s:10:\"allow_null\";s:1:\"0\";s:8:\"multiple\";s:1:\"0\";s:17:\"conditional_logic\";a:3:{s:6:\"status\";s:1:\"0\";s:5:\"rules\";a:1:{i:0;a:3:{s:5:\"field\";s:4:\"null\";s:8:\"operator\";s:2:\"==\";s:5:\"value\";s:0:\"\";}}s:8:\"allorany\";s:3:\"all\";}s:8:\"order_no\";i:0;}}s:7:\"row_min\";s:0:\"\";s:9:\"row_limit\";s:0:\"\";s:6:\"layout\";s:5:\"table\";s:12:\"button_label\";s:7:\"Add Row\";s:17:\"conditional_logic\";a:3:{s:6:\"status\";s:1:\"0\";s:5:\"rules\";a:1:{i:0;a:3:{s:5:\"field\";s:4:\"null\";s:8:\"operator\";s:2:\"==\";s:5:\"value\";s:0:\"\";}}s:8:\"allorany\";s:3:\"all\";}s:8:\"order_no\";i:1;}'),
+(202, 29, 'field_5b5c370a8462a', 'a:13:{s:3:"key";s:19:"field_5b5c370a8462a";s:5:"label";s:12:"Услуги";s:4:"name";s:8:"services";s:4:"type";s:8:"repeater";s:12:"instructions";s:0:"";s:8:"required";s:1:"0";s:10:"sub_fields";a:1:{i:0;a:13:{s:3:"key";s:19:"field_5b5c371d8462b";s:5:"label";s:12:"Услуга";s:4:"name";s:7:"service";s:4:"type";s:11:"post_object";s:12:"instructions";s:0:"";s:8:"required";s:1:"0";s:12:"column_width";s:0:"";s:9:"post_type";a:1:{i:0;s:4:"page";}s:8:"taxonomy";a:1:{i:0;s:3:"all";}s:10:"allow_null";s:1:"0";s:8:"multiple";s:1:"0";s:17:"conditional_logic";a:3:{s:6:"status";s:1:"0";s:5:"rules";a:1:{i:0;a:2:{s:5:"field";s:4:"null";s:8:"operator";s:2:"==";}}s:8:"allorany";s:3:"all";}s:8:"order_no";i:0;}}s:7:"row_min";s:0:"";s:9:"row_limit";s:0:"";s:6:"layout";s:5:"table";s:12:"button_label";s:7:"Add Row";s:17:"conditional_logic";a:3:{s:6:"status";s:1:"0";s:5:"rules";a:1:{i:0;a:2:{s:5:"field";s:4:"null";s:8:"operator";s:2:"==";}}s:8:"allorany";s:3:"all";}s:8:"order_no";i:1;}'),
 (204, 53, 'header_phone', '+375 17 234-41-94'),
 (205, 53, '_header_phone', 'field_5b5c0da05cbfa'),
 (206, 53, 'services_0_service', '41'),
@@ -432,17 +451,17 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (213, 53, '_services_3_service', 'field_5b5c371d8462b'),
 (214, 53, 'services', '4'),
 (215, 53, '_services', 'field_5b5c370a8462a'),
-(216, 7, 'services_0_service', '41'),
+(216, 7, 'services_0_service', '152'),
 (217, 7, '_services_0_service', 'field_5b5c371d8462b'),
-(218, 7, 'services_1_service', '44'),
+(218, 7, 'services_1_service', '154'),
 (219, 7, '_services_1_service', 'field_5b5c371d8462b'),
-(220, 7, 'services_2_service', '47'),
+(220, 7, 'services_2_service', '157'),
 (221, 7, '_services_2_service', 'field_5b5c371d8462b'),
-(222, 7, 'services_3_service', '50'),
+(222, 7, 'services_3_service', '160'),
 (223, 7, '_services_3_service', 'field_5b5c371d8462b'),
 (224, 7, 'services', '4'),
 (225, 7, '_services', 'field_5b5c370a8462a'),
-(226, 29, 'field_5b5c449429cf5', 'a:13:{s:3:\"key\";s:19:\"field_5b5c449429cf5\";s:5:\"label\";s:52:\"Телефоны жэс для блока услуг\";s:4:\"name\";s:11:\"zhes_phones\";s:4:\"type\";s:8:\"repeater\";s:12:\"instructions\";s:0:\"\";s:8:\"required\";s:1:\"0\";s:10:\"sub_fields\";a:2:{i:0;a:15:{s:3:\"key\";s:19:\"field_5b5c44bc29cf6\";s:5:\"label\";s:14:\"Телефон\";s:4:\"name\";s:5:\"phone\";s:4:\"type\";s:4:\"text\";s:12:\"instructions\";s:0:\"\";s:8:\"required\";s:1:\"0\";s:12:\"column_width\";s:0:\"\";s:13:\"default_value\";s:0:\"\";s:11:\"placeholder\";s:0:\"\";s:7:\"prepend\";s:0:\"\";s:6:\"append\";s:0:\"\";s:10:\"formatting\";s:4:\"html\";s:9:\"maxlength\";s:0:\"\";s:17:\"conditional_logic\";a:3:{s:6:\"status\";s:1:\"0\";s:5:\"rules\";a:1:{i:0;a:3:{s:5:\"field\";s:4:\"null\";s:8:\"operator\";s:2:\"==\";s:5:\"value\";s:0:\"\";}}s:8:\"allorany\";s:3:\"all\";}s:8:\"order_no\";i:0;}i:1;a:15:{s:3:\"key\";s:19:\"field_5b5c44ef5cf18\";s:5:\"label\";s:18:\"Заголовок\";s:4:\"name\";s:6:\"header\";s:4:\"type\";s:4:\"text\";s:12:\"instructions\";s:0:\"\";s:8:\"required\";s:1:\"0\";s:12:\"column_width\";s:0:\"\";s:13:\"default_value\";s:0:\"\";s:11:\"placeholder\";s:0:\"\";s:7:\"prepend\";s:0:\"\";s:6:\"append\";s:0:\"\";s:10:\"formatting\";s:4:\"html\";s:9:\"maxlength\";s:0:\"\";s:17:\"conditional_logic\";a:3:{s:6:\"status\";s:1:\"0\";s:5:\"rules\";a:1:{i:0;a:3:{s:5:\"field\";s:4:\"null\";s:8:\"operator\";s:2:\"==\";s:5:\"value\";s:0:\"\";}}s:8:\"allorany\";s:3:\"all\";}s:8:\"order_no\";i:1;}}s:7:\"row_min\";s:0:\"\";s:9:\"row_limit\";s:0:\"\";s:6:\"layout\";s:5:\"table\";s:12:\"button_label\";s:7:\"Add Row\";s:17:\"conditional_logic\";a:3:{s:6:\"status\";s:1:\"0\";s:5:\"rules\";a:1:{i:0;a:3:{s:5:\"field\";s:4:\"null\";s:8:\"operator\";s:2:\"==\";s:5:\"value\";s:0:\"\";}}s:8:\"allorany\";s:3:\"all\";}s:8:\"order_no\";i:2;}'),
+(226, 29, 'field_5b5c449429cf5', 'a:13:{s:3:"key";s:19:"field_5b5c449429cf5";s:5:"label";s:52:"Телефоны жэс для блока услуг";s:4:"name";s:11:"zhes_phones";s:4:"type";s:8:"repeater";s:12:"instructions";s:0:"";s:8:"required";s:1:"0";s:10:"sub_fields";a:2:{i:0;a:15:{s:3:"key";s:19:"field_5b5c44bc29cf6";s:5:"label";s:14:"Телефон";s:4:"name";s:5:"phone";s:4:"type";s:4:"text";s:12:"instructions";s:0:"";s:8:"required";s:1:"0";s:12:"column_width";s:0:"";s:13:"default_value";s:0:"";s:11:"placeholder";s:0:"";s:7:"prepend";s:0:"";s:6:"append";s:0:"";s:10:"formatting";s:4:"html";s:9:"maxlength";s:0:"";s:17:"conditional_logic";a:3:{s:6:"status";s:1:"0";s:5:"rules";a:1:{i:0;a:3:{s:5:"field";s:4:"null";s:8:"operator";s:2:"==";s:5:"value";s:0:"";}}s:8:"allorany";s:3:"all";}s:8:"order_no";i:0;}i:1;a:15:{s:3:"key";s:19:"field_5b5c44ef5cf18";s:5:"label";s:18:"Заголовок";s:4:"name";s:6:"header";s:4:"type";s:4:"text";s:12:"instructions";s:0:"";s:8:"required";s:1:"0";s:12:"column_width";s:0:"";s:13:"default_value";s:0:"";s:11:"placeholder";s:0:"";s:7:"prepend";s:0:"";s:6:"append";s:0:"";s:10:"formatting";s:4:"html";s:9:"maxlength";s:0:"";s:17:"conditional_logic";a:3:{s:6:"status";s:1:"0";s:5:"rules";a:1:{i:0;a:3:{s:5:"field";s:4:"null";s:8:"operator";s:2:"==";s:5:"value";s:0:"";}}s:8:"allorany";s:3:"all";}s:8:"order_no";i:1;}}s:7:"row_min";s:0:"";s:9:"row_limit";s:0:"";s:6:"layout";s:5:"table";s:12:"button_label";s:7:"Add Row";s:17:"conditional_logic";a:3:{s:6:"status";s:1:"0";s:5:"rules";a:1:{i:0;a:3:{s:5:"field";s:4:"null";s:8:"operator";s:2:"==";s:5:"value";s:0:"";}}s:8:"allorany";s:3:"all";}s:8:"order_no";i:2;}'),
 (229, 54, 'header_phone', '+375 17 234-41-94'),
 (230, 54, '_header_phone', 'field_5b5c0da05cbfa'),
 (231, 54, 'services_0_service', '41'),
@@ -491,7 +510,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (274, 7, '_zhes_phones_3_header', 'field_5b5c44ef5cf18'),
 (275, 7, 'zhes_phones', '4'),
 (276, 7, '_zhes_phones', 'field_5b5c449429cf5'),
-(277, 29, 'field_5b5caa0acd384', 'a:14:{s:3:\"key\";s:19:\"field_5b5caa0acd384\";s:5:\"label\";s:10:\"Адрес\";s:4:\"name\";s:7:\"address\";s:4:\"type\";s:4:\"text\";s:12:\"instructions\";s:0:\"\";s:8:\"required\";s:1:\"0\";s:13:\"default_value\";s:0:\"\";s:11:\"placeholder\";s:0:\"\";s:7:\"prepend\";s:0:\"\";s:6:\"append\";s:0:\"\";s:10:\"formatting\";s:4:\"html\";s:9:\"maxlength\";s:0:\"\";s:17:\"conditional_logic\";a:3:{s:6:\"status\";s:1:\"0\";s:5:\"rules\";a:1:{i:0;a:3:{s:5:\"field\";s:4:\"null\";s:8:\"operator\";s:2:\"==\";s:5:\"value\";s:0:\"\";}}s:8:\"allorany\";s:3:\"all\";}s:8:\"order_no\";i:3;}'),
+(277, 29, 'field_5b5caa0acd384', 'a:14:{s:3:"key";s:19:"field_5b5caa0acd384";s:5:"label";s:10:"Адрес";s:4:"name";s:7:"address";s:4:"type";s:4:"text";s:12:"instructions";s:0:"";s:8:"required";s:1:"0";s:13:"default_value";s:0:"";s:11:"placeholder";s:0:"";s:7:"prepend";s:0:"";s:6:"append";s:0:"";s:10:"formatting";s:4:"html";s:9:"maxlength";s:0:"";s:17:"conditional_logic";a:3:{s:6:"status";s:1:"0";s:5:"rules";a:1:{i:0;a:3:{s:5:"field";s:4:"null";s:8:"operator";s:2:"==";s:5:"value";s:0:"";}}s:8:"allorany";s:3:"all";}s:8:"order_no";i:3;}'),
 (279, 55, 'header_phone', '+375 17 234-41-94'),
 (280, 55, '_header_phone', 'field_5b5c0da05cbfa'),
 (281, 55, 'services_0_service', '41'),
@@ -540,7 +559,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (344, 64, '_menu_item_object_id', '62'),
 (345, 64, '_menu_item_object', 'page'),
 (346, 64, '_menu_item_target', ''),
-(347, 64, '_menu_item_classes', 'a:1:{i:0;s:0:\"\";}'),
+(347, 64, '_menu_item_classes', 'a:1:{i:0;s:0:"";}'),
 (348, 64, '_menu_item_xfn', ''),
 (349, 64, '_menu_item_url', ''),
 (351, 65, '_menu_item_type', 'post_type'),
@@ -548,25 +567,25 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (353, 65, '_menu_item_object_id', '12'),
 (354, 65, '_menu_item_object', 'page'),
 (355, 65, '_menu_item_target', ''),
-(356, 65, '_menu_item_classes', 'a:1:{i:0;s:0:\"\";}'),
+(356, 65, '_menu_item_classes', 'a:1:{i:0;s:0:"";}'),
 (357, 65, '_menu_item_xfn', ''),
 (358, 65, '_menu_item_url', ''),
 (360, 66, '_edit_last', '1'),
-(361, 66, '_edit_lock', '1533043796:1'),
+(361, 66, '_edit_lock', '1534852404:1'),
 (362, 68, '_menu_item_type', 'post_type'),
 (363, 68, '_menu_item_menu_item_parent', '0'),
 (364, 68, '_menu_item_object_id', '66'),
 (365, 68, '_menu_item_object', 'page'),
 (366, 68, '_menu_item_target', ''),
-(367, 68, '_menu_item_classes', 'a:1:{i:0;s:0:\"\";}'),
+(367, 68, '_menu_item_classes', 'a:1:{i:0;s:0:"";}'),
 (368, 68, '_menu_item_xfn', ''),
 (369, 68, '_menu_item_url', ''),
 (380, 70, '_edit_last', '1'),
-(381, 70, 'field_5b5edc2b8e32e', 'a:13:{s:3:\"key\";s:19:\"field_5b5edc2b8e32e\";s:5:\"label\";s:12:\"Ссылки\";s:4:\"name\";s:5:\"links\";s:4:\"type\";s:8:\"repeater\";s:12:\"instructions\";s:0:\"\";s:8:\"required\";s:1:\"0\";s:10:\"sub_fields\";a:1:{i:0;a:13:{s:3:\"key\";s:19:\"field_5b5edc3d8e32f\";s:5:\"label\";s:12:\"Ссылка\";s:4:\"name\";s:4:\"link\";s:4:\"type\";s:11:\"post_object\";s:12:\"instructions\";s:0:\"\";s:8:\"required\";s:1:\"0\";s:12:\"column_width\";s:0:\"\";s:9:\"post_type\";a:2:{i:0;s:4:\"post\";i:1;s:4:\"page\";}s:8:\"taxonomy\";a:1:{i:0;s:3:\"all\";}s:10:\"allow_null\";s:1:\"0\";s:8:\"multiple\";s:1:\"0\";s:17:\"conditional_logic\";a:3:{s:6:\"status\";s:1:\"0\";s:5:\"rules\";a:1:{i:0;a:3:{s:5:\"field\";s:4:\"null\";s:8:\"operator\";s:2:\"==\";s:5:\"value\";s:0:\"\";}}s:8:\"allorany\";s:3:\"all\";}s:8:\"order_no\";i:0;}}s:7:\"row_min\";s:0:\"\";s:9:\"row_limit\";s:0:\"\";s:6:\"layout\";s:5:\"table\";s:12:\"button_label\";s:7:\"Add Row\";s:17:\"conditional_logic\";a:3:{s:6:\"status\";s:1:\"0\";s:5:\"rules\";a:1:{i:0;a:3:{s:5:\"field\";s:4:\"null\";s:8:\"operator\";s:2:\"==\";s:5:\"value\";s:0:\"\";}}s:8:\"allorany\";s:3:\"all\";}s:8:\"order_no\";i:0;}'),
+(381, 70, 'field_5b5edc2b8e32e', 'a:13:{s:3:"key";s:19:"field_5b5edc2b8e32e";s:5:"label";s:12:"Ссылки";s:4:"name";s:5:"links";s:4:"type";s:8:"repeater";s:12:"instructions";s:0:"";s:8:"required";s:1:"0";s:10:"sub_fields";a:3:{i:0;a:13:{s:3:"key";s:19:"field_5b5edc3d8e32f";s:5:"label";s:12:"Ссылка";s:4:"name";s:4:"link";s:4:"type";s:11:"post_object";s:12:"instructions";s:0:"";s:8:"required";s:1:"0";s:12:"column_width";s:0:"";s:9:"post_type";a:2:{i:0;s:4:"post";i:1;s:4:"page";}s:8:"taxonomy";a:1:{i:0;s:3:"all";}s:10:"allow_null";s:1:"0";s:8:"multiple";s:1:"0";s:17:"conditional_logic";a:3:{s:6:"status";s:1:"0";s:5:"rules";a:1:{i:0;a:3:{s:5:"field";s:4:"null";s:8:"operator";s:2:"==";s:5:"value";s:0:"";}}s:8:"allorany";s:3:"all";}s:8:"order_no";i:0;}i:1;a:15:{s:3:"key";s:19:"field_5b7bf78decc6a";s:5:"label";s:12:"Ссылка";s:4:"name";s:11:"custom_link";s:4:"type";s:4:"text";s:12:"instructions";s:139:"Оставить пустым, если не нужно ссылаться на категорию либо внешнюю страницу";s:8:"required";s:1:"0";s:12:"column_width";s:0:"";s:13:"default_value";s:0:"";s:11:"placeholder";s:0:"";s:7:"prepend";s:0:"";s:6:"append";s:0:"";s:10:"formatting";s:4:"html";s:9:"maxlength";s:0:"";s:17:"conditional_logic";a:3:{s:6:"status";s:1:"0";s:5:"rules";a:1:{i:0;a:3:{s:5:"field";s:4:"null";s:8:"operator";s:2:"==";s:5:"value";s:0:"";}}s:8:"allorany";s:3:"all";}s:8:"order_no";i:1;}i:2;a:15:{s:3:"key";s:19:"field_5b7bf7bcecc6b";s:5:"label";s:18:"Заголовок";s:4:"name";s:13:"custom_header";s:4:"type";s:4:"text";s:12:"instructions";s:139:"Оставить пустым, если не нужно ссылаться на категорию либо внешнюю страницу";s:8:"required";s:1:"0";s:12:"column_width";s:0:"";s:13:"default_value";s:0:"";s:11:"placeholder";s:0:"";s:7:"prepend";s:0:"";s:6:"append";s:0:"";s:10:"formatting";s:4:"html";s:9:"maxlength";s:0:"";s:17:"conditional_logic";a:3:{s:6:"status";s:1:"0";s:5:"rules";a:1:{i:0;a:2:{s:5:"field";s:4:"null";s:8:"operator";s:2:"==";}}s:8:"allorany";s:3:"all";}s:8:"order_no";i:2;}}s:7:"row_min";s:0:"";s:9:"row_limit";s:0:"";s:6:"layout";s:5:"table";s:12:"button_label";s:7:"Add Row";s:17:"conditional_logic";a:3:{s:6:"status";s:1:"0";s:5:"rules";a:1:{i:0;a:2:{s:5:"field";s:4:"null";s:8:"operator";s:2:"==";}}s:8:"allorany";s:3:"all";}s:8:"order_no";i:0;}'),
 (383, 70, 'position', 'normal'),
 (384, 70, 'layout', 'no_box'),
 (385, 70, 'hide_on_screen', ''),
-(386, 70, '_edit_lock', '1533738265:1'),
+(386, 70, '_edit_lock', '1534852404:1'),
 (387, 71, 'links_0_link', '47'),
 (388, 71, '_links_0_link', 'field_5b5edc3d8e32f'),
 (389, 71, 'links_1_link', '44'),
@@ -575,9 +594,9 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (392, 71, '_links_2_link', 'field_5b5edc3d8e32f'),
 (393, 71, 'links', '3'),
 (394, 71, '_links', 'field_5b5edc2b8e32e'),
-(395, 66, 'links_0_link', '47'),
+(395, 66, 'links_0_link', '98'),
 (396, 66, '_links_0_link', 'field_5b5edc3d8e32f'),
-(397, 66, 'links_1_link', '44'),
+(397, 66, 'links_1_link', '98'),
 (398, 66, '_links_1_link', 'field_5b5edc3d8e32f'),
 (399, 66, 'links_2_link', '31'),
 (400, 66, '_links_2_link', 'field_5b5edc3d8e32f'),
@@ -588,7 +607,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (406, 72, '_menu_item_object_id', '66'),
 (407, 72, '_menu_item_object', 'page'),
 (408, 72, '_menu_item_target', ''),
-(409, 72, '_menu_item_classes', 'a:1:{i:0;s:0:\"\";}'),
+(409, 72, '_menu_item_classes', 'a:1:{i:0;s:0:"";}'),
 (410, 72, '_menu_item_xfn', ''),
 (411, 72, '_menu_item_url', ''),
 (413, 73, 'links_0_link', '47'),
@@ -614,8 +633,8 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (433, 75, 'links', '4'),
 (434, 75, '_links', 'field_5b5edc2b8e32e'),
 (435, 76, '_edit_last', '1'),
-(436, 76, 'field_5b60609ef4718', 'a:10:{s:3:\"key\";s:19:\"field_5b60609ef4718\";s:5:\"label\";s:8:\"Файл\";s:4:\"name\";s:4:\"file\";s:4:\"type\";s:4:\"file\";s:12:\"instructions\";s:0:\"\";s:8:\"required\";s:1:\"0\";s:11:\"save_format\";s:3:\"url\";s:7:\"library\";s:3:\"all\";s:17:\"conditional_logic\";a:3:{s:6:\"status\";s:1:\"0\";s:5:\"rules\";a:1:{i:0;a:2:{s:5:\"field\";s:4:\"null\";s:8:\"operator\";s:2:\"==\";}}s:8:\"allorany\";s:3:\"all\";}s:8:\"order_no\";i:0;}'),
-(437, 76, 'rule', 'a:5:{s:5:\"param\";s:9:\"post_type\";s:8:\"operator\";s:2:\"==\";s:5:\"value\";s:4:\"page\";s:8:\"order_no\";i:0;s:8:\"group_no\";i:0;}'),
+(436, 76, 'field_5b60609ef4718', 'a:10:{s:3:"key";s:19:"field_5b60609ef4718";s:5:"label";s:8:"Файл";s:4:"name";s:4:"file";s:4:"type";s:4:"file";s:12:"instructions";s:0:"";s:8:"required";s:1:"0";s:11:"save_format";s:3:"url";s:7:"library";s:3:"all";s:17:"conditional_logic";a:3:{s:6:"status";s:1:"0";s:5:"rules";a:1:{i:0;a:2:{s:5:"field";s:4:"null";s:8:"operator";s:2:"==";}}s:8:"allorany";s:3:"all";}s:8:"order_no";i:0;}'),
+(437, 76, 'rule', 'a:5:{s:5:"param";s:9:"post_type";s:8:"operator";s:2:"==";s:5:"value";s:4:"page";s:8:"order_no";i:0;s:8:"group_no";i:0;}'),
 (438, 76, 'position', 'normal'),
 (439, 76, 'layout', 'no_box'),
 (440, 76, 'hide_on_screen', ''),
@@ -680,7 +699,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (501, 84, '_file', 'field_5b60609ef4718'),
 (502, 85, 'file', ''),
 (503, 85, '_file', 'field_5b60609ef4718'),
-(504, 29, 'field_5b657bf85acd2', 'a:14:{s:3:\"key\";s:19:\"field_5b657bf85acd2\";s:5:\"label\";s:68:\"Почтовый адрес для обращений граждан\";s:4:\"name\";s:5:\"email\";s:4:\"type\";s:4:\"text\";s:12:\"instructions\";s:0:\"\";s:8:\"required\";s:1:\"0\";s:13:\"default_value\";s:0:\"\";s:11:\"placeholder\";s:0:\"\";s:7:\"prepend\";s:0:\"\";s:6:\"append\";s:0:\"\";s:10:\"formatting\";s:4:\"html\";s:9:\"maxlength\";s:0:\"\";s:17:\"conditional_logic\";a:3:{s:6:\"status\";s:1:\"0\";s:5:\"rules\";a:1:{i:0;a:3:{s:5:\"field\";s:4:\"null\";s:8:\"operator\";s:2:\"==\";s:5:\"value\";s:0:\"\";}}s:8:\"allorany\";s:3:\"all\";}s:8:\"order_no\";i:4;}'),
+(504, 29, 'field_5b657bf85acd2', 'a:14:{s:3:"key";s:19:"field_5b657bf85acd2";s:5:"label";s:68:"Почтовый адрес для обращений граждан";s:4:"name";s:5:"email";s:4:"type";s:4:"text";s:12:"instructions";s:0:"";s:8:"required";s:1:"0";s:13:"default_value";s:0:"";s:11:"placeholder";s:0:"";s:7:"prepend";s:0:"";s:6:"append";s:0:"";s:10:"formatting";s:4:"html";s:9:"maxlength";s:0:"";s:17:"conditional_logic";a:3:{s:6:"status";s:1:"0";s:5:"rules";a:1:{i:0;a:3:{s:5:"field";s:4:"null";s:8:"operator";s:2:"==";s:5:"value";s:0:"";}}s:8:"allorany";s:3:"all";}s:8:"order_no";i:4;}'),
 (506, 86, 'header_phone', '+375 17 234-41-94'),
 (507, 86, '_header_phone', 'field_5b5c0da05cbfa'),
 (508, 86, 'services_0_service', '41'),
@@ -721,8 +740,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (543, 7, '_email', 'field_5b657bf85acd2'),
 (544, 7, 'file', ''),
 (545, 7, '_file', 'field_5b60609ef4718'),
-(546, 29, 'field_5b6580ca52cd5', 'a:14:{s:3:\"key\";s:19:\"field_5b6580ca52cd5\";s:5:\"label\";s:16:\"reCaptcha secret\";s:4:\"name\";s:16:\"recaptcha_secret\";s:4:\"type\";s:4:\"text\";s:12:\"instructions\";s:0:\"\";s:8:\"required\";s:1:\"0\";s:13:\"default_value\";s:0:\"\";s:11:\"placeholder\";s:0:\"\";s:7:\"prepend\";s:0:\"\";s:6:\"append\";s:0:\"\";s:10:\"formatting\";s:4:\"html\";s:9:\"maxlength\";s:0:\"\";s:17:\"conditional_logic\";a:3:{s:6:\"status\";s:1:\"0\";s:5:\"rules\";a:1:{i:0;a:2:{s:5:\"field\";s:4:\"null\";s:8:\"operator\";s:2:\"==\";}}s:8:\"allorany\";s:3:\"all\";}s:8:\"order_no\";i:5;}'),
-(547, 29, 'rule', 'a:5:{s:5:\"param\";s:4:\"page\";s:8:\"operator\";s:2:\"==\";s:5:\"value\";s:1:\"7\";s:8:\"order_no\";i:0;s:8:\"group_no\";i:0;}'),
+(546, 29, 'field_5b6580ca52cd5', 'a:14:{s:3:"key";s:19:"field_5b6580ca52cd5";s:5:"label";s:16:"reCaptcha secret";s:4:"name";s:16:"recaptcha_secret";s:4:"type";s:4:"text";s:12:"instructions";s:0:"";s:8:"required";s:1:"0";s:13:"default_value";s:0:"";s:11:"placeholder";s:0:"";s:7:"prepend";s:0:"";s:6:"append";s:0:"";s:10:"formatting";s:4:"html";s:9:"maxlength";s:0:"";s:17:"conditional_logic";a:3:{s:6:"status";s:1:"0";s:5:"rules";a:1:{i:0;a:3:{s:5:"field";s:4:"null";s:8:"operator";s:2:"==";s:5:"value";s:0:"";}}s:8:"allorany";s:3:"all";}s:8:"order_no";i:5;}'),
 (548, 87, 'header_phone', '+375 17 234-41-94'),
 (549, 87, '_header_phone', 'field_5b5c0da05cbfa'),
 (550, 87, 'services_0_service', '41'),
@@ -764,7 +782,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (586, 7, 'recaptcha_secret', '6Lf9PWgUAAAAAM3Ae7T0tOEvBvKM4n6vTsBshG_7'),
 (587, 7, '_recaptcha_secret', 'field_5b6580ca52cd5'),
 (588, 88, '_edit_last', '1'),
-(589, 88, '_edit_lock', '1533480057:1'),
+(589, 88, '_edit_lock', '1534784316:1'),
 (590, 89, 'file', ''),
 (591, 89, '_file', 'field_5b60609ef4718'),
 (592, 88, 'file', ''),
@@ -772,12 +790,12 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (594, 90, 'file', ''),
 (595, 90, '_file', 'field_5b60609ef4718'),
 (596, 91, '_edit_last', '1'),
-(597, 91, 'field_5b6702c82a413', 'a:13:{s:3:\"key\";s:19:\"field_5b6702c82a413\";s:5:\"label\";s:12:\"Адреса\";s:4:\"name\";s:9:\"addresses\";s:4:\"type\";s:8:\"repeater\";s:12:\"instructions\";s:0:\"\";s:8:\"required\";s:1:\"0\";s:10:\"sub_fields\";a:1:{i:0;a:15:{s:3:\"key\";s:19:\"field_5b6702db2a414\";s:5:\"label\";s:10:\"Адрес\";s:4:\"name\";s:7:\"address\";s:4:\"type\";s:4:\"text\";s:12:\"instructions\";s:0:\"\";s:8:\"required\";s:1:\"0\";s:12:\"column_width\";s:0:\"\";s:13:\"default_value\";s:0:\"\";s:11:\"placeholder\";s:0:\"\";s:7:\"prepend\";s:0:\"\";s:6:\"append\";s:0:\"\";s:10:\"formatting\";s:4:\"html\";s:9:\"maxlength\";s:0:\"\";s:17:\"conditional_logic\";a:3:{s:6:\"status\";s:1:\"0\";s:5:\"rules\";a:1:{i:0;a:3:{s:5:\"field\";s:4:\"null\";s:8:\"operator\";s:2:\"==\";s:5:\"value\";s:0:\"\";}}s:8:\"allorany\";s:3:\"all\";}s:8:\"order_no\";i:0;}}s:7:\"row_min\";s:0:\"\";s:9:\"row_limit\";s:0:\"\";s:6:\"layout\";s:5:\"table\";s:12:\"button_label\";s:7:\"Add Row\";s:17:\"conditional_logic\";a:3:{s:6:\"status\";s:1:\"0\";s:5:\"rules\";a:1:{i:0;a:3:{s:5:\"field\";s:4:\"null\";s:8:\"operator\";s:2:\"==\";s:5:\"value\";s:0:\"\";}}s:8:\"allorany\";s:3:\"all\";}s:8:\"order_no\";i:0;}'),
+(597, 91, 'field_5b6702c82a413', 'a:13:{s:3:"key";s:19:"field_5b6702c82a413";s:5:"label";s:12:"Адреса";s:4:"name";s:9:"addresses";s:4:"type";s:8:"repeater";s:12:"instructions";s:0:"";s:8:"required";s:1:"0";s:10:"sub_fields";a:1:{i:0;a:15:{s:3:"key";s:19:"field_5b6702db2a414";s:5:"label";s:10:"Адрес";s:4:"name";s:7:"address";s:4:"type";s:4:"text";s:12:"instructions";s:0:"";s:8:"required";s:1:"0";s:12:"column_width";s:0:"";s:13:"default_value";s:0:"";s:11:"placeholder";s:0:"";s:7:"prepend";s:0:"";s:6:"append";s:0:"";s:10:"formatting";s:4:"html";s:9:"maxlength";s:0:"";s:17:"conditional_logic";a:3:{s:6:"status";s:1:"0";s:5:"rules";a:1:{i:0;a:3:{s:5:"field";s:4:"null";s:8:"operator";s:2:"==";s:5:"value";s:0:"";}}s:8:"allorany";s:3:"all";}s:8:"order_no";i:0;}}s:7:"row_min";s:0:"";s:9:"row_limit";s:0:"";s:6:"layout";s:5:"table";s:12:"button_label";s:7:"Add Row";s:17:"conditional_logic";a:3:{s:6:"status";s:1:"0";s:5:"rules";a:1:{i:0;a:3:{s:5:"field";s:4:"null";s:8:"operator";s:2:"==";s:5:"value";s:0:"";}}s:8:"allorany";s:3:"all";}s:8:"order_no";i:0;}'),
 (599, 91, 'position', 'normal'),
 (600, 91, 'layout', 'no_box'),
 (601, 91, 'hide_on_screen', ''),
 (602, 91, '_edit_lock', '1533477517:1'),
-(603, 91, 'rule', 'a:5:{s:5:\"param\";s:4:\"page\";s:8:\"operator\";s:2:\"==\";s:5:\"value\";s:2:\"88\";s:8:\"order_no\";i:0;s:8:\"group_no\";i:0;}'),
+(603, 91, 'rule', 'a:5:{s:5:"param";s:4:"page";s:8:"operator";s:2:"==";s:5:"value";s:2:"88";s:8:"order_no";i:0;s:8:"group_no";i:0;}'),
 (604, 92, 'addresses_0_address', 'Лынькова, 58'),
 (605, 92, '_addresses_0_address', 'field_5b6702db2a414'),
 (606, 92, 'addresses_1_address', 'Фадеева,17'),
@@ -793,8 +811,8 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (616, 88, 'addresses', '2'),
 (617, 88, '_addresses', 'field_5b6702c82a413'),
 (618, 94, '_edit_last', '1'),
-(619, 94, 'field_5b670ddd42d60', 'a:11:{s:3:\"key\";s:19:\"field_5b670ddd42d60\";s:5:\"label\";s:48:\"Изображение для категории\";s:4:\"name\";s:14:\"category_image\";s:4:\"type\";s:5:\"image\";s:12:\"instructions\";s:0:\"\";s:8:\"required\";s:1:\"0\";s:11:\"save_format\";s:3:\"url\";s:12:\"preview_size\";s:4:\"full\";s:7:\"library\";s:3:\"all\";s:17:\"conditional_logic\";a:3:{s:6:\"status\";s:1:\"0\";s:5:\"rules\";a:1:{i:0;a:2:{s:5:\"field\";s:4:\"null\";s:8:\"operator\";s:2:\"==\";}}s:8:\"allorany\";s:3:\"all\";}s:8:\"order_no\";i:0;}'),
-(620, 94, 'rule', 'a:5:{s:5:\"param\";s:13:\"post_category\";s:8:\"operator\";s:2:\"==\";s:5:\"value\";s:1:\"8\";s:8:\"order_no\";i:0;s:8:\"group_no\";i:0;}'),
+(619, 94, 'field_5b670ddd42d60', 'a:11:{s:3:"key";s:19:"field_5b670ddd42d60";s:5:"label";s:48:"Изображение для категории";s:4:"name";s:14:"category_image";s:4:"type";s:5:"image";s:12:"instructions";s:0:"";s:8:"required";s:1:"0";s:11:"save_format";s:3:"url";s:12:"preview_size";s:4:"full";s:7:"library";s:3:"all";s:17:"conditional_logic";a:3:{s:6:"status";s:1:"0";s:5:"rules";a:1:{i:0;a:2:{s:5:"field";s:4:"null";s:8:"operator";s:2:"==";}}s:8:"allorany";s:3:"all";}s:8:"order_no";i:0;}'),
+(620, 94, 'rule', 'a:5:{s:5:"param";s:13:"post_category";s:8:"operator";s:2:"==";s:5:"value";s:1:"8";s:8:"order_no";i:0;s:8:"group_no";i:0;}'),
 (621, 94, 'position', 'normal'),
 (622, 94, 'layout', 'no_box'),
 (623, 94, 'hide_on_screen', ''),
@@ -802,13 +820,13 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (625, 95, '_edit_last', '1'),
 (626, 95, '_edit_lock', '1533485273:1'),
 (627, 96, '_wp_attached_file', '2018/08/bigstock-Test-word-on-white-keyboard-27134336.jpg'),
-(628, 96, '_wp_attachment_metadata', 'a:5:{s:5:\"width\";i:500;s:6:\"height\";i:332;s:4:\"file\";s:57:\"2018/08/bigstock-Test-word-on-white-keyboard-27134336.jpg\";s:5:\"sizes\";a:2:{s:9:\"thumbnail\";a:4:{s:4:\"file\";s:57:\"bigstock-Test-word-on-white-keyboard-27134336-150x150.jpg\";s:5:\"width\";i:150;s:6:\"height\";i:150;s:9:\"mime-type\";s:10:\"image/jpeg\";}s:6:\"medium\";a:4:{s:4:\"file\";s:57:\"bigstock-Test-word-on-white-keyboard-27134336-300x199.jpg\";s:5:\"width\";i:300;s:6:\"height\";i:199;s:9:\"mime-type\";s:10:\"image/jpeg\";}}s:10:\"image_meta\";a:12:{s:8:\"aperture\";s:1:\"0\";s:6:\"credit\";s:0:\"\";s:6:\"camera\";s:0:\"\";s:7:\"caption\";s:0:\"\";s:17:\"created_timestamp\";s:1:\"0\";s:9:\"copyright\";s:0:\"\";s:12:\"focal_length\";s:1:\"0\";s:3:\"iso\";s:1:\"0\";s:13:\"shutter_speed\";s:1:\"0\";s:5:\"title\";s:0:\"\";s:11:\"orientation\";s:1:\"0\";s:8:\"keywords\";a:0:{}}}'),
+(628, 96, '_wp_attachment_metadata', 'a:5:{s:5:"width";i:500;s:6:"height";i:332;s:4:"file";s:57:"2018/08/bigstock-Test-word-on-white-keyboard-27134336.jpg";s:5:"sizes";a:2:{s:9:"thumbnail";a:4:{s:4:"file";s:57:"bigstock-Test-word-on-white-keyboard-27134336-150x150.jpg";s:5:"width";i:150;s:6:"height";i:150;s:9:"mime-type";s:10:"image/jpeg";}s:6:"medium";a:4:{s:4:"file";s:57:"bigstock-Test-word-on-white-keyboard-27134336-300x199.jpg";s:5:"width";i:300;s:6:"height";i:199;s:9:"mime-type";s:10:"image/jpeg";}}s:10:"image_meta";a:12:{s:8:"aperture";s:1:"0";s:6:"credit";s:0:"";s:6:"camera";s:0:"";s:7:"caption";s:0:"";s:17:"created_timestamp";s:1:"0";s:9:"copyright";s:0:"";s:12:"focal_length";s:1:"0";s:3:"iso";s:1:"0";s:13:"shutter_speed";s:1:"0";s:5:"title";s:0:"";s:11:"orientation";s:1:"0";s:8:"keywords";a:0:{}}}'),
 (630, 97, 'category_image', '96'),
 (631, 97, '_category_image', 'field_5b670ddd42d60'),
 (632, 95, 'category_image', '96'),
 (633, 95, '_category_image', 'field_5b670ddd42d60'),
 (634, 99, '_wp_attached_file', '2018/08/bigstock-Test-word-on-white-keyboard-27134336-1.jpg'),
-(635, 99, '_wp_attachment_metadata', 'a:5:{s:5:\"width\";i:500;s:6:\"height\";i:332;s:4:\"file\";s:59:\"2018/08/bigstock-Test-word-on-white-keyboard-27134336-1.jpg\";s:5:\"sizes\";a:2:{s:9:\"thumbnail\";a:4:{s:4:\"file\";s:59:\"bigstock-Test-word-on-white-keyboard-27134336-1-150x150.jpg\";s:5:\"width\";i:150;s:6:\"height\";i:150;s:9:\"mime-type\";s:10:\"image/jpeg\";}s:6:\"medium\";a:4:{s:4:\"file\";s:59:\"bigstock-Test-word-on-white-keyboard-27134336-1-300x199.jpg\";s:5:\"width\";i:300;s:6:\"height\";i:199;s:9:\"mime-type\";s:10:\"image/jpeg\";}}s:10:\"image_meta\";a:12:{s:8:\"aperture\";s:1:\"0\";s:6:\"credit\";s:0:\"\";s:6:\"camera\";s:0:\"\";s:7:\"caption\";s:0:\"\";s:17:\"created_timestamp\";s:1:\"0\";s:9:\"copyright\";s:0:\"\";s:12:\"focal_length\";s:1:\"0\";s:3:\"iso\";s:1:\"0\";s:13:\"shutter_speed\";s:1:\"0\";s:5:\"title\";s:0:\"\";s:11:\"orientation\";s:1:\"0\";s:8:\"keywords\";a:0:{}}}'),
+(635, 99, '_wp_attachment_metadata', 'a:5:{s:5:"width";i:500;s:6:"height";i:332;s:4:"file";s:59:"2018/08/bigstock-Test-word-on-white-keyboard-27134336-1.jpg";s:5:"sizes";a:2:{s:9:"thumbnail";a:4:{s:4:"file";s:59:"bigstock-Test-word-on-white-keyboard-27134336-1-150x150.jpg";s:5:"width";i:150;s:6:"height";i:150;s:9:"mime-type";s:10:"image/jpeg";}s:6:"medium";a:4:{s:4:"file";s:59:"bigstock-Test-word-on-white-keyboard-27134336-1-300x199.jpg";s:5:"width";i:300;s:6:"height";i:199;s:9:"mime-type";s:10:"image/jpeg";}}s:10:"image_meta";a:12:{s:8:"aperture";s:1:"0";s:6:"credit";s:0:"";s:6:"camera";s:0:"";s:7:"caption";s:0:"";s:17:"created_timestamp";s:1:"0";s:9:"copyright";s:0:"";s:12:"focal_length";s:1:"0";s:3:"iso";s:1:"0";s:13:"shutter_speed";s:1:"0";s:5:"title";s:0:"";s:11:"orientation";s:1:"0";s:8:"keywords";a:0:{}}}'),
 (636, 98, '_edit_last', '1'),
 (638, 100, 'category_image', '99'),
 (639, 100, '_category_image', 'field_5b670ddd42d60'),
@@ -826,7 +844,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (652, 103, '_menu_item_object_id', '88'),
 (653, 103, '_menu_item_object', 'page'),
 (654, 103, '_menu_item_target', ''),
-(655, 103, '_menu_item_classes', 'a:1:{i:0;s:7:\"problem\";}'),
+(655, 103, '_menu_item_classes', 'a:1:{i:0;s:7:"problem";}'),
 (656, 103, '_menu_item_xfn', ''),
 (657, 103, '_menu_item_url', ''),
 (659, 104, '_menu_item_type', 'custom'),
@@ -834,7 +852,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (661, 104, '_menu_item_object_id', '104'),
 (662, 104, '_menu_item_object', 'custom'),
 (663, 104, '_menu_item_target', ''),
-(664, 104, '_menu_item_classes', 'a:1:{i:0;s:0:\"\";}'),
+(664, 104, '_menu_item_classes', 'a:1:{i:0;s:0:"";}'),
 (665, 104, '_menu_item_xfn', ''),
 (666, 104, '_menu_item_url', '#'),
 (668, 105, '_menu_item_type', 'post_type'),
@@ -842,7 +860,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (670, 105, '_menu_item_object_id', '66'),
 (671, 105, '_menu_item_object', 'page'),
 (672, 105, '_menu_item_target', ''),
-(673, 105, '_menu_item_classes', 'a:1:{i:0;s:0:\"\";}'),
+(673, 105, '_menu_item_classes', 'a:1:{i:0;s:0:"";}'),
 (674, 105, '_menu_item_xfn', ''),
 (675, 105, '_menu_item_url', ''),
 (713, 110, '_menu_item_type', 'post_type'),
@@ -850,7 +868,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (715, 110, '_menu_item_object_id', '95'),
 (716, 110, '_menu_item_object', 'post'),
 (717, 110, '_menu_item_target', ''),
-(718, 110, '_menu_item_classes', 'a:1:{i:0;s:0:\"\";}'),
+(718, 110, '_menu_item_classes', 'a:1:{i:0;s:0:"";}'),
 (719, 110, '_menu_item_xfn', ''),
 (720, 110, '_menu_item_url', ''),
 (722, 111, '_menu_item_type', 'post_type'),
@@ -858,7 +876,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (724, 111, '_menu_item_object_id', '34'),
 (725, 111, '_menu_item_object', 'post'),
 (726, 111, '_menu_item_target', ''),
-(727, 111, '_menu_item_classes', 'a:1:{i:0;s:0:\"\";}'),
+(727, 111, '_menu_item_classes', 'a:1:{i:0;s:0:"";}'),
 (728, 111, '_menu_item_xfn', ''),
 (729, 111, '_menu_item_url', ''),
 (740, 113, '_edit_last', '1'),
@@ -882,7 +900,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (838, 137, '_menu_item_object_id', '6'),
 (839, 137, '_menu_item_object', 'category'),
 (840, 137, '_menu_item_target', ''),
-(841, 137, '_menu_item_classes', 'a:1:{i:0;s:0:\"\";}'),
+(841, 137, '_menu_item_classes', 'a:1:{i:0;s:0:"";}'),
 (842, 137, '_menu_item_xfn', ''),
 (843, 137, '_menu_item_url', ''),
 (845, 138, '_menu_item_type', 'post_type'),
@@ -890,7 +908,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (847, 138, '_menu_item_object_id', '88'),
 (848, 138, '_menu_item_object', 'page'),
 (849, 138, '_menu_item_target', ''),
-(850, 138, '_menu_item_classes', 'a:1:{i:0;s:10:\"margin-top\";}'),
+(850, 138, '_menu_item_classes', 'a:1:{i:0;s:10:"margin-top";}'),
 (851, 138, '_menu_item_xfn', ''),
 (852, 138, '_menu_item_url', ''),
 (854, 139, '_menu_item_type', 'taxonomy'),
@@ -898,7 +916,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (856, 139, '_menu_item_object_id', '8'),
 (857, 139, '_menu_item_object', 'category'),
 (858, 139, '_menu_item_target', ''),
-(859, 139, '_menu_item_classes', 'a:1:{i:0;s:0:\"\";}'),
+(859, 139, '_menu_item_classes', 'a:1:{i:0;s:0:"";}'),
 (860, 139, '_menu_item_xfn', ''),
 (861, 139, '_menu_item_url', ''),
 (863, 140, '_menu_item_type', 'custom'),
@@ -906,7 +924,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (865, 140, '_menu_item_object_id', '140'),
 (866, 140, '_menu_item_object', 'custom'),
 (867, 140, '_menu_item_target', ''),
-(868, 140, '_menu_item_classes', 'a:1:{i:0;s:0:\"\";}'),
+(868, 140, '_menu_item_classes', 'a:1:{i:0;s:0:"";}'),
 (869, 140, '_menu_item_xfn', ''),
 (870, 140, '_menu_item_url', '#'),
 (872, 141, '_menu_item_type', 'post_type'),
@@ -914,7 +932,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (874, 141, '_menu_item_object_id', '18'),
 (875, 141, '_menu_item_object', 'page'),
 (876, 141, '_menu_item_target', ''),
-(877, 141, '_menu_item_classes', 'a:1:{i:0;s:0:\"\";}'),
+(877, 141, '_menu_item_classes', 'a:1:{i:0;s:0:"";}'),
 (878, 141, '_menu_item_xfn', ''),
 (879, 141, '_menu_item_url', ''),
 (881, 142, '_menu_item_type', 'post_type'),
@@ -922,7 +940,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (883, 142, '_menu_item_object_id', '16'),
 (884, 142, '_menu_item_object', 'page'),
 (885, 142, '_menu_item_target', ''),
-(886, 142, '_menu_item_classes', 'a:1:{i:0;s:0:\"\";}'),
+(886, 142, '_menu_item_classes', 'a:1:{i:0;s:0:"";}'),
 (887, 142, '_menu_item_xfn', ''),
 (888, 142, '_menu_item_url', ''),
 (890, 143, '_menu_item_type', 'post_type'),
@@ -930,7 +948,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (892, 143, '_menu_item_object_id', '62'),
 (893, 143, '_menu_item_object', 'page'),
 (894, 143, '_menu_item_target', ''),
-(895, 143, '_menu_item_classes', 'a:1:{i:0;s:0:\"\";}'),
+(895, 143, '_menu_item_classes', 'a:1:{i:0;s:10:"margin-top";}'),
 (896, 143, '_menu_item_xfn', ''),
 (897, 143, '_menu_item_url', ''),
 (899, 144, '_menu_item_type', 'post_type'),
@@ -938,7 +956,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (901, 144, '_menu_item_object_id', '12'),
 (902, 144, '_menu_item_object', 'page'),
 (903, 144, '_menu_item_target', ''),
-(904, 144, '_menu_item_classes', 'a:1:{i:0;s:0:\"\";}'),
+(904, 144, '_menu_item_classes', 'a:1:{i:0;s:0:"";}'),
 (905, 144, '_menu_item_xfn', ''),
 (906, 144, '_menu_item_url', ''),
 (908, 145, 'file', ''),
@@ -953,7 +971,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (917, 146, '_menu_item_object_id', '146'),
 (918, 146, '_menu_item_object', 'custom'),
 (919, 146, '_menu_item_target', ''),
-(920, 146, '_menu_item_classes', 'a:1:{i:0;s:10:\"margin-top\";}'),
+(920, 146, '_menu_item_classes', 'a:1:{i:0;s:10:"margin-top";}'),
 (921, 146, '_menu_item_xfn', ''),
 (922, 146, '_menu_item_url', '#'),
 (932, 147, '_menu_item_type', 'custom'),
@@ -961,7 +979,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (934, 147, '_menu_item_object_id', '147'),
 (935, 147, '_menu_item_object', 'custom'),
 (936, 147, '_menu_item_target', ''),
-(937, 147, '_menu_item_classes', 'a:1:{i:0;s:0:\"\";}'),
+(937, 147, '_menu_item_classes', 'a:1:{i:0;s:0:"";}'),
 (938, 147, '_menu_item_xfn', ''),
 (939, 147, '_menu_item_url', '#'),
 (941, 148, '_menu_item_type', 'custom'),
@@ -969,7 +987,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (943, 148, '_menu_item_object_id', '148'),
 (944, 148, '_menu_item_object', 'custom'),
 (945, 148, '_menu_item_target', ''),
-(946, 148, '_menu_item_classes', 'a:1:{i:0;s:3:\"sep\";}'),
+(946, 148, '_menu_item_classes', 'a:1:{i:0;s:3:"sep";}'),
 (947, 148, '_menu_item_xfn', ''),
 (948, 148, '_menu_item_url', '#'),
 (950, 149, '_menu_item_type', 'custom'),
@@ -977,7 +995,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (952, 149, '_menu_item_object_id', '149'),
 (953, 149, '_menu_item_object', 'custom'),
 (954, 149, '_menu_item_target', ''),
-(955, 149, '_menu_item_classes', 'a:1:{i:0;s:3:\"sep\";}'),
+(955, 149, '_menu_item_classes', 'a:1:{i:0;s:3:"sep";}'),
 (956, 149, '_menu_item_xfn', ''),
 (957, 149, '_menu_item_url', '#'),
 (962, 38, '_wp_trash_meta_status', 'draft'),
@@ -1027,12 +1045,9 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (1006, 153, '_file', 'field_5b60609ef4718'),
 (1007, 152, 'file', ''),
 (1008, 152, '_file', 'field_5b60609ef4718'),
-(1009, 152, '_edit_lock', '1533738359:1'),
-(1012, 70, 'rule', 'a:5:{s:5:\"param\";s:9:\"post_type\";s:8:\"operator\";s:2:\"==\";s:5:\"value\";s:4:\"page\";s:8:\"order_no\";i:0;s:8:\"group_no\";i:0;}'),
-(1013, 70, 'rule', 'a:5:{s:5:\"param\";s:4:\"page\";s:8:\"operator\";s:2:\"!=\";s:5:\"value\";s:1:\"7\";s:8:\"order_no\";i:0;s:8:\"group_no\";i:1;}'),
-(1014, 70, 'rule', 'a:5:{s:5:\"param\";s:9:\"post_type\";s:8:\"operator\";s:2:\"!=\";s:5:\"value\";s:4:\"page\";s:8:\"order_no\";i:0;s:8:\"group_no\";i:2;}'),
+(1009, 152, '_edit_lock', '1534844491:1'),
 (1015, 154, '_edit_last', '1'),
-(1016, 154, '_edit_lock', '1533738280:1'),
+(1016, 154, '_edit_lock', '1534844463:1'),
 (1017, 155, 'links', '0'),
 (1018, 155, '_links', 'field_5b5edc2b8e32e'),
 (1019, 155, 'file', ''),
@@ -1050,7 +1065,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (1031, 157, '_links', 'field_5b5edc2b8e32e'),
 (1032, 157, 'file', ''),
 (1033, 157, '_file', 'field_5b60609ef4718'),
-(1034, 157, '_edit_lock', '1533738303:1'),
+(1034, 157, '_edit_lock', '1534844476:1'),
 (1035, 159, 'links', '0'),
 (1036, 159, '_links', 'field_5b5edc2b8e32e'),
 (1037, 159, 'file', ''),
@@ -1064,7 +1079,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (1045, 160, '_links', 'field_5b5edc2b8e32e'),
 (1046, 160, 'file', ''),
 (1047, 160, '_file', 'field_5b60609ef4718'),
-(1048, 160, '_edit_lock', '1533738311:1'),
+(1048, 160, '_edit_lock', '1534845097:1'),
 (1049, 163, '_edit_last', '1'),
 (1050, 164, 'links', '0'),
 (1051, 164, '_links', 'field_5b5edc2b8e32e'),
@@ -1074,7 +1089,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (1055, 163, '_links', 'field_5b5edc2b8e32e'),
 (1056, 163, 'file', ''),
 (1057, 163, '_file', 'field_5b60609ef4718'),
-(1058, 163, '_edit_lock', '1533738320:1'),
+(1058, 163, '_edit_lock', '1533797523:1'),
 (1059, 165, '_edit_last', '1'),
 (1060, 165, '_edit_lock', '1533738346:1'),
 (1061, 166, 'links', '0'),
@@ -1157,11 +1172,10 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (1138, 181, '_edit_lock', '1533738413:1'),
 (1139, 184, '_menu_item_type', 'post_type'),
 (1140, 184, '_menu_item_menu_item_parent', '148'),
-(1141, 184, '_menu_item_object_id', '157');
-INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUES
+(1141, 184, '_menu_item_object_id', '157'),
 (1142, 184, '_menu_item_object', 'page'),
 (1143, 184, '_menu_item_target', ''),
-(1144, 184, '_menu_item_classes', 'a:1:{i:0;s:0:\"\";}'),
+(1144, 184, '_menu_item_classes', 'a:1:{i:0;s:0:"";}'),
 (1145, 184, '_menu_item_xfn', ''),
 (1146, 184, '_menu_item_url', ''),
 (1148, 185, '_menu_item_type', 'post_type'),
@@ -1169,7 +1183,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (1150, 185, '_menu_item_object_id', '154'),
 (1151, 185, '_menu_item_object', 'page'),
 (1152, 185, '_menu_item_target', ''),
-(1153, 185, '_menu_item_classes', 'a:1:{i:0;s:0:\"\";}'),
+(1153, 185, '_menu_item_classes', 'a:1:{i:0;s:0:"";}'),
 (1154, 185, '_menu_item_xfn', ''),
 (1155, 185, '_menu_item_url', ''),
 (1157, 186, '_menu_item_type', 'post_type'),
@@ -1177,7 +1191,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (1159, 186, '_menu_item_object_id', '152'),
 (1160, 186, '_menu_item_object', 'page'),
 (1161, 186, '_menu_item_target', ''),
-(1162, 186, '_menu_item_classes', 'a:1:{i:0;s:0:\"\";}'),
+(1162, 186, '_menu_item_classes', 'a:1:{i:0;s:0:"";}'),
 (1163, 186, '_menu_item_xfn', ''),
 (1164, 186, '_menu_item_url', ''),
 (1166, 187, '_menu_item_type', 'post_type'),
@@ -1185,15 +1199,16 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (1168, 187, '_menu_item_object_id', '181'),
 (1169, 187, '_menu_item_object', 'page'),
 (1170, 187, '_menu_item_target', ''),
-(1171, 187, '_menu_item_classes', 'a:1:{i:0;s:0:\"\";}'),
-(1172, 187, '_menu_item_xfn', ''),
+(1171, 187, '_menu_item_classes', 'a:1:{i:0;s:0:"";}'),
+(1172, 187, '_menu_item_xfn', '');
+INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUES
 (1173, 187, '_menu_item_url', ''),
 (1175, 188, '_menu_item_type', 'post_type'),
 (1176, 188, '_menu_item_menu_item_parent', '147'),
 (1177, 188, '_menu_item_object_id', '178'),
 (1178, 188, '_menu_item_object', 'page'),
 (1179, 188, '_menu_item_target', ''),
-(1180, 188, '_menu_item_classes', 'a:1:{i:0;s:0:\"\";}'),
+(1180, 188, '_menu_item_classes', 'a:1:{i:0;s:0:"";}'),
 (1181, 188, '_menu_item_xfn', ''),
 (1182, 188, '_menu_item_url', ''),
 (1184, 189, '_menu_item_type', 'post_type'),
@@ -1201,7 +1216,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (1186, 189, '_menu_item_object_id', '176'),
 (1187, 189, '_menu_item_object', 'page'),
 (1188, 189, '_menu_item_target', ''),
-(1189, 189, '_menu_item_classes', 'a:1:{i:0;s:0:\"\";}'),
+(1189, 189, '_menu_item_classes', 'a:1:{i:0;s:0:"";}'),
 (1190, 189, '_menu_item_xfn', ''),
 (1191, 189, '_menu_item_url', ''),
 (1193, 190, '_menu_item_type', 'post_type'),
@@ -1209,7 +1224,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (1195, 190, '_menu_item_object_id', '173'),
 (1196, 190, '_menu_item_object', 'page'),
 (1197, 190, '_menu_item_target', ''),
-(1198, 190, '_menu_item_classes', 'a:1:{i:0;s:0:\"\";}'),
+(1198, 190, '_menu_item_classes', 'a:1:{i:0;s:0:"";}'),
 (1199, 190, '_menu_item_xfn', ''),
 (1200, 190, '_menu_item_url', ''),
 (1202, 191, '_menu_item_type', 'post_type'),
@@ -1217,7 +1232,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (1204, 191, '_menu_item_object_id', '171'),
 (1205, 191, '_menu_item_object', 'page'),
 (1206, 191, '_menu_item_target', ''),
-(1207, 191, '_menu_item_classes', 'a:1:{i:0;s:0:\"\";}'),
+(1207, 191, '_menu_item_classes', 'a:1:{i:0;s:0:"";}'),
 (1208, 191, '_menu_item_xfn', ''),
 (1209, 191, '_menu_item_url', ''),
 (1211, 192, '_menu_item_type', 'post_type'),
@@ -1225,7 +1240,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (1213, 192, '_menu_item_object_id', '169'),
 (1214, 192, '_menu_item_object', 'page'),
 (1215, 192, '_menu_item_target', ''),
-(1216, 192, '_menu_item_classes', 'a:1:{i:0;s:0:\"\";}'),
+(1216, 192, '_menu_item_classes', 'a:1:{i:0;s:0:"";}'),
 (1217, 192, '_menu_item_xfn', ''),
 (1218, 192, '_menu_item_url', ''),
 (1220, 193, '_menu_item_type', 'post_type'),
@@ -1233,7 +1248,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (1222, 193, '_menu_item_object_id', '167'),
 (1223, 193, '_menu_item_object', 'page'),
 (1224, 193, '_menu_item_target', ''),
-(1225, 193, '_menu_item_classes', 'a:1:{i:0;s:0:\"\";}'),
+(1225, 193, '_menu_item_classes', 'a:1:{i:0;s:0:"";}'),
 (1226, 193, '_menu_item_xfn', ''),
 (1227, 193, '_menu_item_url', ''),
 (1229, 194, '_menu_item_type', 'post_type'),
@@ -1241,7 +1256,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (1231, 194, '_menu_item_object_id', '165'),
 (1232, 194, '_menu_item_object', 'page'),
 (1233, 194, '_menu_item_target', ''),
-(1234, 194, '_menu_item_classes', 'a:1:{i:0;s:0:\"\";}'),
+(1234, 194, '_menu_item_classes', 'a:1:{i:0;s:0:"";}'),
 (1235, 194, '_menu_item_xfn', ''),
 (1236, 194, '_menu_item_url', ''),
 (1238, 195, '_menu_item_type', 'post_type'),
@@ -1249,7 +1264,7 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (1240, 195, '_menu_item_object_id', '163'),
 (1241, 195, '_menu_item_object', 'page'),
 (1242, 195, '_menu_item_target', ''),
-(1243, 195, '_menu_item_classes', 'a:1:{i:0;s:0:\"\";}'),
+(1243, 195, '_menu_item_classes', 'a:1:{i:0;s:0:"";}'),
 (1244, 195, '_menu_item_xfn', ''),
 (1245, 195, '_menu_item_url', ''),
 (1246, 195, '_menu_item_orphaned', '1533738622'),
@@ -1258,9 +1273,379 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (1249, 196, '_menu_item_object_id', '196'),
 (1250, 196, '_menu_item_object', 'custom'),
 (1251, 196, '_menu_item_target', ''),
-(1252, 196, '_menu_item_classes', 'a:1:{i:0;s:3:\"sep\";}'),
+(1252, 196, '_menu_item_classes', 'a:1:{i:0;s:3:"sep";}'),
 (1253, 196, '_menu_item_xfn', ''),
-(1254, 196, '_menu_item_url', '#');
+(1254, 196, '_menu_item_url', '#'),
+(1256, 29, 'rule', 'a:5:{s:5:"param";s:4:"page";s:8:"operator";s:2:"==";s:5:"value";s:1:"7";s:8:"order_no";i:0;s:8:"group_no";i:0;}'),
+(1258, 163, '_wp_trash_meta_status', 'publish'),
+(1259, 163, '_wp_trash_meta_time', '1533797675'),
+(1260, 163, '_wp_desired_post_slug', 'bytovye-uslugi-i-ceny-2'),
+(1261, 198, 'links', '0'),
+(1262, 198, '_links', 'field_5b5edc2b8e32e'),
+(1263, 198, 'file', ''),
+(1264, 198, '_file', 'field_5b60609ef4718'),
+(1265, 198, 'icon', '51'),
+(1266, 198, '_icon', 'field_5b5c34cbb28f9'),
+(1267, 160, 'icon', '51'),
+(1268, 160, '_icon', 'field_5b5c34cbb28f9'),
+(1269, 199, 'links', '0'),
+(1270, 199, '_links', 'field_5b5edc2b8e32e'),
+(1271, 199, 'file', ''),
+(1272, 199, '_file', 'field_5b60609ef4718'),
+(1273, 199, 'icon', '48'),
+(1274, 199, '_icon', 'field_5b5c34cbb28f9'),
+(1275, 157, 'icon', '48'),
+(1276, 157, '_icon', 'field_5b5c34cbb28f9'),
+(1277, 200, 'links', '0'),
+(1278, 200, '_links', 'field_5b5edc2b8e32e'),
+(1279, 200, 'file', ''),
+(1280, 200, '_file', 'field_5b60609ef4718'),
+(1281, 200, 'icon', '45'),
+(1282, 200, '_icon', 'field_5b5c34cbb28f9'),
+(1283, 154, 'icon', '45'),
+(1284, 154, '_icon', 'field_5b5c34cbb28f9'),
+(1285, 201, 'links', '0'),
+(1286, 201, '_links', 'field_5b5edc2b8e32e'),
+(1287, 201, 'file', ''),
+(1288, 201, '_file', 'field_5b60609ef4718'),
+(1289, 201, 'icon', '42'),
+(1290, 201, '_icon', 'field_5b5c34cbb28f9'),
+(1291, 152, 'links', '0'),
+(1292, 152, '_links', 'field_5b5edc2b8e32e'),
+(1293, 152, 'icon', '42'),
+(1294, 152, '_icon', 'field_5b5c34cbb28f9'),
+(1295, 202, 'header_phone', '+375 17 234-41-94'),
+(1296, 202, '_header_phone', 'field_5b5c0da05cbfa'),
+(1297, 202, 'services_0_service', '152'),
+(1298, 202, '_services_0_service', 'field_5b5c371d8462b'),
+(1299, 202, 'services_1_service', '154'),
+(1300, 202, '_services_1_service', 'field_5b5c371d8462b'),
+(1301, 202, 'services_2_service', '157'),
+(1302, 202, '_services_2_service', 'field_5b5c371d8462b'),
+(1303, 202, 'services_3_service', '160'),
+(1304, 202, '_services_3_service', 'field_5b5c371d8462b'),
+(1305, 202, 'services', '4'),
+(1306, 202, '_services', 'field_5b5c370a8462a'),
+(1307, 202, 'zhes_phones_0_phone', '+375 17 289-98-98'),
+(1308, 202, '_zhes_phones_0_phone', 'field_5b5c44bc29cf6'),
+(1309, 202, 'zhes_phones_0_header', 'ЖЭС №43'),
+(1310, 202, '_zhes_phones_0_header', 'field_5b5c44ef5cf18'),
+(1311, 202, 'zhes_phones_1_phone', '+375 17 277-00-11'),
+(1312, 202, '_zhes_phones_1_phone', 'field_5b5c44bc29cf6'),
+(1313, 202, 'zhes_phones_1_header', 'ЖЭС №53'),
+(1314, 202, '_zhes_phones_1_header', 'field_5b5c44ef5cf18'),
+(1315, 202, 'zhes_phones_2_phone', '+375 17 235-28-17'),
+(1316, 202, '_zhes_phones_2_phone', 'field_5b5c44bc29cf6'),
+(1317, 202, 'zhes_phones_2_header', 'ЖЭС №57'),
+(1318, 202, '_zhes_phones_2_header', 'field_5b5c44ef5cf18'),
+(1319, 202, 'zhes_phones_3_phone', '+375 17 222-17-11'),
+(1320, 202, '_zhes_phones_3_phone', 'field_5b5c44bc29cf6'),
+(1321, 202, 'zhes_phones_3_header', 'ЖЭС №66'),
+(1322, 202, '_zhes_phones_3_header', 'field_5b5c44ef5cf18'),
+(1323, 202, 'zhes_phones', '4'),
+(1324, 202, '_zhes_phones', 'field_5b5c449429cf5'),
+(1325, 202, 'address', 'ул. Лынькова, 59'),
+(1326, 202, '_address', 'field_5b5caa0acd384'),
+(1327, 202, 'email', 'giperilia@mail.ru'),
+(1328, 202, '_email', 'field_5b657bf85acd2'),
+(1329, 202, 'recaptcha_secret', '6Lf9PWgUAAAAAM3Ae7T0tOEvBvKM4n6vTsBshG_7'),
+(1330, 202, '_recaptcha_secret', 'field_5b6580ca52cd5'),
+(1331, 202, 'links', '0'),
+(1332, 202, '_links', 'field_5b5edc2b8e32e'),
+(1333, 202, 'file', ''),
+(1334, 202, '_file', 'field_5b60609ef4718'),
+(1335, 202, 'icon', ''),
+(1336, 202, '_icon', 'field_5b5c34cbb28f9'),
+(1337, 7, 'links', '0'),
+(1338, 7, '_links', 'field_5b5edc2b8e32e'),
+(1339, 7, 'icon', ''),
+(1340, 7, '_icon', 'field_5b5c34cbb28f9'),
+(1344, 204, '_menu_item_type', 'custom'),
+(1345, 204, '_menu_item_menu_item_parent', '0'),
+(1346, 204, '_menu_item_object_id', '204'),
+(1347, 204, '_menu_item_object', 'custom'),
+(1348, 204, '_menu_item_target', ''),
+(1349, 204, '_menu_item_classes', 'a:1:{i:0;s:0:"";}'),
+(1350, 204, '_menu_item_xfn', ''),
+(1351, 204, '_menu_item_url', '#'),
+(1353, 205, '_menu_item_type', 'post_type'),
+(1354, 205, '_menu_item_menu_item_parent', '204'),
+(1355, 205, '_menu_item_object_id', '165'),
+(1356, 205, '_menu_item_object', 'page'),
+(1357, 205, '_menu_item_target', ''),
+(1358, 205, '_menu_item_classes', 'a:1:{i:0;s:0:"";}'),
+(1359, 205, '_menu_item_xfn', ''),
+(1360, 205, '_menu_item_url', ''),
+(1368, 207, 'links_0_link', '98'),
+(1369, 207, '_links_0_link', 'field_5b5edc3d8e32f'),
+(1370, 207, 'links_1_link', '98'),
+(1371, 207, '_links_1_link', 'field_5b5edc3d8e32f'),
+(1372, 207, 'links_2_link', '31'),
+(1373, 207, '_links_2_link', 'field_5b5edc3d8e32f'),
+(1374, 207, 'links_3_link', '34'),
+(1375, 207, '_links_3_link', 'field_5b5edc3d8e32f'),
+(1376, 207, 'links', '4'),
+(1377, 207, '_links', 'field_5b5edc2b8e32e'),
+(1378, 207, 'file', '51'),
+(1379, 207, '_file', 'field_5b60609ef4718'),
+(1380, 207, 'icon', ''),
+(1381, 207, '_icon', 'field_5b5c34cbb28f9'),
+(1382, 66, 'icon', ''),
+(1383, 66, '_icon', 'field_5b5c34cbb28f9'),
+(1384, 208, 'links_0_link', '98'),
+(1385, 208, '_links_0_link', 'field_5b5edc3d8e32f'),
+(1386, 208, 'links_1_link', '98'),
+(1387, 208, '_links_1_link', 'field_5b5edc3d8e32f'),
+(1388, 208, 'links_2_link', '31'),
+(1389, 208, '_links_2_link', 'field_5b5edc3d8e32f'),
+(1390, 208, 'links_3_link', '34'),
+(1391, 208, '_links_3_link', 'field_5b5edc3d8e32f'),
+(1392, 208, 'links', '4'),
+(1393, 208, '_links', 'field_5b5edc2b8e32e'),
+(1394, 208, 'file', '51'),
+(1395, 208, '_file', 'field_5b60609ef4718'),
+(1396, 208, 'icon', ''),
+(1397, 208, '_icon', 'field_5b5c34cbb28f9'),
+(1398, 209, 'links_0_link', '98'),
+(1399, 209, '_links_0_link', 'field_5b5edc3d8e32f'),
+(1400, 209, 'links_1_link', '98'),
+(1401, 209, '_links_1_link', 'field_5b5edc3d8e32f'),
+(1402, 209, 'links_2_link', '31'),
+(1403, 209, '_links_2_link', 'field_5b5edc3d8e32f'),
+(1404, 209, 'links_3_link', '34'),
+(1405, 209, '_links_3_link', 'field_5b5edc3d8e32f'),
+(1406, 209, 'links', '4'),
+(1407, 209, '_links', 'field_5b5edc2b8e32e'),
+(1408, 209, 'file', '51'),
+(1409, 209, '_file', 'field_5b60609ef4718'),
+(1410, 209, 'icon', ''),
+(1411, 209, '_icon', 'field_5b5c34cbb28f9'),
+(1414, 39, 'field_5b7bdc8bf3693', 'a:11:{s:3:"key";s:19:"field_5b7bdc8bf3693";s:5:"label";s:38:"Иконка при наведении";s:4:"name";s:10:"hover_icon";s:4:"type";s:5:"image";s:12:"instructions";s:0:"";s:8:"required";s:1:"0";s:11:"save_format";s:3:"url";s:12:"preview_size";s:4:"full";s:7:"library";s:3:"all";s:17:"conditional_logic";a:3:{s:6:"status";s:1:"0";s:5:"rules";a:1:{i:0;a:2:{s:5:"field";s:4:"null";s:8:"operator";s:2:"==";}}s:8:"allorany";s:3:"all";}s:8:"order_no";i:1;}'),
+(1415, 39, 'rule', 'a:5:{s:5:"param";s:9:"post_type";s:8:"operator";s:2:"==";s:5:"value";s:4:"page";s:8:"order_no";i:0;s:8:"group_no";i:0;}'),
+(1416, 39, 'rule', 'a:5:{s:5:"param";s:11:"page_parent";s:8:"operator";s:2:"==";s:5:"value";s:2:"66";s:8:"order_no";i:1;s:8:"group_no";i:0;}'),
+(1417, 210, '_wp_attached_file', '2018/08/musor.svg'),
+(1418, 211, 'links', '0'),
+(1419, 211, '_links', 'field_5b5edc2b8e32e'),
+(1420, 211, 'file', ''),
+(1421, 211, '_file', 'field_5b60609ef4718'),
+(1422, 211, 'icon', '51'),
+(1423, 211, '_icon', 'field_5b5c34cbb28f9'),
+(1424, 211, 'hover_icon', '210'),
+(1425, 211, '_hover_icon', 'field_5b7bdc8bf3693'),
+(1426, 160, 'hover_icon', '210'),
+(1427, 160, '_hover_icon', 'field_5b7bdc8bf3693'),
+(1428, 160, 'inline_featured_image', '0'),
+(1429, 212, '_wp_attached_file', '2018/08/plotnik.svg'),
+(1430, 213, 'links', '0'),
+(1431, 213, '_links', 'field_5b5edc2b8e32e'),
+(1432, 213, 'file', ''),
+(1433, 213, '_file', 'field_5b60609ef4718'),
+(1434, 213, 'icon', '45'),
+(1435, 213, '_icon', 'field_5b5c34cbb28f9'),
+(1436, 213, 'hover_icon', '212'),
+(1437, 213, '_hover_icon', 'field_5b7bdc8bf3693'),
+(1438, 154, 'hover_icon', '212'),
+(1439, 154, '_hover_icon', 'field_5b7bdc8bf3693'),
+(1440, 154, 'inline_featured_image', '0'),
+(1441, 214, '_wp_attached_file', '2018/08/santehnik.svg'),
+(1442, 215, 'links', '0'),
+(1443, 215, '_links', 'field_5b5edc2b8e32e'),
+(1444, 215, 'file', ''),
+(1445, 215, '_file', 'field_5b60609ef4718'),
+(1446, 215, 'icon', '48'),
+(1447, 215, '_icon', 'field_5b5c34cbb28f9'),
+(1448, 215, 'hover_icon', '214'),
+(1449, 215, '_hover_icon', 'field_5b7bdc8bf3693'),
+(1450, 157, 'hover_icon', '214'),
+(1451, 157, '_hover_icon', 'field_5b7bdc8bf3693'),
+(1452, 157, 'inline_featured_image', '0'),
+(1453, 216, '_wp_attached_file', '2018/08/elektrik.svg'),
+(1454, 217, 'links', '0'),
+(1455, 217, '_links', 'field_5b5edc2b8e32e'),
+(1456, 217, 'file', ''),
+(1457, 217, '_file', 'field_5b60609ef4718'),
+(1458, 217, 'icon', '42'),
+(1459, 217, '_icon', 'field_5b5c34cbb28f9'),
+(1460, 217, 'hover_icon', '216'),
+(1461, 217, '_hover_icon', 'field_5b7bdc8bf3693'),
+(1462, 152, 'hover_icon', '216'),
+(1463, 152, '_hover_icon', 'field_5b7bdc8bf3693'),
+(1464, 152, 'inline_featured_image', '0'),
+(1468, 218, 'links_0_link', '154'),
+(1469, 218, '_links_0_link', 'field_5b5edc3d8e32f'),
+(1470, 218, 'links_0_custom_link', ''),
+(1471, 218, '_links_0_custom_link', 'field_5b7bf78decc6a'),
+(1472, 218, 'links_0_custom_header', ''),
+(1473, 218, '_links_0_custom_header', 'field_5b7bf7bcecc6b'),
+(1474, 218, 'links_1_link', '62'),
+(1475, 218, '_links_1_link', 'field_5b5edc3d8e32f'),
+(1476, 218, 'links_1_custom_link', 'Link'),
+(1477, 218, '_links_1_custom_link', 'field_5b7bf78decc6a'),
+(1478, 218, 'links_1_custom_header', '#'),
+(1479, 218, '_links_1_custom_header', 'field_5b7bf7bcecc6b'),
+(1480, 218, 'links', '2'),
+(1481, 218, '_links', 'field_5b5edc2b8e32e'),
+(1482, 218, 'file', ''),
+(1483, 218, '_file', 'field_5b60609ef4718'),
+(1496, 16, 'links', '0'),
+(1497, 16, '_links', 'field_5b5edc2b8e32e'),
+(1498, 16, 'inline_featured_image', '0'),
+(1499, 219, 'links_0_link', '154'),
+(1500, 219, '_links_0_link', 'field_5b5edc3d8e32f'),
+(1501, 219, 'links_0_custom_link', ''),
+(1502, 219, '_links_0_custom_link', 'field_5b7bf78decc6a'),
+(1503, 219, 'links_0_custom_header', ''),
+(1504, 219, '_links_0_custom_header', 'field_5b7bf7bcecc6b'),
+(1505, 219, 'links_1_link', '62'),
+(1506, 219, '_links_1_link', 'field_5b5edc3d8e32f'),
+(1507, 219, 'links_1_custom_link', 'Link'),
+(1508, 219, '_links_1_custom_link', 'field_5b7bf78decc6a'),
+(1509, 219, 'links_1_custom_header', '#'),
+(1510, 219, '_links_1_custom_header', 'field_5b7bf7bcecc6b'),
+(1511, 219, 'links', '2'),
+(1512, 219, '_links', 'field_5b5edc2b8e32e'),
+(1513, 219, 'file', ''),
+(1514, 219, '_file', 'field_5b60609ef4718'),
+(1515, 220, 'links_0_link', '154'),
+(1516, 220, '_links_0_link', 'field_5b5edc3d8e32f'),
+(1517, 220, 'links_0_custom_link', ''),
+(1518, 220, '_links_0_custom_link', 'field_5b7bf78decc6a'),
+(1519, 220, 'links_0_custom_header', ''),
+(1520, 220, '_links_0_custom_header', 'field_5b7bf7bcecc6b'),
+(1521, 220, 'links_1_link', '62'),
+(1522, 220, '_links_1_link', 'field_5b5edc3d8e32f'),
+(1523, 220, 'links_1_custom_link', '#'),
+(1524, 220, '_links_1_custom_link', 'field_5b7bf78decc6a'),
+(1525, 220, 'links_1_custom_header', 'Link'),
+(1526, 220, '_links_1_custom_header', 'field_5b7bf7bcecc6b'),
+(1527, 220, 'links', '2'),
+(1528, 220, '_links', 'field_5b5edc2b8e32e'),
+(1529, 220, 'file', ''),
+(1530, 220, '_file', 'field_5b60609ef4718'),
+(1531, 221, 'links_0_link', '154'),
+(1532, 221, '_links_0_link', 'field_5b5edc3d8e32f'),
+(1533, 221, 'links_0_custom_link', ''),
+(1534, 221, '_links_0_custom_link', 'field_5b7bf78decc6a'),
+(1535, 221, 'links_0_custom_header', ''),
+(1536, 221, '_links_0_custom_header', 'field_5b7bf7bcecc6b'),
+(1537, 221, 'links_1_link', '62'),
+(1538, 221, '_links_1_link', 'field_5b5edc3d8e32f'),
+(1539, 221, 'links_1_custom_link', 'Link'),
+(1540, 221, '_links_1_custom_link', 'field_5b7bf78decc6a'),
+(1541, 221, 'links_1_custom_header', '#'),
+(1542, 221, '_links_1_custom_header', 'field_5b7bf7bcecc6b'),
+(1543, 221, 'links', '2'),
+(1544, 221, '_links', 'field_5b5edc2b8e32e'),
+(1545, 221, 'file', ''),
+(1546, 221, '_file', 'field_5b60609ef4718'),
+(1547, 222, 'links_0_link', '98'),
+(1548, 222, '_links_0_link', 'field_5b5edc3d8e32f'),
+(1549, 222, 'links_0_custom_link', ''),
+(1550, 222, '_links_0_custom_link', 'field_5b7bf78decc6a'),
+(1551, 222, 'links_0_custom_header', ''),
+(1552, 222, '_links_0_custom_header', 'field_5b7bf7bcecc6b'),
+(1553, 222, 'links_1_link', '154'),
+(1554, 222, '_links_1_link', 'field_5b5edc3d8e32f'),
+(1555, 222, 'links_1_custom_link', '#'),
+(1556, 222, '_links_1_custom_link', 'field_5b7bf78decc6a'),
+(1557, 222, 'links_1_custom_header', 'Link'),
+(1558, 222, '_links_1_custom_header', 'field_5b7bf7bcecc6b'),
+(1559, 222, 'links', '2'),
+(1560, 222, '_links', 'field_5b5edc2b8e32e'),
+(1561, 222, 'file', ''),
+(1562, 222, '_file', 'field_5b60609ef4718'),
+(1569, 223, 'links_0_link', '178'),
+(1570, 223, '_links_0_link', 'field_5b5edc3d8e32f'),
+(1571, 223, 'links_0_custom_link', ''),
+(1572, 223, '_links_0_custom_link', 'field_5b7bf78decc6a'),
+(1573, 223, 'links_0_custom_header', ''),
+(1574, 223, '_links_0_custom_header', 'field_5b7bf7bcecc6b'),
+(1575, 223, 'links_1_link', '154'),
+(1576, 223, '_links_1_link', 'field_5b5edc3d8e32f'),
+(1577, 223, 'links_1_custom_link', '#'),
+(1578, 223, '_links_1_custom_link', 'field_5b7bf78decc6a'),
+(1579, 223, 'links_1_custom_header', 'Link'),
+(1580, 223, '_links_1_custom_header', 'field_5b7bf7bcecc6b'),
+(1581, 223, 'links', '2'),
+(1582, 223, '_links', 'field_5b5edc2b8e32e'),
+(1583, 223, 'file', ''),
+(1584, 223, '_file', 'field_5b60609ef4718'),
+(1588, 70, 'rule', 'a:5:{s:5:"param";s:9:"post_type";s:8:"operator";s:2:"==";s:5:"value";s:4:"post";s:8:"order_no";i:0;s:8:"group_no";i:0;}'),
+(1589, 70, 'rule', 'a:5:{s:5:"param";s:4:"page";s:8:"operator";s:2:"!=";s:5:"value";s:1:"7";s:8:"order_no";i:0;s:8:"group_no";i:1;}'),
+(1590, 70, 'rule', 'a:5:{s:5:"param";s:9:"post_type";s:8:"operator";s:2:"!=";s:5:"value";s:4:"page";s:8:"order_no";i:0;s:8:"group_no";i:2;}'),
+(1591, 224, 'links_0_link', '98'),
+(1592, 224, '_links_0_link', 'field_5b5edc3d8e32f'),
+(1593, 224, 'links_0_custom_link', 'http://d0025259.atservers.net/category/galereja-vypolnennyh-rabot/'),
+(1594, 224, '_links_0_custom_link', 'field_5b7bf78decc6a'),
+(1595, 224, 'links_0_custom_header', 'Галерея выполненных работ'),
+(1596, 224, '_links_0_custom_header', 'field_5b7bf7bcecc6b'),
+(1597, 224, 'links_1_link', '98'),
+(1598, 224, '_links_1_link', 'field_5b5edc3d8e32f'),
+(1599, 224, 'links_1_custom_link', ''),
+(1600, 224, '_links_1_custom_link', 'field_5b7bf78decc6a'),
+(1601, 224, 'links_1_custom_header', ''),
+(1602, 224, '_links_1_custom_header', 'field_5b7bf7bcecc6b'),
+(1603, 224, 'links_2_link', '31'),
+(1604, 224, '_links_2_link', 'field_5b5edc3d8e32f'),
+(1605, 224, 'links_2_custom_link', ''),
+(1606, 224, '_links_2_custom_link', 'field_5b7bf78decc6a'),
+(1607, 224, 'links_2_custom_header', ''),
+(1608, 224, '_links_2_custom_header', 'field_5b7bf7bcecc6b'),
+(1609, 224, 'links_3_link', '34'),
+(1610, 224, '_links_3_link', 'field_5b5edc3d8e32f'),
+(1611, 224, 'links_3_custom_link', ''),
+(1612, 224, '_links_3_custom_link', 'field_5b7bf78decc6a'),
+(1613, 224, 'links_3_custom_header', ''),
+(1614, 224, '_links_3_custom_header', 'field_5b7bf7bcecc6b'),
+(1615, 224, 'links', '4'),
+(1616, 224, '_links', 'field_5b5edc2b8e32e'),
+(1617, 224, 'file', '51'),
+(1618, 224, '_file', 'field_5b60609ef4718'),
+(1619, 66, 'links_0_custom_link', '/category/galereja-vypolnennyh-rabot/'),
+(1620, 66, '_links_0_custom_link', 'field_5b7bf78decc6a'),
+(1621, 66, 'links_0_custom_header', 'Галерея выполненных работ'),
+(1622, 66, '_links_0_custom_header', 'field_5b7bf7bcecc6b'),
+(1623, 66, 'links_1_custom_link', ''),
+(1624, 66, '_links_1_custom_link', 'field_5b7bf78decc6a'),
+(1625, 66, 'links_1_custom_header', ''),
+(1626, 66, '_links_1_custom_header', 'field_5b7bf7bcecc6b'),
+(1627, 66, 'links_2_custom_link', ''),
+(1628, 66, '_links_2_custom_link', 'field_5b7bf78decc6a'),
+(1629, 66, 'links_2_custom_header', ''),
+(1630, 66, '_links_2_custom_header', 'field_5b7bf7bcecc6b'),
+(1631, 66, 'links_3_custom_link', ''),
+(1632, 66, '_links_3_custom_link', 'field_5b7bf78decc6a'),
+(1633, 66, 'links_3_custom_header', ''),
+(1634, 66, '_links_3_custom_header', 'field_5b7bf7bcecc6b'),
+(1635, 66, 'inline_featured_image', '0'),
+(1636, 225, 'links_0_link', '98'),
+(1637, 225, '_links_0_link', 'field_5b5edc3d8e32f'),
+(1638, 225, 'links_0_custom_link', '/category/galereja-vypolnennyh-rabot/'),
+(1639, 225, '_links_0_custom_link', 'field_5b7bf78decc6a'),
+(1640, 225, 'links_0_custom_header', 'Галерея выполненных работ'),
+(1641, 225, '_links_0_custom_header', 'field_5b7bf7bcecc6b'),
+(1642, 225, 'links_1_link', '98'),
+(1643, 225, '_links_1_link', 'field_5b5edc3d8e32f'),
+(1644, 225, 'links_1_custom_link', ''),
+(1645, 225, '_links_1_custom_link', 'field_5b7bf78decc6a'),
+(1646, 225, 'links_1_custom_header', ''),
+(1647, 225, '_links_1_custom_header', 'field_5b7bf7bcecc6b'),
+(1648, 225, 'links_2_link', '31'),
+(1649, 225, '_links_2_link', 'field_5b5edc3d8e32f'),
+(1650, 225, 'links_2_custom_link', ''),
+(1651, 225, '_links_2_custom_link', 'field_5b7bf78decc6a'),
+(1652, 225, 'links_2_custom_header', ''),
+(1653, 225, '_links_2_custom_header', 'field_5b7bf7bcecc6b'),
+(1654, 225, 'links_3_link', '34'),
+(1655, 225, '_links_3_link', 'field_5b5edc3d8e32f'),
+(1656, 225, 'links_3_custom_link', ''),
+(1657, 225, '_links_3_custom_link', 'field_5b7bf78decc6a'),
+(1658, 225, 'links_3_custom_header', ''),
+(1659, 225, '_links_3_custom_header', 'field_5b7bf7bcecc6b'),
+(1660, 225, 'links', '4'),
+(1661, 225, '_links', 'field_5b5edc2b8e32e'),
+(1662, 225, 'file', '51'),
+(1663, 225, '_file', 'field_5b60609ef4718');
 
 -- --------------------------------------------------------
 
@@ -1268,31 +1653,36 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 -- Структура таблицы `wp_posts`
 --
 
-CREATE TABLE `wp_posts` (
-  `ID` bigint(20) UNSIGNED NOT NULL,
-  `post_author` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
+CREATE TABLE IF NOT EXISTS `wp_posts` (
+  `ID` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `post_author` bigint(20) unsigned NOT NULL DEFAULT '0',
   `post_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `post_date_gmt` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `post_content` longtext COLLATE utf8mb4_unicode_520_ci NOT NULL,
-  `post_title` text COLLATE utf8mb4_unicode_520_ci NOT NULL,
-  `post_excerpt` text COLLATE utf8mb4_unicode_520_ci NOT NULL,
-  `post_status` varchar(20) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT 'publish',
-  `comment_status` varchar(20) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT 'open',
-  `ping_status` varchar(20) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT 'open',
-  `post_password` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `post_name` varchar(200) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `to_ping` text COLLATE utf8mb4_unicode_520_ci NOT NULL,
-  `pinged` text COLLATE utf8mb4_unicode_520_ci NOT NULL,
+  `post_content` longtext NOT NULL,
+  `post_title` text NOT NULL,
+  `post_excerpt` text NOT NULL,
+  `post_status` varchar(20) NOT NULL DEFAULT 'publish',
+  `comment_status` varchar(20) NOT NULL DEFAULT 'open',
+  `ping_status` varchar(20) NOT NULL DEFAULT 'open',
+  `post_password` varchar(255) NOT NULL DEFAULT '',
+  `post_name` varchar(200) NOT NULL DEFAULT '',
+  `to_ping` text NOT NULL,
+  `pinged` text NOT NULL,
   `post_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `post_modified_gmt` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `post_content_filtered` longtext COLLATE utf8mb4_unicode_520_ci NOT NULL,
-  `post_parent` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
-  `guid` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `post_content_filtered` longtext NOT NULL,
+  `post_parent` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `guid` varchar(255) NOT NULL DEFAULT '',
   `menu_order` int(11) NOT NULL DEFAULT '0',
-  `post_type` varchar(20) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT 'post',
-  `post_mime_type` varchar(100) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `comment_count` bigint(20) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+  `post_type` varchar(20) NOT NULL DEFAULT 'post',
+  `post_mime_type` varchar(100) NOT NULL DEFAULT '',
+  `comment_count` bigint(20) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`ID`),
+  KEY `post_name` (`post_name`(191)),
+  KEY `type_status_date` (`post_type`,`post_status`,`post_date`,`ID`),
+  KEY `post_parent` (`post_parent`),
+  KEY `post_author` (`post_author`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=226 ;
 
 --
 -- Дамп данных таблицы `wp_posts`
@@ -1300,19 +1690,18 @@ CREATE TABLE `wp_posts` (
 
 INSERT INTO `wp_posts` (`ID`, `post_author`, `post_date`, `post_date_gmt`, `post_content`, `post_title`, `post_excerpt`, `post_status`, `comment_status`, `ping_status`, `post_password`, `post_name`, `to_ping`, `pinged`, `post_modified`, `post_modified_gmt`, `post_content_filtered`, `post_parent`, `guid`, `menu_order`, `post_type`, `post_mime_type`, `comment_count`) VALUES
 (1, 1, '2018-07-25 21:12:08', '2018-07-25 18:12:08', 'Добро пожаловать в WordPress. Это ваша первая запись. Отредактируйте или удалите её, затем пишите!', 'Привет, мир!', '', 'trash', 'open', 'open', '', 'privet-mir__trashed', '', '', '2018-07-28 11:12:09', '2018-07-28 08:12:09', '', 0, 'http://zheu.loc/?p=1', 0, 'post', '', 1),
-(2, 1, '2018-07-25 21:12:08', '2018-07-25 18:12:08', 'Это пример страницы. От записей в блоге она отличается тем, что остаётся на одном месте и отображается в меню сайта (в большинстве тем). На странице &laquo;Детали&raquo; владельцы сайтов обычно рассказывают о себе потенциальным посетителям. Например, так:\n\n<blockquote>Привет! Днём я курьер, а вечером &#8212; подающий надежды актёр. Это мой блог. Я живу в Ростове-на-Дону, люблю своего пса Джека и пинаколаду. (И ещё попадать под дождь.)</blockquote>\n\n...или так:\n\n<blockquote>Компания &laquo;Штучки XYZ&raquo; была основана в 1971 году и с тех пор производит качественные штучки. Компания находится в Готэм-сити, имеет штат из более чем 2000 сотрудников и приносит много пользы жителям Готэма.</blockquote>\n\nПерейдите <a href=\"http://zheu.loc/wp-admin/\">в консоль</a>, чтобы удалить эту страницу и создать новые. Успехов!', 'Пример страницы', '', 'trash', 'closed', 'open', '', 'sample-page__trashed', '', '', '2018-07-25 21:13:05', '2018-07-25 18:13:05', '', 0, 'http://zheu.loc/?page_id=2', 0, 'page', '', 0),
-(3, 1, '2018-07-25 21:12:08', '2018-07-25 18:12:08', '<h2>Кто мы</h2><p>Наш адрес сайта: http://zheu.loc.</p><h2>Какие персональные данные мы собираем и с какой целью</h2><h3>Комментарии</h3><p>Если посетитель оставляет комментарий на сайте, мы собираем данные указанные в форме комментария, а также IP адрес посетителя и данные user-agent браузера с целью определения спама.</p><p>Анонимизированная строка создаваемая из вашего адреса email (\"хеш\") может предоставляться сервису Gravatar, чтобы определить используете ли вы его. Политика конфиденциальности Gravatar доступна здесь: https://automattic.com/privacy/ . После одобрения комментария ваше изображение профиля будет видимым публично в контексте вашего комментария.</p><h3>Медиафайлы</h3><p>Если вы зарегистрированный пользователь и загружаете фотографии на сайт, вам возможно следует избегать загрузки изображений с метаданными EXIF, так как они могут содержать данные вашего месторасположения по GPS. Посетители могут извлечь эту информацию скачав изображения с сайта.</p><h3>Формы контактов</h3><h3>Куки</h3><p>Если вы оставляете комментарий на нашем сайте, вы можете включить сохранение вашего имени, адреса email и вебсайта в куки. Это делается для вашего удобства, чтобы не заполнять данные снова при повторном комментировании. Эти куки хранятся в течение одного года.</p><p>Если у вас есть учетная запись на сайте и вы войдете в неё, мы установим временный куки для определения поддержки куки вашим браузером, куки не содержит никакой личной информации и удаляется при закрытии вашего браузера.</p><p>При входе в учетную запись мы также устанавливаем несколько куки с данными входа и настройками экрана. Куки входа хранятся в течение двух дней, куки с настройками экрана - год. Если вы выберете возможность \"Запомнить меня\", данные о входе будут сохраняться в течение двух недель. При выходе из учетной записи куки входа будут удалены.</p><p>При редактировании или публикации статьи в браузере будет сохранен дополнительный куки, он не содержит персональных данных и содержит только ID записи отредактированной вами, истекает через 1 день.</p><h3>Встраиваемое содержимое других вебсайтов</h3><p>Статьи на этом сайте могут включать встраиваемое содержимое (например видео, изображения, статьи и др.), подобное содержимое ведет себя так же, как если бы посетитель зашел на другой сайт.</p><p>Эти сайты могут собирать данные о вас, использовать куки, внедрять дополнительное отслеживание третьей стороной и следить за вашим взаимодействием с внедренным содержимым, включая отслеживание взаимодействия, если у вас есть учетная запись и вы авторизовались на том сайте.</p><h3>Веб-аналитика</h3><h2>С кем мы делимся вашими данными</h2><h2>Как долго мы храним ваши данные</h2><p>Если вы оставляете комментарий, то сам комментарий и его метаданные сохраняются неопределенно долго. Это делается для того, чтобы определять и одобрять последующие комментарии автоматически, вместо помещения их в очередь на одобрение.</p><p>Для пользователей с регистрацией на нашем сайте мы храним ту личную информацию, которую они указывают в своем профиле. Все пользователи могут видеть, редактировать или удалить свою информацию из профиля в любое время (кроме имени пользователя). Администрация вебсайта также может видеть и изменять эту информацию.</p><h2>Какие у вас права на ваши данные</h2><p>При наличии учетной записи на сайте или если вы оставляли комментарии, то вы можете запросить файл экспорта персональных данных, которые мы сохранили о вас, включая предоставленные вами данные. Вы также можете запросить удаление этих данных, это не включает данные, которые мы обязаны хранить в административных целях, по закону или целях безопасности.</p><h2>Куда мы отправляем ваши данные</h2><p>Комментарии пользователей могут проверяться автоматическим сервисом определения спама.</p><h2>Ваша контактная информация</h2><h2>Дополнительная информация</h2><h3>Как мы защищаем ваши данные</h3><h3>Какие принимаются процедуры против взлома данных</h3><h3>От каких третьих сторон мы получаем данные</h3><h3>Какие автоматические решения принимаются на основе данных пользователей</h3><h3>Требования к раскрытию отраслевых нормативных требований</h3>', 'Политика конфиденциальности', '', 'trash', 'closed', 'open', '', 'privacy-policy__trashed', '', '', '2018-07-25 21:12:59', '2018-07-25 18:12:59', '', 0, 'http://zheu.loc/?page_id=3', 0, 'page', '', 0),
-(5, 1, '2018-07-25 21:12:59', '2018-07-25 18:12:59', '<h2>Кто мы</h2><p>Наш адрес сайта: http://zheu.loc.</p><h2>Какие персональные данные мы собираем и с какой целью</h2><h3>Комментарии</h3><p>Если посетитель оставляет комментарий на сайте, мы собираем данные указанные в форме комментария, а также IP адрес посетителя и данные user-agent браузера с целью определения спама.</p><p>Анонимизированная строка создаваемая из вашего адреса email (\"хеш\") может предоставляться сервису Gravatar, чтобы определить используете ли вы его. Политика конфиденциальности Gravatar доступна здесь: https://automattic.com/privacy/ . После одобрения комментария ваше изображение профиля будет видимым публично в контексте вашего комментария.</p><h3>Медиафайлы</h3><p>Если вы зарегистрированный пользователь и загружаете фотографии на сайт, вам возможно следует избегать загрузки изображений с метаданными EXIF, так как они могут содержать данные вашего месторасположения по GPS. Посетители могут извлечь эту информацию скачав изображения с сайта.</p><h3>Формы контактов</h3><h3>Куки</h3><p>Если вы оставляете комментарий на нашем сайте, вы можете включить сохранение вашего имени, адреса email и вебсайта в куки. Это делается для вашего удобства, чтобы не заполнять данные снова при повторном комментировании. Эти куки хранятся в течение одного года.</p><p>Если у вас есть учетная запись на сайте и вы войдете в неё, мы установим временный куки для определения поддержки куки вашим браузером, куки не содержит никакой личной информации и удаляется при закрытии вашего браузера.</p><p>При входе в учетную запись мы также устанавливаем несколько куки с данными входа и настройками экрана. Куки входа хранятся в течение двух дней, куки с настройками экрана - год. Если вы выберете возможность \"Запомнить меня\", данные о входе будут сохраняться в течение двух недель. При выходе из учетной записи куки входа будут удалены.</p><p>При редактировании или публикации статьи в браузере будет сохранен дополнительный куки, он не содержит персональных данных и содержит только ID записи отредактированной вами, истекает через 1 день.</p><h3>Встраиваемое содержимое других вебсайтов</h3><p>Статьи на этом сайте могут включать встраиваемое содержимое (например видео, изображения, статьи и др.), подобное содержимое ведет себя так же, как если бы посетитель зашел на другой сайт.</p><p>Эти сайты могут собирать данные о вас, использовать куки, внедрять дополнительное отслеживание третьей стороной и следить за вашим взаимодействием с внедренным содержимым, включая отслеживание взаимодействия, если у вас есть учетная запись и вы авторизовались на том сайте.</p><h3>Веб-аналитика</h3><h2>С кем мы делимся вашими данными</h2><h2>Как долго мы храним ваши данные</h2><p>Если вы оставляете комментарий, то сам комментарий и его метаданные сохраняются неопределенно долго. Это делается для того, чтобы определять и одобрять последующие комментарии автоматически, вместо помещения их в очередь на одобрение.</p><p>Для пользователей с регистрацией на нашем сайте мы храним ту личную информацию, которую они указывают в своем профиле. Все пользователи могут видеть, редактировать или удалить свою информацию из профиля в любое время (кроме имени пользователя). Администрация вебсайта также может видеть и изменять эту информацию.</p><h2>Какие у вас права на ваши данные</h2><p>При наличии учетной записи на сайте или если вы оставляли комментарии, то вы можете запросить файл экспорта персональных данных, которые мы сохранили о вас, включая предоставленные вами данные. Вы также можете запросить удаление этих данных, это не включает данные, которые мы обязаны хранить в административных целях, по закону или целях безопасности.</p><h2>Куда мы отправляем ваши данные</h2><p>Комментарии пользователей могут проверяться автоматическим сервисом определения спама.</p><h2>Ваша контактная информация</h2><h2>Дополнительная информация</h2><h3>Как мы защищаем ваши данные</h3><h3>Какие принимаются процедуры против взлома данных</h3><h3>От каких третьих сторон мы получаем данные</h3><h3>Какие автоматические решения принимаются на основе данных пользователей</h3><h3>Требования к раскрытию отраслевых нормативных требований</h3>', 'Политика конфиденциальности', '', 'inherit', 'closed', 'closed', '', '3-revision-v1', '', '', '2018-07-25 21:12:59', '2018-07-25 18:12:59', '', 3, 'http://zheu.loc/2018/07/25/3-revision-v1/', 0, 'revision', '', 0),
-(6, 1, '2018-07-25 21:13:05', '2018-07-25 18:13:05', 'Это пример страницы. От записей в блоге она отличается тем, что остаётся на одном месте и отображается в меню сайта (в большинстве тем). На странице &laquo;Детали&raquo; владельцы сайтов обычно рассказывают о себе потенциальным посетителям. Например, так:\n\n<blockquote>Привет! Днём я курьер, а вечером &#8212; подающий надежды актёр. Это мой блог. Я живу в Ростове-на-Дону, люблю своего пса Джека и пинаколаду. (И ещё попадать под дождь.)</blockquote>\n\n...или так:\n\n<blockquote>Компания &laquo;Штучки XYZ&raquo; была основана в 1971 году и с тех пор производит качественные штучки. Компания находится в Готэм-сити, имеет штат из более чем 2000 сотрудников и приносит много пользы жителям Готэма.</blockquote>\n\nПерейдите <a href=\"http://zheu.loc/wp-admin/\">в консоль</a>, чтобы удалить эту страницу и создать новые. Успехов!', 'Пример страницы', '', 'inherit', 'closed', 'closed', '', '2-revision-v1', '', '', '2018-07-25 21:13:05', '2018-07-25 18:13:05', '', 2, 'http://zheu.loc/2018/07/25/2-revision-v1/', 0, 'revision', '', 0),
-(7, 1, '2018-07-25 21:13:31', '2018-07-25 18:13:31', '', 'Главная страница', '', 'publish', 'closed', 'closed', '', 'glavnaja-stranica', '', '', '2018-08-04 13:48:15', '2018-08-04 10:48:15', '', 0, 'http://zheu.loc/?page_id=7', 0, 'page', '', 0),
+(2, 1, '2018-07-25 21:12:08', '2018-07-25 18:12:08', 'Это пример страницы. От записей в блоге она отличается тем, что остаётся на одном месте и отображается в меню сайта (в большинстве тем). На странице &laquo;Детали&raquo; владельцы сайтов обычно рассказывают о себе потенциальным посетителям. Например, так:\n\n<blockquote>Привет! Днём я курьер, а вечером &#8212; подающий надежды актёр. Это мой блог. Я живу в Ростове-на-Дону, люблю своего пса Джека и пинаколаду. (И ещё попадать под дождь.)</blockquote>\n\n...или так:\n\n<blockquote>Компания &laquo;Штучки XYZ&raquo; была основана в 1971 году и с тех пор производит качественные штучки. Компания находится в Готэм-сити, имеет штат из более чем 2000 сотрудников и приносит много пользы жителям Готэма.</blockquote>\n\nПерейдите <a href="http://zheu.loc/wp-admin/">в консоль</a>, чтобы удалить эту страницу и создать новые. Успехов!', 'Пример страницы', '', 'trash', 'closed', 'open', '', 'sample-page__trashed', '', '', '2018-07-25 21:13:05', '2018-07-25 18:13:05', '', 0, 'http://zheu.loc/?page_id=2', 0, 'page', '', 0),
+(3, 1, '2018-07-25 21:12:08', '2018-07-25 18:12:08', '<h2>Кто мы</h2><p>Наш адрес сайта: http://zheu.loc.</p><h2>Какие персональные данные мы собираем и с какой целью</h2><h3>Комментарии</h3><p>Если посетитель оставляет комментарий на сайте, мы собираем данные указанные в форме комментария, а также IP адрес посетителя и данные user-agent браузера с целью определения спама.</p><p>Анонимизированная строка создаваемая из вашего адреса email ("хеш") может предоставляться сервису Gravatar, чтобы определить используете ли вы его. Политика конфиденциальности Gravatar доступна здесь: https://automattic.com/privacy/ . После одобрения комментария ваше изображение профиля будет видимым публично в контексте вашего комментария.</p><h3>Медиафайлы</h3><p>Если вы зарегистрированный пользователь и загружаете фотографии на сайт, вам возможно следует избегать загрузки изображений с метаданными EXIF, так как они могут содержать данные вашего месторасположения по GPS. Посетители могут извлечь эту информацию скачав изображения с сайта.</p><h3>Формы контактов</h3><h3>Куки</h3><p>Если вы оставляете комментарий на нашем сайте, вы можете включить сохранение вашего имени, адреса email и вебсайта в куки. Это делается для вашего удобства, чтобы не заполнять данные снова при повторном комментировании. Эти куки хранятся в течение одного года.</p><p>Если у вас есть учетная запись на сайте и вы войдете в неё, мы установим временный куки для определения поддержки куки вашим браузером, куки не содержит никакой личной информации и удаляется при закрытии вашего браузера.</p><p>При входе в учетную запись мы также устанавливаем несколько куки с данными входа и настройками экрана. Куки входа хранятся в течение двух дней, куки с настройками экрана - год. Если вы выберете возможность "Запомнить меня", данные о входе будут сохраняться в течение двух недель. При выходе из учетной записи куки входа будут удалены.</p><p>При редактировании или публикации статьи в браузере будет сохранен дополнительный куки, он не содержит персональных данных и содержит только ID записи отредактированной вами, истекает через 1 день.</p><h3>Встраиваемое содержимое других вебсайтов</h3><p>Статьи на этом сайте могут включать встраиваемое содержимое (например видео, изображения, статьи и др.), подобное содержимое ведет себя так же, как если бы посетитель зашел на другой сайт.</p><p>Эти сайты могут собирать данные о вас, использовать куки, внедрять дополнительное отслеживание третьей стороной и следить за вашим взаимодействием с внедренным содержимым, включая отслеживание взаимодействия, если у вас есть учетная запись и вы авторизовались на том сайте.</p><h3>Веб-аналитика</h3><h2>С кем мы делимся вашими данными</h2><h2>Как долго мы храним ваши данные</h2><p>Если вы оставляете комментарий, то сам комментарий и его метаданные сохраняются неопределенно долго. Это делается для того, чтобы определять и одобрять последующие комментарии автоматически, вместо помещения их в очередь на одобрение.</p><p>Для пользователей с регистрацией на нашем сайте мы храним ту личную информацию, которую они указывают в своем профиле. Все пользователи могут видеть, редактировать или удалить свою информацию из профиля в любое время (кроме имени пользователя). Администрация вебсайта также может видеть и изменять эту информацию.</p><h2>Какие у вас права на ваши данные</h2><p>При наличии учетной записи на сайте или если вы оставляли комментарии, то вы можете запросить файл экспорта персональных данных, которые мы сохранили о вас, включая предоставленные вами данные. Вы также можете запросить удаление этих данных, это не включает данные, которые мы обязаны хранить в административных целях, по закону или целях безопасности.</p><h2>Куда мы отправляем ваши данные</h2><p>Комментарии пользователей могут проверяться автоматическим сервисом определения спама.</p><h2>Ваша контактная информация</h2><h2>Дополнительная информация</h2><h3>Как мы защищаем ваши данные</h3><h3>Какие принимаются процедуры против взлома данных</h3><h3>От каких третьих сторон мы получаем данные</h3><h3>Какие автоматические решения принимаются на основе данных пользователей</h3><h3>Требования к раскрытию отраслевых нормативных требований</h3>', 'Политика конфиденциальности', '', 'trash', 'closed', 'open', '', 'privacy-policy__trashed', '', '', '2018-07-25 21:12:59', '2018-07-25 18:12:59', '', 0, 'http://zheu.loc/?page_id=3', 0, 'page', '', 0),
+(5, 1, '2018-07-25 21:12:59', '2018-07-25 18:12:59', '<h2>Кто мы</h2><p>Наш адрес сайта: http://zheu.loc.</p><h2>Какие персональные данные мы собираем и с какой целью</h2><h3>Комментарии</h3><p>Если посетитель оставляет комментарий на сайте, мы собираем данные указанные в форме комментария, а также IP адрес посетителя и данные user-agent браузера с целью определения спама.</p><p>Анонимизированная строка создаваемая из вашего адреса email ("хеш") может предоставляться сервису Gravatar, чтобы определить используете ли вы его. Политика конфиденциальности Gravatar доступна здесь: https://automattic.com/privacy/ . После одобрения комментария ваше изображение профиля будет видимым публично в контексте вашего комментария.</p><h3>Медиафайлы</h3><p>Если вы зарегистрированный пользователь и загружаете фотографии на сайт, вам возможно следует избегать загрузки изображений с метаданными EXIF, так как они могут содержать данные вашего месторасположения по GPS. Посетители могут извлечь эту информацию скачав изображения с сайта.</p><h3>Формы контактов</h3><h3>Куки</h3><p>Если вы оставляете комментарий на нашем сайте, вы можете включить сохранение вашего имени, адреса email и вебсайта в куки. Это делается для вашего удобства, чтобы не заполнять данные снова при повторном комментировании. Эти куки хранятся в течение одного года.</p><p>Если у вас есть учетная запись на сайте и вы войдете в неё, мы установим временный куки для определения поддержки куки вашим браузером, куки не содержит никакой личной информации и удаляется при закрытии вашего браузера.</p><p>При входе в учетную запись мы также устанавливаем несколько куки с данными входа и настройками экрана. Куки входа хранятся в течение двух дней, куки с настройками экрана - год. Если вы выберете возможность "Запомнить меня", данные о входе будут сохраняться в течение двух недель. При выходе из учетной записи куки входа будут удалены.</p><p>При редактировании или публикации статьи в браузере будет сохранен дополнительный куки, он не содержит персональных данных и содержит только ID записи отредактированной вами, истекает через 1 день.</p><h3>Встраиваемое содержимое других вебсайтов</h3><p>Статьи на этом сайте могут включать встраиваемое содержимое (например видео, изображения, статьи и др.), подобное содержимое ведет себя так же, как если бы посетитель зашел на другой сайт.</p><p>Эти сайты могут собирать данные о вас, использовать куки, внедрять дополнительное отслеживание третьей стороной и следить за вашим взаимодействием с внедренным содержимым, включая отслеживание взаимодействия, если у вас есть учетная запись и вы авторизовались на том сайте.</p><h3>Веб-аналитика</h3><h2>С кем мы делимся вашими данными</h2><h2>Как долго мы храним ваши данные</h2><p>Если вы оставляете комментарий, то сам комментарий и его метаданные сохраняются неопределенно долго. Это делается для того, чтобы определять и одобрять последующие комментарии автоматически, вместо помещения их в очередь на одобрение.</p><p>Для пользователей с регистрацией на нашем сайте мы храним ту личную информацию, которую они указывают в своем профиле. Все пользователи могут видеть, редактировать или удалить свою информацию из профиля в любое время (кроме имени пользователя). Администрация вебсайта также может видеть и изменять эту информацию.</p><h2>Какие у вас права на ваши данные</h2><p>При наличии учетной записи на сайте или если вы оставляли комментарии, то вы можете запросить файл экспорта персональных данных, которые мы сохранили о вас, включая предоставленные вами данные. Вы также можете запросить удаление этих данных, это не включает данные, которые мы обязаны хранить в административных целях, по закону или целях безопасности.</p><h2>Куда мы отправляем ваши данные</h2><p>Комментарии пользователей могут проверяться автоматическим сервисом определения спама.</p><h2>Ваша контактная информация</h2><h2>Дополнительная информация</h2><h3>Как мы защищаем ваши данные</h3><h3>Какие принимаются процедуры против взлома данных</h3><h3>От каких третьих сторон мы получаем данные</h3><h3>Какие автоматические решения принимаются на основе данных пользователей</h3><h3>Требования к раскрытию отраслевых нормативных требований</h3>', 'Политика конфиденциальности', '', 'inherit', 'closed', 'closed', '', '3-revision-v1', '', '', '2018-07-25 21:12:59', '2018-07-25 18:12:59', '', 3, 'http://zheu.loc/2018/07/25/3-revision-v1/', 0, 'revision', '', 0),
+(6, 1, '2018-07-25 21:13:05', '2018-07-25 18:13:05', 'Это пример страницы. От записей в блоге она отличается тем, что остаётся на одном месте и отображается в меню сайта (в большинстве тем). На странице &laquo;Детали&raquo; владельцы сайтов обычно рассказывают о себе потенциальным посетителям. Например, так:\n\n<blockquote>Привет! Днём я курьер, а вечером &#8212; подающий надежды актёр. Это мой блог. Я живу в Ростове-на-Дону, люблю своего пса Джека и пинаколаду. (И ещё попадать под дождь.)</blockquote>\n\n...или так:\n\n<blockquote>Компания &laquo;Штучки XYZ&raquo; была основана в 1971 году и с тех пор производит качественные штучки. Компания находится в Готэм-сити, имеет штат из более чем 2000 сотрудников и приносит много пользы жителям Готэма.</blockquote>\n\nПерейдите <a href="http://zheu.loc/wp-admin/">в консоль</a>, чтобы удалить эту страницу и создать новые. Успехов!', 'Пример страницы', '', 'inherit', 'closed', 'closed', '', '2-revision-v1', '', '', '2018-07-25 21:13:05', '2018-07-25 18:13:05', '', 2, 'http://zheu.loc/2018/07/25/2-revision-v1/', 0, 'revision', '', 0),
+(7, 1, '2018-07-25 21:13:31', '2018-07-25 18:13:31', '', 'Главная страница', '', 'publish', 'closed', 'closed', '', 'glavnaja-stranica', '', '', '2018-08-09 09:56:15', '2018-08-09 06:56:15', '', 0, 'http://zheu.loc/?page_id=7', 0, 'page', '', 0),
 (8, 1, '2018-07-25 21:13:31', '2018-07-25 18:13:31', '', 'Главная страница', '', 'inherit', 'closed', 'closed', '', '7-revision-v1', '', '', '2018-07-25 21:13:31', '2018-07-25 18:13:31', '', 7, 'http://zheu.loc/2018/07/25/7-revision-v1/', 0, 'revision', '', 0),
-(10, 1, '2018-07-26 01:37:43', '2018-07-25 22:37:43', ' ', '', '', 'publish', 'closed', 'closed', '', '10', '', '', '2018-08-05 20:48:15', '2018-08-05 17:48:15', '', 0, 'http://zheu.loc/?p=10', 2, 'nav_menu_item', '', 0),
-(11, 1, '2018-07-26 01:37:43', '2018-07-25 22:37:43', ' ', '', '', 'publish', 'closed', 'closed', '', '11', '', '', '2018-08-05 20:48:15', '2018-08-05 17:48:15', '', 0, 'http://zheu.loc/?p=11', 3, 'nav_menu_item', '', 0),
+(11, 1, '2018-07-26 01:37:43', '2018-07-25 22:37:43', ' ', '', '', 'publish', 'closed', 'closed', '', '11', '', '', '2018-08-17 11:06:58', '2018-08-17 08:06:58', '', 0, 'http://zheu.loc/?p=11', 4, 'nav_menu_item', '', 0),
 (12, 1, '2018-07-26 01:38:20', '2018-07-25 22:38:20', '', 'Контакты', '', 'publish', 'closed', 'closed', '', 'kontakty', '', '', '2018-07-26 01:38:20', '2018-07-25 22:38:20', '', 0, 'http://zheu.loc/?page_id=12', 0, 'page', '', 0),
 (13, 1, '2018-07-26 01:38:20', '2018-07-25 22:38:20', '', 'Контакты', '', 'inherit', 'closed', 'closed', '', '12-revision-v1', '', '', '2018-07-26 01:38:20', '2018-07-25 22:38:20', '', 12, 'http://zheu.loc/head/12-revision-v1/', 0, 'revision', '', 0),
 (14, 1, '2018-07-26 01:38:50', '2018-07-25 22:38:50', '', 'Электронные обращения', '', 'trash', 'closed', 'closed', '', 'jelektronnye-obrashhenija__trashed', '', '', '2018-08-07 13:39:33', '2018-08-07 10:39:33', '', 0, 'http://zheu.loc/?page_id=14', 0, 'page', '', 0),
 (15, 1, '2018-07-26 01:38:50', '2018-07-25 22:38:50', '', 'Электронные обращения', '', 'inherit', 'closed', 'closed', '', '14-revision-v1', '', '', '2018-07-26 01:38:50', '2018-07-25 22:38:50', '', 14, 'http://zheu.loc/head/14-revision-v1/', 0, 'revision', '', 0),
-(16, 1, '2018-07-26 01:39:23', '2018-07-25 22:39:23', 'Обращения (предложения, заявления, жалобы) граждан независимо от того, в какой государственный орган или иную организацию они поступили, первоначально подлежат рассмотрению по существу в соответствии с компетенцией: - в местных исполнительных и распорядительных органах, подчиненных им организациях, территориальных подразделениях (органах) и организациях, подчиненных или входящих в состав (систему) республиканских органов государственного управления и государственных организаций, подчиненных Правительству Республики Беларусь, другим государственным органам, иным организациям, осуществляющих свою деятельность и расположенных в пределах той административно-территориальной единицы, на территории которой возникли вопросы, изложенные в обращениях; - в других государственных органах, иных организациях, если вопросы, изложенные в обращениях, относятся к исключительной компетенции этих органов или организаций.\r\n\r\n\r\nОбращаем ваше внимание, что подача обращений осуществляется на белорусском или русском языках.\r\n\r\n\r\n<strong>Оставляются без рассмотрения по существу обращения, которые (по которым):</strong>\r\n\r\n- изложены не на белорусском или русском языке; - не содержат фамилии, собственного имени, отчества, адреса места жительства (места пребывания) гражданина; - не содержат полного наименования юридического лица и адреса его места нахождения, фамилии, собственного имени, отчества руководителя или лица, уполномоченного в установленном порядке подписывать обращения (для юридических лиц); - содержат текст, не поддающийся прочтению; - содержат нецензурные либо оскорбительные слова или выражения; - подлежат рассмотрению в соответствии с законодательством о конституционном судопроизводстве, гражданским, гражданским процессуальным, хозяйственным процессуальным, уголовно-процессуальным законодательством, законодательством, определяющим порядок административного процесса, законодательством об административных процедурах либо в соответствии с законодательными актами установлен иной порядок подачи и рассмотрения таких обращений; - содержат вопросы, не относящиеся к компетенции адресата; - пропущен без уважительной причины срок подачи жалобы; - подано повторное обращение и в нем не содержатся новые обстоятельства; - с заявителем прекращена переписка.\r\n\r\nОбращаем внимание, что действующим законодательством электронная форма подачи заявления либо жалобы предусмотрена только для обращений, направляемых в адрес электронной почты организации в порядке', 'Электронные обращения граждан', '', 'publish', 'closed', 'closed', '', 'jelektronnye-obrashhenija-grazhdan', '', '', '2018-08-07 13:39:00', '2018-08-07 10:39:00', '', 0, 'http://zheu.loc/?page_id=16', 0, 'page', '', 0),
+(16, 1, '2018-07-26 01:39:23', '2018-07-25 22:39:23', 'Обращения (предложения, заявления, жалобы) граждан независимо от того, в какой государственный орган или иную организацию они поступили, первоначально подлежат рассмотрению по существу в соответствии с компетенцией: - в местных исполнительных и распорядительных органах, подчиненных им организациях, территориальных подразделениях (органах) и организациях, подчиненных или входящих в состав (систему) республиканских органов государственного управления и государственных организаций, подчиненных Правительству Республики Беларусь, другим государственным органам, иным организациям, осуществляющих свою деятельность и расположенных в пределах той административно-территориальной единицы, на территории которой возникли вопросы, изложенные в обращениях; - в других государственных органах, иных организациях, если вопросы, изложенные в обращениях, относятся к исключительной компетенции этих органов или организаций.\r\n\r\n\r\nОбращаем ваше внимание, что подача обращений осуществляется на белорусском или русском языках.\r\n\r\n\r\n<strong>Оставляются без рассмотрения по существу обращения, которые (по которым):</strong>\r\n\r\n- изложены не на белорусском или русском языке; - не содержат фамилии, собственного имени, отчества, адреса места жительства (места пребывания) гражданина; - не содержат полного наименования юридического лица и адреса его места нахождения, фамилии, собственного имени, отчества руководителя или лица, уполномоченного в установленном порядке подписывать обращения (для юридических лиц); - содержат текст, не поддающийся прочтению; - содержат нецензурные либо оскорбительные слова или выражения; - подлежат рассмотрению в соответствии с законодательством о конституционном судопроизводстве, гражданским, гражданским процессуальным, хозяйственным процессуальным, уголовно-процессуальным законодательством, законодательством, определяющим порядок административного процесса, законодательством об административных процедурах либо в соответствии с законодательными актами установлен иной порядок подачи и рассмотрения таких обращений; - содержат вопросы, не относящиеся к компетенции адресата; - пропущен без уважительной причины срок подачи жалобы; - подано повторное обращение и в нем не содержатся новые обстоятельства; - с заявителем прекращена переписка.\r\n\r\nОбращаем внимание, что действующим законодательством электронная форма подачи заявления либо жалобы предусмотрена только для обращений, направляемых в адрес электронной почты организации в порядке', 'Электронные обращения граждан', '', 'publish', 'closed', 'closed', '', 'jelektronnye-obrashhenija-grazhdan', '', '', '2018-08-21 14:38:04', '2018-08-21 11:38:04', '', 0, 'http://zheu.loc/?page_id=16', 0, 'page', '', 0),
 (17, 1, '2018-07-26 01:39:23', '2018-07-25 22:39:23', '', 'Электронные обращения граждан', '', 'inherit', 'closed', 'closed', '', '16-revision-v1', '', '', '2018-07-26 01:39:23', '2018-07-25 22:39:23', '', 16, 'http://zheu.loc/head/16-revision-v1/', 0, 'revision', '', 0),
 (18, 1, '2018-07-26 01:40:06', '2018-07-25 22:40:06', '', 'Электронные обращения юридических лиц', '', 'publish', 'closed', 'closed', '', 'jelektronnye-obrashhenija-juridicheskih-lic', '', '', '2018-08-07 13:39:13', '2018-08-07 10:39:13', '', 0, 'http://zheu.loc/?page_id=18', 0, 'page', '', 0),
 (19, 1, '2018-07-26 01:40:06', '2018-07-25 22:40:06', '', 'Электронные обращения юридических лиц', '', 'inherit', 'closed', 'closed', '', '18-revision-v1', '', '', '2018-07-26 01:40:06', '2018-07-25 22:40:06', '', 18, 'http://zheu.loc/head/18-revision-v1/', 0, 'revision', '', 0),
@@ -1320,10 +1709,10 @@ INSERT INTO `wp_posts` (`ID`, `post_author`, `post_date`, `post_date_gmt`, `post
 (21, 1, '2018-07-26 01:56:26', '0000-00-00 00:00:00', ' ', '', '', 'draft', 'closed', 'closed', '', '', '', '', '2018-07-26 01:56:26', '0000-00-00 00:00:00', '', 14, 'http://zheu.loc/?p=21', 1, 'nav_menu_item', '', 0),
 (22, 1, '2018-07-26 01:56:27', '0000-00-00 00:00:00', ' ', '', '', 'draft', 'closed', 'closed', '', '', '', '', '2018-07-26 01:56:27', '0000-00-00 00:00:00', '', 14, 'http://zheu.loc/?p=22', 1, 'nav_menu_item', '', 0),
 (23, 1, '2018-07-26 01:56:41', '0000-00-00 00:00:00', ' ', '', '', 'draft', 'closed', 'closed', '', '', '', '', '2018-07-26 01:56:41', '0000-00-00 00:00:00', '', 0, 'http://zheu.loc/?p=23', 1, 'nav_menu_item', '', 0),
-(25, 1, '2018-07-28 07:21:06', '2018-07-28 04:21:06', ' ', '', '', 'publish', 'closed', 'closed', '', '25', '', '', '2018-08-05 20:48:16', '2018-08-05 17:48:16', '', 14, 'http://zheu.loc/?p=25', 6, 'nav_menu_item', '', 0),
-(26, 1, '2018-07-28 07:21:07', '2018-07-28 04:21:07', ' ', '', '', 'publish', 'closed', 'closed', '', '26', '', '', '2018-08-05 20:48:16', '2018-08-05 17:48:16', '', 14, 'http://zheu.loc/?p=26', 7, 'nav_menu_item', '', 0),
-(27, 1, '2018-07-28 07:21:07', '2018-07-28 04:21:07', ' ', '', '', 'publish', 'closed', 'closed', '', '27', '', '', '2018-08-05 20:48:16', '2018-08-05 17:48:16', '', 0, 'http://zheu.loc/?p=27', 8, 'nav_menu_item', '', 0),
-(29, 1, '2018-07-28 09:31:36', '2018-07-28 06:31:36', '', 'Главная страница', '', 'publish', 'closed', 'closed', '', 'acf_glavnaja-stranica', '', '', '2018-08-04 13:33:02', '2018-08-04 10:33:02', '', 0, 'http://zheu.loc/?post_type=acf&#038;p=29', 0, 'acf', '', 0),
+(25, 1, '2018-07-28 07:21:06', '2018-07-28 04:21:06', ' ', '', '', 'publish', 'closed', 'closed', '', '25', '', '', '2018-08-17 11:06:58', '2018-08-17 08:06:58', '', 0, 'http://zheu.loc/?p=25', 7, 'nav_menu_item', '', 0),
+(26, 1, '2018-07-28 07:21:07', '2018-07-28 04:21:07', ' ', '', '', 'publish', 'closed', 'closed', '', '26', '', '', '2018-08-17 11:06:58', '2018-08-17 08:06:58', '', 0, 'http://zheu.loc/?p=26', 8, 'nav_menu_item', '', 0),
+(27, 1, '2018-07-28 07:21:07', '2018-07-28 04:21:07', ' ', '', '', 'publish', 'closed', 'closed', '', '27', '', '', '2018-08-17 11:06:58', '2018-08-17 08:06:58', '', 0, 'http://zheu.loc/?p=27', 9, 'nav_menu_item', '', 0),
+(29, 1, '2018-07-28 09:31:36', '2018-07-28 06:31:36', '', 'Главная страница', '', 'publish', 'closed', 'closed', '', 'acf_glavnaja-stranica', '', '', '2018-08-09 09:53:38', '2018-08-09 06:53:38', '', 0, 'http://zheu.loc/?post_type=acf&#038;p=29', 0, 'acf', '', 0),
 (30, 1, '2018-07-28 09:34:55', '2018-07-28 06:34:55', '', 'Главная страница', '', 'inherit', 'closed', 'closed', '', '7-revision-v1', '', '', '2018-07-28 09:34:55', '2018-07-28 06:34:55', '', 7, 'http://zheu.loc/head/7-revision-v1/', 0, 'revision', '', 0),
 (31, 1, '2018-07-28 11:09:39', '2018-07-28 08:09:39', '', 'В праздник не отдыхаем, а работаем. Сажаем новые деревья на улице Матусевича.', '', 'publish', 'open', 'open', '', 'v-prazdnik-ne-otdyhaem-a-rabotaem-sazhaem-novye-derevja-na-ulice-matusevicha', '', '', '2018-07-28 11:09:39', '2018-07-28 08:09:39', '', 0, 'http://zheu.loc/?p=31', 0, 'post', '', 0),
 (32, 1, '2018-07-28 11:09:39', '2018-07-28 08:09:39', '', 'В праздник не отдыхаем, а работаем. Сажаем новые деревья на улице Матусевича.', '', 'inherit', 'closed', 'closed', '', '31-revision-v1', '', '', '2018-07-28 11:09:39', '2018-07-28 08:09:39', '', 31, 'http://zheu.loc/head/31-revision-v1/', 0, 'revision', '', 0),
@@ -1333,7 +1722,7 @@ INSERT INTO `wp_posts` (`ID`, `post_author`, `post_date`, `post_date_gmt`, `post
 (36, 1, '2018-07-28 11:14:21', '2018-07-28 08:14:21', 'Перкладываем тротуарные плитки длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст', 'Перекладка тротуарных плиток в парке', '', 'publish', 'open', 'open', '', 'perekladka-trotuarnyh-plitok-v-parke', '', '', '2018-08-08 11:55:42', '2018-08-08 08:55:42', '', 0, 'http://zheu.loc/?p=36', 0, 'post', '', 0),
 (37, 1, '2018-07-28 11:14:21', '2018-07-28 08:14:21', '', 'Перекладка тротуарных плиток в парке', '', 'inherit', 'closed', 'closed', '', '36-revision-v1', '', '', '2018-07-28 11:14:21', '2018-07-28 08:14:21', '', 36, 'http://zheu.loc/head/36-revision-v1/', 0, 'revision', '', 0),
 (38, 1, '2018-08-08 17:14:31', '2018-08-08 14:14:31', '', 'Услуги', '', 'trash', 'open', 'open', '', '__trashed', '', '', '2018-08-08 17:14:31', '2018-08-08 14:14:31', '', 0, 'http://zheu.loc/?p=38', 0, 'post', '', 0),
-(39, 1, '2018-07-28 12:19:25', '2018-07-28 09:19:25', '', 'Услуга', '', 'publish', 'closed', 'closed', '', 'acf_usluga', '', '', '2018-07-28 12:19:25', '2018-07-28 09:19:25', '', 0, 'http://zheu.loc/?post_type=acf&#038;p=39', 0, 'acf', '', 0),
+(39, 1, '2018-07-28 12:19:25', '2018-07-28 09:19:25', '', 'Услуга', '', 'publish', 'closed', 'closed', '', 'acf_usluga', '', '', '2018-08-21 12:37:21', '2018-08-21 09:37:21', '', 0, 'http://zheu.loc/?post_type=acf&#038;p=39', 0, 'acf', '', 0),
 (41, 1, '2018-07-28 12:24:14', '2018-07-28 09:24:14', '', 'Услуги электрика', '', 'trash', 'open', 'open', '', 'uslugi-jelektrika__trashed', '', '', '2018-08-08 17:25:34', '2018-08-08 14:25:34', '', 0, 'http://zheu.loc/?p=41', 0, 'post', '', 0),
 (42, 1, '2018-07-28 12:24:05', '2018-07-28 09:24:05', '', 'icon_elektrik', '', 'inherit', 'open', 'closed', '', 'icon_elektrik', '', '', '2018-07-28 12:24:05', '2018-07-28 09:24:05', '', 41, 'http://zheu.loc/wp-content/uploads/2018/07/icon_elektrik.png', 0, 'attachment', 'image/png', 0),
 (43, 1, '2018-07-28 12:24:14', '2018-07-28 09:24:14', '', 'Услуги электрика', '', 'inherit', 'closed', 'closed', '', '41-revision-v1', '', '', '2018-07-28 12:24:14', '2018-07-28 09:24:14', '', 41, 'http://zheu.loc/head/41-revision-v1/', 0, 'revision', '', 0),
@@ -1357,20 +1746,21 @@ INSERT INTO `wp_posts` (`ID`, `post_author`, `post_date`, `post_date_gmt`, `post
 (63, 1, '2018-07-30 11:50:09', '2018-07-30 08:50:09', '', 'График приёмов', '', 'inherit', 'closed', 'closed', '', '62-revision-v1', '', '', '2018-07-30 11:50:09', '2018-07-30 08:50:09', '', 62, 'http://zheu.loc/head/62-revision-v1/', 0, 'revision', '', 0),
 (64, 1, '2018-07-30 11:50:39', '2018-07-30 08:50:39', ' ', '', '', 'publish', 'closed', 'closed', '', '64', '', '', '2018-07-30 12:10:56', '2018-07-30 09:10:56', '', 0, 'http://zheu.loc/?p=64', 2, 'nav_menu_item', '', 0),
 (65, 1, '2018-07-30 11:50:39', '2018-07-30 08:50:39', ' ', '', '', 'publish', 'closed', 'closed', '', '65', '', '', '2018-07-30 12:10:56', '2018-07-30 09:10:56', '', 0, 'http://zheu.loc/?p=65', 3, 'nav_menu_item', '', 0),
-(66, 1, '2018-07-30 12:10:06', '2018-07-30 09:10:06', 'Вызвать мастера можно по телефону:\r\n\r\nЖЭС №43\r\n<a href=\"tel:+375 17 259-95-89\"><h1>+375 17 259-95-89</h1></a>\r\nЖЭС №53\r\n<a href=\"tel:+375 17 217-00-90\"><h1>+375 17 217-00-90</h1></a></h1>\r\nПрейскурант цен на платные услуги по заказам населения на 01.05.2018 года\r\n\r\n{DOWNLOAD_FILE}\r\n\r\n<a href=\"#\">Перечень  видов работ по оказанию платных услуг по заказам населения и тарифы на них КУП ЖЭУ №7 Фрунзенского района г.Минска</a>', 'Бытовые услуги и цены', '', 'publish', 'closed', 'closed', '', 'bytovye-uslugi-i-ceny', '', '', '2018-07-31 16:31:50', '2018-07-31 13:31:50', '', 0, 'http://zheu.loc/?page_id=66', 0, 'page', '', 0),
+(66, 1, '2018-07-30 12:10:06', '2018-07-30 09:10:06', 'Вызвать мастера можно по телефону:\r\n\r\nЖЭС №43\r\n<a href="tel:+375 17 259-95-89"><h2> +375 17 259-95-89 </h2></a>\r\nЖЭС №53\r\n<h2>+375 17 217-00-90</h2>\r\nПрейскурант цен на платные услуги по заказам населения на 01.05.2018 года\r\n\r\n{DOWNLOAD_FILE}\r\n\r\n<a href="#">Перечень  видов работ по оказанию платных услуг по заказам населения и тарифы на них КУП ЖЭУ №7 Фрунзенского района г.Минска</a>', 'Бытовые услуги и цены', '', 'publish', 'closed', 'closed', '', 'bytovye-uslugi-i-ceny', '', '', '2018-08-21 14:42:07', '2018-08-21 11:42:07', '', 0, 'http://zheu.loc/?page_id=66', 0, 'page', '', 0),
 (67, 1, '2018-07-30 12:10:06', '2018-07-30 09:10:06', '', 'Бытовые услуги и цены', '', 'inherit', 'closed', 'closed', '', '66-revision-v1', '', '', '2018-07-30 12:10:06', '2018-07-30 09:10:06', '', 66, 'http://zheu.loc/head/66-revision-v1/', 0, 'revision', '', 0),
 (68, 1, '2018-07-30 12:10:56', '2018-07-30 09:10:56', ' ', '', '', 'publish', 'closed', 'closed', '', '68', '', '', '2018-07-30 12:10:56', '2018-07-30 09:10:56', '', 0, 'http://zheu.loc/?p=68', 1, 'nav_menu_item', '', 0),
-(70, 1, '2018-07-30 12:38:03', '2018-07-30 09:38:03', '', 'Меню слева', '', 'publish', 'closed', 'closed', '', 'acf_menju-sleva', '', '', '2018-08-08 17:26:41', '2018-08-08 14:26:41', '', 0, 'http://zheu.loc/?post_type=acf&#038;p=70', 0, 'acf', '', 0),
+(70, 1, '2018-07-30 12:38:03', '2018-07-30 09:38:03', '', 'Меню слева', '', 'publish', 'closed', 'closed', '', 'acf_menju-sleva', '', '', '2018-08-21 14:40:25', '2018-08-21 11:40:25', '', 0, 'http://zheu.loc/?post_type=acf&#038;p=70', 0, 'acf', '', 0),
 (71, 1, '2018-07-30 12:40:40', '2018-07-30 09:40:40', '', 'Бытовые услуги и цены', '', 'inherit', 'closed', 'closed', '', '66-revision-v1', '', '', '2018-07-30 12:40:40', '2018-07-30 09:40:40', '', 66, 'http://zheu.loc/head/66-revision-v1/', 0, 'revision', '', 0),
-(72, 1, '2018-07-31 15:58:12', '2018-07-31 12:58:12', ' ', '', '', 'publish', 'closed', 'closed', '', '72', '', '', '2018-08-05 20:48:15', '2018-08-05 17:48:15', '', 0, 'http://zheu.loc/?p=72', 1, 'nav_menu_item', '', 0),
+(72, 1, '2018-07-31 15:58:12', '2018-07-31 12:58:12', ' ', '', '', 'publish', 'closed', 'closed', '', '72', '', '', '2018-08-17 11:06:58', '2018-08-17 08:06:58', '', 0, 'http://zheu.loc/?p=72', 1, 'nav_menu_item', '', 0),
 (73, 1, '2018-07-31 15:58:57', '2018-07-31 12:58:57', '', 'Бытовые услуги и цены', '', 'inherit', 'closed', 'closed', '', '66-revision-v1', '', '', '2018-07-31 15:58:57', '2018-07-31 12:58:57', '', 66, 'http://zheu.loc/head/66-revision-v1/', 0, 'revision', '', 0),
-(74, 1, '2018-07-31 16:31:26', '2018-07-31 13:31:26', 'Вызвать мастера можно по телефону:\n\nЖЭС №43\n<h1><a href=\"tel:+375 17 259-95-89\">+375 17 259-95-89</a></h1>\nЖЭС №53\n<a href=\"tel:+375 17 217-00-90\"><h1>+375 17 217-00-90</h1></a></h1>\nПрейскурант цен на платные услуги по заказам населения на 01.05.2018 года\n\n{DOWNLOAD_FILE}\n\n<a href=\"#\">Перечень  видов работ по оказанию платных услуг по заказам населения и тарифы на них КУП ЖЭУ №7 Фрунзенского района г.Минска</a>', 'Бытовые услуги и цены', '', 'inherit', 'closed', 'closed', '', '66-autosave-v1', '', '', '2018-07-31 16:31:26', '2018-07-31 13:31:26', '', 66, 'http://zheu.loc/head/66-autosave-v1/', 0, 'revision', '', 0),
-(75, 1, '2018-07-31 16:11:00', '2018-07-31 13:11:00', '<h1>Бытовые услуги и цены</h1>\r\nВызвать мастера можно по телефону:\r\n\r\nЖЭС №43\r\n<h1><a href=\"tel:+375 17 259-95-89\">+375 17 259-95-89</a></h1>\r\nЖЭС №53\r\n<h1><a href=\"tel:+375 17 217-00-90\">+375 17 217-00-90</a></h1>\r\nПрейскурант цен на платные услуги по заказам населения на 01.05.2018 года\r\n\r\n{DOWNLOAD_FILE}\r\n\r\n<a href=\"#\">Перечень  видов работ по оказанию платных услуг по заказам населения и тарифы на них КУП ЖЭУ №7 Фрунзенского района г.Минска</a>', 'Бытовые услуги и цены', '', 'inherit', 'closed', 'closed', '', '66-revision-v1', '', '', '2018-07-31 16:11:00', '2018-07-31 13:11:00', '', 66, 'http://zheu.loc/head/66-revision-v1/', 0, 'revision', '', 0),
+(74, 1, '2018-08-20 20:21:23', '2018-08-20 17:21:23', 'Вызвать мастера можно по телефону:\n\nЖЭС №43\n<h2><a href="tel:+375 17 259-95-89"> +375 17 259-95-89 </a></h2>\nЖЭС №53\n<h2>+375 17 217-00-90</h2>\nПрейскурант цен на платные услуги по заказам населения на 01.05.2018 года\n\n{DOWNLOAD_FILE}\n\n<a href="#">Перечень  видов работ по оказанию платных услуг по заказам населения и тарифы на них КУП ЖЭУ №7 Фрунзенского района г.Минска</a>', 'Бытовые услуги и цены', '', 'inherit', 'closed', 'closed', '', '66-autosave-v1', '', '', '2018-08-20 20:21:23', '2018-08-20 17:21:23', '', 66, 'http://zheu.loc/head/66-autosave-v1/', 0, 'revision', '', 0),
+(75, 1, '2018-07-31 16:11:00', '2018-07-31 13:11:00', '<h1>Бытовые услуги и цены</h1>\r\nВызвать мастера можно по телефону:\r\n\r\nЖЭС №43\r\n<h1><a href="tel:+375 17 259-95-89">+375 17 259-95-89</a></h1>\r\nЖЭС №53\r\n<h1><a href="tel:+375 17 217-00-90">+375 17 217-00-90</a></h1>\r\nПрейскурант цен на платные услуги по заказам населения на 01.05.2018 года\r\n\r\n{DOWNLOAD_FILE}\r\n\r\n<a href="#">Перечень  видов работ по оказанию платных услуг по заказам населения и тарифы на них КУП ЖЭУ №7 Фрунзенского района г.Минска</a>', 'Бытовые услуги и цены', '', 'inherit', 'closed', 'closed', '', '66-revision-v1', '', '', '2018-07-31 16:11:00', '2018-07-31 13:11:00', '', 66, 'http://zheu.loc/head/66-revision-v1/', 0, 'revision', '', 0),
 (76, 1, '2018-07-31 16:14:34', '2018-07-31 13:14:34', '', 'Страница', '', 'publish', 'closed', 'closed', '', 'acf_stranica', '', '', '2018-07-31 16:14:34', '2018-07-31 13:14:34', '', 0, 'http://zheu.loc/?post_type=acf&#038;p=76', 0, 'acf', '', 0),
-(77, 1, '2018-07-31 16:14:57', '2018-07-31 13:14:57', '<h1>Бытовые услуги и цены</h1>\r\nВызвать мастера можно по телефону:\r\n\r\nЖЭС №43\r\n<h1><a href=\"tel:+375 17 259-95-89\">+375 17 259-95-89</a></h1>\r\nЖЭС №53\r\n<h1><a href=\"tel:+375 17 217-00-90\">+375 17 217-00-90</a></h1>\r\nПрейскурант цен на платные услуги по заказам населения на 01.05.2018 года\r\n\r\n{DOWNLOAD_FILE}\r\n\r\n<a href=\"#\">Перечень  видов работ по оказанию платных услуг по заказам населения и тарифы на них КУП ЖЭУ №7 Фрунзенского района г.Минска</a>', 'Бытовые услуги и цены', '', 'inherit', 'closed', 'closed', '', '66-revision-v1', '', '', '2018-07-31 16:14:57', '2018-07-31 13:14:57', '', 66, 'http://zheu.loc/head/66-revision-v1/', 0, 'revision', '', 0),
-(78, 1, '2018-07-31 16:30:34', '2018-07-31 13:30:34', 'Вызвать мастера можно по телефону:\r\n\r\nЖЭС №43\r\n<h1><a href=\"tel:+375 17 259-95-89\">+375 17 259-95-89</a></h1>\r\nЖЭС №53\r\n<h1><a href=\"tel:+375 17 217-00-90\">+375 17 217-00-90</a></h1>\r\nПрейскурант цен на платные услуги по заказам населения на 01.05.2018 года\r\n\r\n{DOWNLOAD_FILE}\r\n\r\n<a href=\"#\">Перечень  видов работ по оказанию платных услуг по заказам населения и тарифы на них КУП ЖЭУ №7 Фрунзенского района г.Минска</a>', 'Бытовые услуги и цены', '', 'inherit', 'closed', 'closed', '', '66-revision-v1', '', '', '2018-07-31 16:30:34', '2018-07-31 13:30:34', '', 66, 'http://zheu.loc/head/66-revision-v1/', 0, 'revision', '', 0),
-(79, 1, '2018-07-31 16:31:28', '2018-07-31 13:31:28', 'Вызвать мастера можно по телефону:\r\n\r\nЖЭС №43\r\n<h1><a href=\"tel:+375 17 259-95-89\">+375 17 259-95-89</a></h1>\r\nЖЭС №53\r\n<a href=\"tel:+375 17 217-00-90\"><h1>+375 17 217-00-90</h1></a></h1>\r\nПрейскурант цен на платные услуги по заказам населения на 01.05.2018 года\r\n\r\n{DOWNLOAD_FILE}\r\n\r\n<a href=\"#\">Перечень  видов работ по оказанию платных услуг по заказам населения и тарифы на них КУП ЖЭУ №7 Фрунзенского района г.Минска</a>', 'Бытовые услуги и цены', '', 'inherit', 'closed', 'closed', '', '66-revision-v1', '', '', '2018-07-31 16:31:28', '2018-07-31 13:31:28', '', 66, 'http://zheu.loc/head/66-revision-v1/', 0, 'revision', '', 0),
-(80, 1, '2018-07-31 16:31:50', '2018-07-31 13:31:50', 'Вызвать мастера можно по телефону:\r\n\r\nЖЭС №43\r\n<a href=\"tel:+375 17 259-95-89\"><h1>+375 17 259-95-89</h1></a>\r\nЖЭС №53\r\n<a href=\"tel:+375 17 217-00-90\"><h1>+375 17 217-00-90</h1></a></h1>\r\nПрейскурант цен на платные услуги по заказам населения на 01.05.2018 года\r\n\r\n{DOWNLOAD_FILE}\r\n\r\n<a href=\"#\">Перечень  видов работ по оказанию платных услуг по заказам населения и тарифы на них КУП ЖЭУ №7 Фрунзенского района г.Минска</a>', 'Бытовые услуги и цены', '', 'inherit', 'closed', 'closed', '', '66-revision-v1', '', '', '2018-07-31 16:31:50', '2018-07-31 13:31:50', '', 66, 'http://zheu.loc/head/66-revision-v1/', 0, 'revision', '', 0),
+(77, 1, '2018-07-31 16:14:57', '2018-07-31 13:14:57', '<h1>Бытовые услуги и цены</h1>\r\nВызвать мастера можно по телефону:\r\n\r\nЖЭС №43\r\n<h1><a href="tel:+375 17 259-95-89">+375 17 259-95-89</a></h1>\r\nЖЭС №53\r\n<h1><a href="tel:+375 17 217-00-90">+375 17 217-00-90</a></h1>\r\nПрейскурант цен на платные услуги по заказам населения на 01.05.2018 года\r\n\r\n{DOWNLOAD_FILE}\r\n\r\n<a href="#">Перечень  видов работ по оказанию платных услуг по заказам населения и тарифы на них КУП ЖЭУ №7 Фрунзенского района г.Минска</a>', 'Бытовые услуги и цены', '', 'inherit', 'closed', 'closed', '', '66-revision-v1', '', '', '2018-07-31 16:14:57', '2018-07-31 13:14:57', '', 66, 'http://zheu.loc/head/66-revision-v1/', 0, 'revision', '', 0),
+(78, 1, '2018-07-31 16:30:34', '2018-07-31 13:30:34', 'Вызвать мастера можно по телефону:\r\n\r\nЖЭС №43\r\n<h1><a href="tel:+375 17 259-95-89">+375 17 259-95-89</a></h1>\r\nЖЭС №53\r\n<h1><a href="tel:+375 17 217-00-90">+375 17 217-00-90</a></h1>\r\nПрейскурант цен на платные услуги по заказам населения на 01.05.2018 года\r\n\r\n{DOWNLOAD_FILE}\r\n\r\n<a href="#">Перечень  видов работ по оказанию платных услуг по заказам населения и тарифы на них КУП ЖЭУ №7 Фрунзенского района г.Минска</a>', 'Бытовые услуги и цены', '', 'inherit', 'closed', 'closed', '', '66-revision-v1', '', '', '2018-07-31 16:30:34', '2018-07-31 13:30:34', '', 66, 'http://zheu.loc/head/66-revision-v1/', 0, 'revision', '', 0),
+(79, 1, '2018-07-31 16:31:28', '2018-07-31 13:31:28', 'Вызвать мастера можно по телефону:\r\n\r\nЖЭС №43\r\n<h1><a href="tel:+375 17 259-95-89">+375 17 259-95-89</a></h1>\r\nЖЭС №53\r\n<a href="tel:+375 17 217-00-90"><h1>+375 17 217-00-90</h1></a></h1>\r\nПрейскурант цен на платные услуги по заказам населения на 01.05.2018 года\r\n\r\n{DOWNLOAD_FILE}\r\n\r\n<a href="#">Перечень  видов работ по оказанию платных услуг по заказам населения и тарифы на них КУП ЖЭУ №7 Фрунзенского района г.Минска</a>', 'Бытовые услуги и цены', '', 'inherit', 'closed', 'closed', '', '66-revision-v1', '', '', '2018-07-31 16:31:28', '2018-07-31 13:31:28', '', 66, 'http://zheu.loc/head/66-revision-v1/', 0, 'revision', '', 0),
+(80, 1, '2018-07-31 16:31:50', '2018-07-31 13:31:50', 'Вызвать мастера можно по телефону:\r\n\r\nЖЭС №43\r\n<a href="tel:+375 17 259-95-89"><h1>+375 17 259-95-89</h1></a>\r\nЖЭС №53\r\n<a href="tel:+375 17 217-00-90"><h1>+375 17 217-00-90</h1></a></h1>\r\nПрейскурант цен на платные услуги по заказам населения на 01.05.2018 года\r\n\r\n{DOWNLOAD_FILE}\r\n\r\n<a href="#">Перечень  видов работ по оказанию платных услуг по заказам населения и тарифы на них КУП ЖЭУ №7 Фрунзенского района г.Минска</a>', 'Бытовые услуги и цены', '', 'inherit', 'closed', 'closed', '', '66-revision-v1', '', '', '2018-07-31 16:31:50', '2018-07-31 13:31:50', '', 66, 'http://zheu.loc/head/66-revision-v1/', 0, 'revision', '', 0);
+INSERT INTO `wp_posts` (`ID`, `post_author`, `post_date`, `post_date_gmt`, `post_content`, `post_title`, `post_excerpt`, `post_status`, `comment_status`, `ping_status`, `post_password`, `post_name`, `to_ping`, `pinged`, `post_modified`, `post_modified_gmt`, `post_content_filtered`, `post_parent`, `guid`, `menu_order`, `post_type`, `post_mime_type`, `comment_count`) VALUES
 (82, 1, '2018-07-31 16:51:55', '2018-07-31 13:51:55', 'Обращения (предложения, заявления, жалобы) граждан независимо от того, в какой государственный орган или иную организацию они поступили, первоначально подлежат рассмотрению по существу в соответствии с компетенцией: - в местных исполнительных и распорядительных органах, подчиненных им организациях, территориальных подразделениях (органах) и организациях, подчиненных или входящих в состав (систему) республиканских органов государственного управления и государственных организаций, подчиненных Правительству Республики Беларусь, другим государственным органам, иным организациям, осуществляющих свою деятельность и расположенных в пределах той административно-территориальной единицы, на территории которой возникли вопросы, изложенные в обращениях; - в других государственных органах, иных организациях, если вопросы, изложенные в обращениях, относятся к исключительной компетенции этих органов или организаций.\r\n\r\nОбращаем ваше внимание, что подача обращений осуществляется на белорусском или русском языках.\r\n\r\n<strong>Оставляются без рассмотрения по существу обращения, которые (по которым):</strong>\r\n\r\n- изложены не на белорусском или русском языке; - не содержат фамилии, собственного имени, отчества, адреса места жительства (места пребывания) гражданина; - не содержат полного наименования юридического лица и адреса его места нахождения, фамилии, собственного имени, отчества руководителя или лица, уполномоченного в установленном порядке подписывать обращения (для юридических лиц); - содержат текст, не поддающийся прочтению; - содержат нецензурные либо оскорбительные слова или выражения; - подлежат рассмотрению в соответствии с законодательством о конституционном судопроизводстве, гражданским, гражданским процессуальным, хозяйственным процессуальным, уголовно-процессуальным законодательством, законодательством, определяющим порядок административного процесса, законодательством об административных процедурах либо в соответствии с законодательными актами установлен иной порядок подачи и рассмотрения таких обращений; - содержат вопросы, не относящиеся к компетенции адресата; - пропущен без уважительной причины срок подачи жалобы; - подано повторное обращение и в нем не содержатся новые обстоятельства; - с заявителем прекращена переписка.\r\n\r\nОбращаем внимание, что действующим законодательством электронная форма подачи заявления либо жалобы предусмотрена только для обращений, направляемых в адрес электронной почты организации в порядке', 'Электронные обращения граждан', '', 'inherit', 'closed', 'closed', '', '16-revision-v1', '', '', '2018-07-31 16:51:55', '2018-07-31 13:51:55', '', 16, 'http://zheu.loc/head/16-revision-v1/', 0, 'revision', '', 0),
 (83, 1, '2018-07-31 16:52:07', '2018-07-31 13:52:07', 'Обращения (предложения, заявления, жалобы) граждан независимо от того, в какой государственный орган или иную организацию они поступили, первоначально подлежат рассмотрению по существу в соответствии с компетенцией: - в местных исполнительных и распорядительных органах, подчиненных им организациях, территориальных подразделениях (органах) и организациях, подчиненных или входящих в состав (систему) республиканских органов государственного управления и государственных организаций, подчиненных Правительству Республики Беларусь, другим государственным органам, иным организациям, осуществляющих свою деятельность и расположенных в пределах той административно-территориальной единицы, на территории которой возникли вопросы, изложенные в обращениях; - в других государственных органах, иных организациях, если вопросы, изложенные в обращениях, относятся к исключительной компетенции этих органов или организаций.\r\n\r\n&nbsp;\r\n\r\nОбращаем ваше внимание, что подача обращений осуществляется на белорусском или русском языках.\r\n\r\n&nbsp;\r\n\r\n<strong>Оставляются без рассмотрения по существу обращения, которые (по которым):</strong>\r\n\r\n- изложены не на белорусском или русском языке; - не содержат фамилии, собственного имени, отчества, адреса места жительства (места пребывания) гражданина; - не содержат полного наименования юридического лица и адреса его места нахождения, фамилии, собственного имени, отчества руководителя или лица, уполномоченного в установленном порядке подписывать обращения (для юридических лиц); - содержат текст, не поддающийся прочтению; - содержат нецензурные либо оскорбительные слова или выражения; - подлежат рассмотрению в соответствии с законодательством о конституционном судопроизводстве, гражданским, гражданским процессуальным, хозяйственным процессуальным, уголовно-процессуальным законодательством, законодательством, определяющим порядок административного процесса, законодательством об административных процедурах либо в соответствии с законодательными актами установлен иной порядок подачи и рассмотрения таких обращений; - содержат вопросы, не относящиеся к компетенции адресата; - пропущен без уважительной причины срок подачи жалобы; - подано повторное обращение и в нем не содержатся новые обстоятельства; - с заявителем прекращена переписка.\r\n\r\nОбращаем внимание, что действующим законодательством электронная форма подачи заявления либо жалобы предусмотрена только для обращений, направляемых в адрес электронной почты организации в порядке', 'Электронные обращения граждан', '', 'inherit', 'closed', 'closed', '', '16-revision-v1', '', '', '2018-07-31 16:52:07', '2018-07-31 13:52:07', '', 16, 'http://zheu.loc/head/16-revision-v1/', 0, 'revision', '', 0),
 (84, 1, '2018-07-31 16:52:34', '2018-07-31 13:52:34', '<p>Обращения (предложения, заявления, жалобы) граждан независимо от того, в какой государственный орган или иную организацию они поступили, первоначально подлежат рассмотрению по существу в соответствии с компетенцией: - в местных исполнительных и распорядительных органах, подчиненных им организациях, территориальных подразделениях (органах) и организациях, подчиненных или входящих в состав (систему) республиканских органов государственного управления и государственных организаций, подчиненных Правительству Республики Беларусь, другим государственным органам, иным организациям, осуществляющих свою деятельность и расположенных в пределах той административно-территориальной единицы, на территории которой возникли вопросы, изложенные в обращениях; - в других государственных органах, иных организациях, если вопросы, изложенные в обращениях, относятся к исключительной компетенции этих органов или организаций.\r\n\r\n&nbsp;\r\n\r\nОбращаем ваше внимание, что подача обращений осуществляется на белорусском или русском языках.\r\n\r\n&nbsp;\r\n\r\n<strong>Оставляются без рассмотрения по существу обращения, которые (по которым):</strong>\r\n\r\n- изложены не на белорусском или русском языке; - не содержат фамилии, собственного имени, отчества, адреса места жительства (места пребывания) гражданина; - не содержат полного наименования юридического лица и адреса его места нахождения, фамилии, собственного имени, отчества руководителя или лица, уполномоченного в установленном порядке подписывать обращения (для юридических лиц); - содержат текст, не поддающийся прочтению; - содержат нецензурные либо оскорбительные слова или выражения; - подлежат рассмотрению в соответствии с законодательством о конституционном судопроизводстве, гражданским, гражданским процессуальным, хозяйственным процессуальным, уголовно-процессуальным законодательством, законодательством, определяющим порядок административного процесса, законодательством об административных процедурах либо в соответствии с законодательными актами установлен иной порядок подачи и рассмотрения таких обращений; - содержат вопросы, не относящиеся к компетенции адресата; - пропущен без уважительной причины срок подачи жалобы; - подано повторное обращение и в нем не содержатся новые обстоятельства; - с заявителем прекращена переписка.\r\n\r\nОбращаем внимание, что действующим законодательством электронная форма подачи заявления либо жалобы предусмотрена только для обращений, направляемых в адрес электронной почты организации в порядке\r\n</p>', 'Электронные обращения граждан', '', 'inherit', 'closed', 'closed', '', '16-revision-v1', '', '', '2018-07-31 16:52:34', '2018-07-31 13:52:34', '', 16, 'http://zheu.loc/head/16-revision-v1/', 0, 'revision', '', 0),
@@ -1382,10 +1772,8 @@ INSERT INTO `wp_posts` (`ID`, `post_author`, `post_date`, `post_date_gmt`, `post
 (90, 1, '2018-08-05 16:58:02', '2018-08-05 13:58:02', 'Отправьте запрос повседневного текущего характера, касающегося жилищно-коммунальных услуг и городского хозяйства, потому что вы сможете поучаствовать в развитии своего города, повлиять на улучшение качества услуг в сфере ЖКХ.', 'Сообщить о проблеме во Фрунзенском районе Минска', '', 'inherit', 'closed', 'closed', '', '88-revision-v1', '', '', '2018-08-05 16:58:02', '2018-08-05 13:58:02', '', 88, 'http://zheu.loc/head/88-revision-v1/', 0, 'revision', '', 0),
 (91, 1, '2018-08-05 17:00:11', '2018-08-05 14:00:11', '', 'Сообщить о проблеме', '', 'publish', 'closed', 'closed', '', 'acf_soobshhit-o-probleme', '', '', '2018-08-05 17:00:39', '2018-08-05 14:00:39', '', 0, 'http://zheu.loc/?post_type=acf&#038;p=91', 0, 'acf', '', 0),
 (92, 1, '2018-08-05 17:01:51', '2018-08-05 14:01:51', 'Отправьте запрос повседневного текущего характера, касающегося жилищно-коммунальных услуг и городского хозяйства, потому что вы сможете поучаствовать в развитии своего города, повлиять на улучшение качества услуг в сфере ЖКХ.', 'Сообщить о проблеме во Фрунзенском районе Минска', '', 'inherit', 'closed', 'closed', '', '88-revision-v1', '', '', '2018-08-05 17:01:51', '2018-08-05 14:01:51', '', 88, 'http://zheu.loc/head/88-revision-v1/', 0, 'revision', '', 0),
-(93, 1, '2018-08-05 17:45:55', '0000-00-00 00:00:00', '', 'Черновик', '', 'auto-draft', 'open', 'open', '', '', '', '', '2018-08-05 17:45:55', '0000-00-00 00:00:00', '', 0, 'http://zheu.loc/?p=93', 0, 'post', '', 0),
 (94, 1, '2018-08-05 17:47:49', '2018-08-05 14:47:49', '', 'Выполненная работа', '', 'publish', 'closed', 'closed', '', 'acf_vypolnennaja-rabota', '', '', '2018-08-05 17:47:49', '2018-08-05 14:47:49', '', 0, 'http://zheu.loc/?post_type=acf&#038;p=94', 0, 'acf', '', 0),
-(95, 1, '2018-08-05 17:53:59', '2018-08-05 14:53:59', '', 'Cделали люк', '', 'publish', 'open', 'open', '', 'cdelali-ljuk', '', '', '2018-08-05 17:53:59', '2018-08-05 14:53:59', '', 0, 'http://zheu.loc/?p=95', 0, 'post', '', 0);
-INSERT INTO `wp_posts` (`ID`, `post_author`, `post_date`, `post_date_gmt`, `post_content`, `post_title`, `post_excerpt`, `post_status`, `comment_status`, `ping_status`, `post_password`, `post_name`, `to_ping`, `pinged`, `post_modified`, `post_modified_gmt`, `post_content_filtered`, `post_parent`, `guid`, `menu_order`, `post_type`, `post_mime_type`, `comment_count`) VALUES
+(95, 1, '2018-08-05 17:53:59', '2018-08-05 14:53:59', '', 'Cделали люк', '', 'publish', 'open', 'open', '', 'cdelali-ljuk', '', '', '2018-08-05 17:53:59', '2018-08-05 14:53:59', '', 0, 'http://zheu.loc/?p=95', 0, 'post', '', 0),
 (96, 1, '2018-08-05 17:53:49', '2018-08-05 14:53:49', '', 'bigstock-Test-word-on-white-keyboard-27134336', '', 'inherit', 'open', 'closed', '', 'bigstock-test-word-on-white-keyboard-27134336', '', '', '2018-08-05 17:53:49', '2018-08-05 14:53:49', '', 95, 'http://zheu.loc/wp-content/uploads/2018/08/bigstock-Test-word-on-white-keyboard-27134336.jpg', 0, 'attachment', 'image/jpeg', 0),
 (97, 1, '2018-08-05 17:53:59', '2018-08-05 14:53:59', '', 'Cделали люк', '', 'inherit', 'closed', 'closed', '', '95-revision-v1', '', '', '2018-08-05 17:53:59', '2018-08-05 14:53:59', '', 95, 'http://zheu.loc/head/95-revision-v1/', 0, 'revision', '', 0),
 (98, 1, '2018-08-05 19:10:58', '2018-08-05 16:10:58', '', '1234', '', 'publish', 'open', 'open', '', '1234', '', '', '2018-08-05 19:10:58', '2018-08-05 16:10:58', '', 0, 'http://zheu.loc/?p=98', 0, 'post', '', 0),
@@ -1393,11 +1781,11 @@ INSERT INTO `wp_posts` (`ID`, `post_author`, `post_date`, `post_date_gmt`, `post
 (100, 1, '2018-08-05 19:10:58', '2018-08-05 16:10:58', '', '1234', '', 'inherit', 'closed', 'closed', '', '98-revision-v1', '', '', '2018-08-05 19:10:58', '2018-08-05 16:10:58', '', 98, 'http://zheu.loc/head/98-revision-v1/', 0, 'revision', '', 0),
 (101, 1, '2018-08-05 19:14:25', '2018-08-05 16:14:25', '', '12345', '', 'publish', 'open', 'open', '', '12345', '', '', '2018-08-05 19:14:25', '2018-08-05 16:14:25', '', 0, 'http://zheu.loc/?p=101', 0, 'post', '', 0),
 (102, 1, '2018-08-05 19:14:25', '2018-08-05 16:14:25', '', '12345', '', 'inherit', 'closed', 'closed', '', '101-revision-v1', '', '', '2018-08-05 19:14:25', '2018-08-05 16:14:25', '', 101, 'http://zheu.loc/head/101-revision-v1/', 0, 'revision', '', 0),
-(103, 1, '2018-08-05 20:44:09', '2018-08-05 17:44:09', '', 'Сообщить о проблеме', '', 'publish', 'closed', 'closed', '', 'soobshhit-o-probleme-2', '', '', '2018-08-05 20:48:16', '2018-08-05 17:48:16', '', 0, 'http://zheu.loc/?p=103', 4, 'nav_menu_item', '', 0),
-(104, 1, '2018-08-05 20:48:16', '2018-08-05 17:48:16', '', 'Электронные обращения', '', 'publish', 'closed', 'closed', '', 'jelektronnye-obrashhenija', '', '', '2018-08-05 20:48:16', '2018-08-05 17:48:16', '', 0, 'http://zheu.loc/?p=104', 5, 'nav_menu_item', '', 0),
-(105, 1, '2018-08-07 13:35:00', '2018-08-07 10:35:00', ' ', '', '', 'publish', 'closed', 'closed', '', '105', '', '', '2018-08-08 17:36:33', '2018-08-08 14:36:33', '', 0, 'http://zheu.loc/?p=105', 2, 'nav_menu_item', '', 0),
-(110, 1, '2018-08-07 13:35:02', '2018-08-07 10:35:02', ' ', '', '', 'publish', 'closed', 'closed', '', '110', '', '', '2018-08-08 17:36:33', '2018-08-08 14:36:33', '', 0, 'http://zheu.loc/?p=110', 7, 'nav_menu_item', '', 0),
-(111, 1, '2018-08-07 13:35:02', '2018-08-07 10:35:02', ' ', '', '', 'publish', 'closed', 'closed', '', '111', '', '', '2018-08-08 17:36:33', '2018-08-08 14:36:33', '', 0, 'http://zheu.loc/?p=111', 8, 'nav_menu_item', '', 0),
+(103, 1, '2018-08-05 20:44:09', '2018-08-05 17:44:09', '', 'Сообщить о проблеме', '', 'publish', 'closed', 'closed', '', 'soobshhit-o-probleme-2', '', '', '2018-08-17 11:06:58', '2018-08-17 08:06:58', '', 0, 'http://zheu.loc/?p=103', 5, 'nav_menu_item', '', 0),
+(104, 1, '2018-08-05 20:48:16', '2018-08-05 17:48:16', '', 'Электронные обращения', '', 'publish', 'closed', 'closed', '', 'jelektronnye-obrashhenija', '', '', '2018-08-17 11:06:58', '2018-08-17 08:06:58', '', 0, 'http://zheu.loc/?p=104', 6, 'nav_menu_item', '', 0),
+(105, 1, '2018-08-07 13:35:00', '2018-08-07 10:35:00', ' ', '', '', 'publish', 'closed', 'closed', '', '105', '', '', '2018-08-16 21:26:12', '2018-08-16 18:26:12', '', 0, 'http://zheu.loc/?p=105', 2, 'nav_menu_item', '', 0),
+(110, 1, '2018-08-07 13:35:02', '2018-08-07 10:35:02', ' ', '', '', 'publish', 'closed', 'closed', '', '110', '', '', '2018-08-16 21:26:12', '2018-08-16 18:26:12', '', 0, 'http://zheu.loc/?p=110', 7, 'nav_menu_item', '', 0),
+(111, 1, '2018-08-07 13:35:02', '2018-08-07 10:35:02', ' ', '', '', 'publish', 'closed', 'closed', '', '111', '', '', '2018-08-16 21:26:12', '2018-08-16 18:26:12', '', 0, 'http://zheu.loc/?p=111', 8, 'nav_menu_item', '', 0),
 (113, 1, '2018-08-07 13:32:27', '2018-08-07 10:32:27', '', 'Режим работы Министерства ЖКХ', '', 'trash', 'open', 'open', '', 'rezhim-raboty-ministerstva-zhkh__trashed', '', '', '2018-08-08 17:25:33', '2018-08-08 14:25:33', '', 0, 'http://zheu.loc/?p=113', 0, 'post', '', 0),
 (114, 1, '2018-08-07 13:32:27', '2018-08-07 10:32:27', '', 'Режим работы Министерства ЖКХ', '', 'inherit', 'closed', 'closed', '', '113-revision-v1', '', '', '2018-08-07 13:32:27', '2018-08-07 10:32:27', '', 113, 'http://zheu.loc/head/113-revision-v1/', 0, 'revision', '', 0),
 (115, 1, '2018-08-07 13:32:48', '2018-08-07 10:32:48', '', 'Режим работы горисполкомов', '', 'trash', 'open', 'open', '', 'rezhim-raboty-gorispolkomov__trashed', '', '', '2018-08-08 17:25:33', '2018-08-08 14:25:33', '', 0, 'http://zheu.loc/?p=115', 0, 'post', '', 0),
@@ -1414,33 +1802,31 @@ INSERT INTO `wp_posts` (`ID`, `post_author`, `post_date`, `post_date_gmt`, `post
 (126, 1, '2018-08-07 13:34:22', '2018-08-07 10:34:22', '', 'Нормативные акты', '', 'inherit', 'closed', 'closed', '', '125-revision-v1', '', '', '2018-08-07 13:34:22', '2018-08-07 10:34:22', '', 125, 'http://zheu.loc/head/125-revision-v1/', 0, 'revision', '', 0),
 (127, 1, '2018-08-07 13:34:46', '2018-08-07 10:34:46', '', 'План комплексного благоустройства', '', 'trash', 'open', 'open', '', 'plan-kompleksnogo-blagoustrojstva__trashed', '', '', '2018-08-08 17:25:33', '2018-08-08 14:25:33', '', 0, 'http://zheu.loc/?p=127', 0, 'post', '', 0),
 (128, 1, '2018-08-07 13:34:46', '2018-08-07 10:34:46', '', 'План комплексного благоустройства', '', 'inherit', 'closed', 'closed', '', '127-revision-v1', '', '', '2018-08-07 13:34:46', '2018-08-07 10:34:46', '', 127, 'http://zheu.loc/head/127-revision-v1/', 0, 'revision', '', 0),
-(137, 1, '2018-08-07 13:36:48', '2018-08-07 10:36:48', ' ', '', '', 'publish', 'closed', 'closed', '', '137', '', '', '2018-08-08 17:36:33', '2018-08-08 14:36:33', '', 0, 'http://zheu.loc/?p=137', 19, 'nav_menu_item', '', 0),
-(138, 1, '2018-08-07 13:36:48', '2018-08-07 10:36:48', '', 'Сообщить о проблеме', '', 'publish', 'closed', 'closed', '', 'soobshhit-o-probleme', '', '', '2018-08-08 17:36:33', '2018-08-08 14:36:33', '', 0, 'http://zheu.loc/?p=138', 20, 'nav_menu_item', '', 0),
-(139, 1, '2018-08-07 13:37:08', '2018-08-07 10:37:08', ' ', '', '', 'publish', 'closed', 'closed', '', '139', '', '', '2018-08-08 17:36:33', '2018-08-08 14:36:33', '', 0, 'http://zheu.loc/?p=139', 21, 'nav_menu_item', '', 0),
-(140, 1, '2018-08-07 13:38:45', '2018-08-07 10:38:45', '', 'Электронные обращения', '', 'publish', 'closed', 'closed', '', 'jelektronnye-obrashhenija-2', '', '', '2018-08-08 17:36:33', '2018-08-08 14:36:33', '', 0, 'http://zheu.loc/?p=140', 23, 'nav_menu_item', '', 0),
-(141, 1, '2018-08-07 13:38:45', '2018-08-07 10:38:45', ' ', '', '', 'publish', 'closed', 'closed', '', '141', '', '', '2018-08-08 17:36:33', '2018-08-08 14:36:33', '', 0, 'http://zheu.loc/?p=141', 25, 'nav_menu_item', '', 0),
-(142, 1, '2018-08-07 13:38:45', '2018-08-07 10:38:45', ' ', '', '', 'publish', 'closed', 'closed', '', '142', '', '', '2018-08-08 17:36:33', '2018-08-08 14:36:33', '', 0, 'http://zheu.loc/?p=142', 24, 'nav_menu_item', '', 0),
-(143, 1, '2018-08-07 13:38:45', '2018-08-07 10:38:45', ' ', '', '', 'publish', 'closed', 'closed', '', '143', '', '', '2018-08-08 17:36:33', '2018-08-08 14:36:33', '', 0, 'http://zheu.loc/?p=143', 26, 'nav_menu_item', '', 0),
-(144, 1, '2018-08-07 13:38:45', '2018-08-07 10:38:45', ' ', '', '', 'publish', 'closed', 'closed', '', '144', '', '', '2018-08-08 17:36:33', '2018-08-08 14:36:33', '', 0, 'http://zheu.loc/?p=144', 27, 'nav_menu_item', '', 0),
+(137, 1, '2018-08-07 13:36:48', '2018-08-07 10:36:48', ' ', '', '', 'publish', 'closed', 'closed', '', '137', '', '', '2018-08-16 21:26:12', '2018-08-16 18:26:12', '', 0, 'http://zheu.loc/?p=137', 19, 'nav_menu_item', '', 0),
+(138, 1, '2018-08-07 13:36:48', '2018-08-07 10:36:48', '', 'Сообщить о проблеме', '', 'publish', 'closed', 'closed', '', 'soobshhit-o-probleme', '', '', '2018-08-16 21:26:12', '2018-08-16 18:26:12', '', 0, 'http://zheu.loc/?p=138', 20, 'nav_menu_item', '', 0),
+(139, 1, '2018-08-07 13:37:08', '2018-08-07 10:37:08', ' ', '', '', 'publish', 'closed', 'closed', '', '139', '', '', '2018-08-16 21:26:13', '2018-08-16 18:26:13', '', 0, 'http://zheu.loc/?p=139', 21, 'nav_menu_item', '', 0),
+(140, 1, '2018-08-07 13:38:45', '2018-08-07 10:38:45', '', 'Электронные обращения', '', 'publish', 'closed', 'closed', '', 'jelektronnye-obrashhenija-2', '', '', '2018-08-16 21:26:13', '2018-08-16 18:26:13', '', 0, 'http://zheu.loc/?p=140', 23, 'nav_menu_item', '', 0),
+(141, 1, '2018-08-07 13:38:45', '2018-08-07 10:38:45', ' ', '', '', 'publish', 'closed', 'closed', '', '141', '', '', '2018-08-16 21:26:13', '2018-08-16 18:26:13', '', 0, 'http://zheu.loc/?p=141', 25, 'nav_menu_item', '', 0),
+(142, 1, '2018-08-07 13:38:45', '2018-08-07 10:38:45', ' ', '', '', 'publish', 'closed', 'closed', '', '142', '', '', '2018-08-16 21:26:13', '2018-08-16 18:26:13', '', 0, 'http://zheu.loc/?p=142', 24, 'nav_menu_item', '', 0),
+(143, 1, '2018-08-07 13:38:45', '2018-08-07 10:38:45', ' ', '', '', 'publish', 'closed', 'closed', '', '143', '', '', '2018-08-16 21:26:13', '2018-08-16 18:26:13', '', 0, 'http://zheu.loc/?p=143', 26, 'nav_menu_item', '', 0),
+(144, 1, '2018-08-07 13:38:45', '2018-08-07 10:38:45', ' ', '', '', 'publish', 'closed', 'closed', '', '144', '', '', '2018-08-16 21:26:13', '2018-08-16 18:26:13', '', 0, 'http://zheu.loc/?p=144', 27, 'nav_menu_item', '', 0),
 (145, 1, '2018-08-07 13:39:00', '2018-08-07 10:39:00', 'Обращения (предложения, заявления, жалобы) граждан независимо от того, в какой государственный орган или иную организацию они поступили, первоначально подлежат рассмотрению по существу в соответствии с компетенцией: - в местных исполнительных и распорядительных органах, подчиненных им организациях, территориальных подразделениях (органах) и организациях, подчиненных или входящих в состав (систему) республиканских органов государственного управления и государственных организаций, подчиненных Правительству Республики Беларусь, другим государственным органам, иным организациям, осуществляющих свою деятельность и расположенных в пределах той административно-территориальной единицы, на территории которой возникли вопросы, изложенные в обращениях; - в других государственных органах, иных организациях, если вопросы, изложенные в обращениях, относятся к исключительной компетенции этих органов или организаций.\r\n\r\n\r\nОбращаем ваше внимание, что подача обращений осуществляется на белорусском или русском языках.\r\n\r\n\r\n<strong>Оставляются без рассмотрения по существу обращения, которые (по которым):</strong>\r\n\r\n- изложены не на белорусском или русском языке; - не содержат фамилии, собственного имени, отчества, адреса места жительства (места пребывания) гражданина; - не содержат полного наименования юридического лица и адреса его места нахождения, фамилии, собственного имени, отчества руководителя или лица, уполномоченного в установленном порядке подписывать обращения (для юридических лиц); - содержат текст, не поддающийся прочтению; - содержат нецензурные либо оскорбительные слова или выражения; - подлежат рассмотрению в соответствии с законодательством о конституционном судопроизводстве, гражданским, гражданским процессуальным, хозяйственным процессуальным, уголовно-процессуальным законодательством, законодательством, определяющим порядок административного процесса, законодательством об административных процедурах либо в соответствии с законодательными актами установлен иной порядок подачи и рассмотрения таких обращений; - содержат вопросы, не относящиеся к компетенции адресата; - пропущен без уважительной причины срок подачи жалобы; - подано повторное обращение и в нем не содержатся новые обстоятельства; - с заявителем прекращена переписка.\r\n\r\nОбращаем внимание, что действующим законодательством электронная форма подачи заявления либо жалобы предусмотрена только для обращений, направляемых в адрес электронной почты организации в порядке', 'Электронные обращения граждан', '', 'inherit', 'closed', 'closed', '', '16-revision-v1', '', '', '2018-08-07 13:39:00', '2018-08-07 10:39:00', '', 16, 'http://zheu.loc/head/16-revision-v1/', 0, 'revision', '', 0),
-(146, 1, '2018-08-07 20:57:20', '2018-08-07 17:57:20', '', 'О ЖЭУ №7', '', 'publish', 'closed', 'closed', '', 'o-zhjeu-7', '', '', '2018-08-08 17:36:33', '2018-08-08 14:36:33', '', 0, 'http://zheu.loc/?p=146', 6, 'nav_menu_item', '', 0),
-(147, 1, '2018-08-07 20:59:04', '2018-08-07 17:59:04', '', 'Полезная информация', '', 'publish', 'closed', 'closed', '', 'poleznaja-informacija', '', '', '2018-08-08 17:36:33', '2018-08-08 14:36:33', '', 0, 'http://zheu.loc/?p=147', 10, 'nav_menu_item', '', 0),
-(148, 1, '2018-08-07 21:17:34', '2018-08-07 18:17:34', '', 'block', 'none', 'publish', 'closed', 'closed', '', 'block', '', '', '2018-08-08 17:36:32', '2018-08-08 14:36:32', '', 0, 'http://zheu.loc/?p=148', 1, 'nav_menu_item', '', 0),
-(149, 1, '2018-08-07 21:26:05', '2018-08-07 18:26:05', '', 'block', 'none', 'publish', 'closed', 'closed', '', 'block-2', '', '', '2018-08-08 17:36:33', '2018-08-08 14:36:33', '', 0, 'http://zheu.loc/?p=149', 9, 'nav_menu_item', '', 0),
+(146, 1, '2018-08-07 20:57:20', '2018-08-07 17:57:20', '', 'О ЖЭУ №7', '', 'publish', 'closed', 'closed', '', 'o-zhjeu-7', '', '', '2018-08-16 21:26:12', '2018-08-16 18:26:12', '', 0, 'http://zheu.loc/?p=146', 6, 'nav_menu_item', '', 0),
+(147, 1, '2018-08-07 20:59:04', '2018-08-07 17:59:04', '', 'Полезная информация', '', 'publish', 'closed', 'closed', '', 'poleznaja-informacija', '', '', '2018-08-16 21:26:12', '2018-08-16 18:26:12', '', 0, 'http://zheu.loc/?p=147', 10, 'nav_menu_item', '', 0),
+(148, 1, '2018-08-07 21:17:34', '2018-08-07 18:17:34', '', 'block', 'none', 'publish', 'closed', 'closed', '', 'block', '', '', '2018-08-16 21:26:12', '2018-08-16 18:26:12', '', 0, 'http://zheu.loc/?p=148', 1, 'nav_menu_item', '', 0),
+(149, 1, '2018-08-07 21:26:05', '2018-08-07 18:26:05', '', 'block', 'none', 'publish', 'closed', 'closed', '', 'block-2', '', '', '2018-08-16 21:26:12', '2018-08-16 18:26:12', '', 0, 'http://zheu.loc/?p=149', 9, 'nav_menu_item', '', 0),
 (150, 1, '2018-08-08 11:55:42', '2018-08-08 08:55:42', 'Перкладываем тротуарные плитки длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст длинный текст', 'Перекладка тротуарных плиток в парке', '', 'inherit', 'closed', 'closed', '', '36-revision-v1', '', '', '2018-08-08 11:55:42', '2018-08-08 08:55:42', '', 36, 'http://zheu.loc/head/36-revision-v1/', 0, 'revision', '', 0),
 (151, 1, '2018-08-08 17:14:31', '2018-08-08 14:14:31', '', 'Услуги', '', 'inherit', 'closed', 'closed', '', '38-revision-v1', '', '', '2018-08-08 17:14:31', '2018-08-08 14:14:31', '', 38, 'http://zheu.loc/head/38-revision-v1/', 0, 'revision', '', 0),
-(152, 1, '2018-08-08 17:25:58', '2018-08-08 14:25:58', '', 'Услуги электрика', '', 'publish', 'closed', 'closed', '', 'uslugi-jelektrika', '', '', '2018-08-08 17:25:58', '2018-08-08 14:25:58', '', 0, 'http://zheu.loc/?page_id=152', 0, 'page', '', 0),
+(152, 1, '2018-08-08 17:25:58', '2018-08-08 14:25:58', '', 'Услуги электрика', '', 'publish', 'closed', 'closed', '', 'uslugi-jelektrika', '', '', '2018-08-21 12:43:54', '2018-08-21 09:43:54', '', 66, 'http://zheu.loc/?page_id=152', 0, 'page', '', 0),
 (153, 1, '2018-08-08 17:25:58', '2018-08-08 14:25:58', '', 'Услуги электрика', '', 'inherit', 'closed', 'closed', '', '152-revision-v1', '', '', '2018-08-08 17:25:58', '2018-08-08 14:25:58', '', 152, 'http://zheu.loc/head/152-revision-v1/', 0, 'revision', '', 0),
-(154, 1, '2018-08-08 17:27:00', '2018-08-08 14:27:00', '', 'Плотницкие работы', '', 'publish', 'closed', 'closed', '', 'plotnickie-raboty', '', '', '2018-08-08 17:27:00', '2018-08-08 14:27:00', '', 0, 'http://zheu.loc/?page_id=154', 0, 'page', '', 0),
+(154, 1, '2018-08-08 17:27:00', '2018-08-08 14:27:00', '', 'Плотницкие работы', '', 'publish', 'closed', 'closed', '', 'plotnickie-raboty', '', '', '2018-08-21 12:43:26', '2018-08-21 09:43:26', '', 66, 'http://zheu.loc/?page_id=154', 0, 'page', '', 0),
 (155, 1, '2018-08-08 17:27:00', '2018-08-08 14:27:00', '', 'Плотницкие работы', '', 'inherit', 'closed', 'closed', '', '154-revision-v1', '', '', '2018-08-08 17:27:00', '2018-08-08 14:27:00', '', 154, 'http://zheu.loc/head/154-revision-v1/', 0, 'revision', '', 0),
-(156, 1, '2018-08-08 17:27:02', '2018-08-08 14:27:02', '', 'Плотницкие работы', '', 'inherit', 'closed', 'closed', '', '154-autosave-v1', '', '', '2018-08-08 17:27:02', '2018-08-08 14:27:02', '', 154, 'http://zheu.loc/head/154-autosave-v1/', 0, 'revision', '', 0),
-(157, 1, '2018-08-08 17:27:08', '2018-08-08 14:27:08', '', 'Услуги сантехника', '', 'publish', 'closed', 'closed', '', 'uslugi-santehnika', '', '', '2018-08-08 17:27:22', '2018-08-08 14:27:22', '', 0, 'http://zheu.loc/?page_id=157', 0, 'page', '', 0),
+(157, 1, '2018-08-08 17:27:08', '2018-08-08 14:27:08', '', 'Услуги сантехника', '', 'publish', 'closed', 'closed', '', 'uslugi-santehnika', '', '', '2018-08-21 12:43:39', '2018-08-21 09:43:39', '', 66, 'http://zheu.loc/?page_id=157', 0, 'page', '', 0),
 (158, 1, '2018-08-08 17:27:08', '2018-08-08 14:27:08', '', '“Услуги сантехника” заблокирована	 Услуги сантехника', '', 'inherit', 'closed', 'closed', '', '157-revision-v1', '', '', '2018-08-08 17:27:08', '2018-08-08 14:27:08', '', 157, 'http://zheu.loc/head/157-revision-v1/', 0, 'revision', '', 0),
 (159, 1, '2018-08-08 17:27:22', '2018-08-08 14:27:22', '', 'Услуги сантехника', '', 'inherit', 'closed', 'closed', '', '157-revision-v1', '', '', '2018-08-08 17:27:22', '2018-08-08 14:27:22', '', 157, 'http://zheu.loc/head/157-revision-v1/', 0, 'revision', '', 0),
-(160, 1, '2018-08-08 17:27:31', '2018-08-08 14:27:31', '', 'Вывоз мусора', '', 'publish', 'closed', 'closed', '', 'vyvoz-musora', '', '', '2018-08-08 17:27:31', '2018-08-08 14:27:31', '', 0, 'http://zheu.loc/?page_id=160', 0, 'page', '', 0),
+(160, 1, '2018-08-08 17:27:31', '2018-08-08 14:27:31', '', 'Вывоз мусора', '', 'publish', 'closed', 'closed', '', 'vyvoz-musora', '', '', '2018-08-21 12:43:02', '2018-08-21 09:43:02', '', 66, 'http://zheu.loc/?page_id=160', 0, 'page', '', 0),
 (161, 1, '2018-08-08 17:27:31', '2018-08-08 14:27:31', '', 'Вывоз мусора', '', 'inherit', 'closed', 'closed', '', '160-revision-v1', '', '', '2018-08-08 17:27:31', '2018-08-08 14:27:31', '', 160, 'http://zheu.loc/head/160-revision-v1/', 0, 'revision', '', 0),
-(162, 1, '2018-08-08 17:27:34', '2018-08-08 14:27:34', '', 'Вывоз мусора', '', 'inherit', 'closed', 'closed', '', '160-autosave-v1', '', '', '2018-08-08 17:27:34', '2018-08-08 14:27:34', '', 160, 'http://zheu.loc/head/160-autosave-v1/', 0, 'revision', '', 0),
-(163, 1, '2018-08-08 17:27:40', '2018-08-08 14:27:40', '', 'Бытовые услуги и цены', '', 'publish', 'closed', 'closed', '', 'bytovye-uslugi-i-ceny-2', '', '', '2018-08-08 17:27:40', '2018-08-08 14:27:40', '', 0, 'http://zheu.loc/?page_id=163', 0, 'page', '', 0),
+(163, 1, '2018-08-08 17:27:40', '2018-08-08 14:27:40', '', 'Бытовые услуги и цены', '', 'trash', 'closed', 'closed', '', 'bytovye-uslugi-i-ceny-2__trashed', '', '', '2018-08-09 09:54:35', '2018-08-09 06:54:35', '', 0, 'http://zheu.loc/?page_id=163', 0, 'page', '', 0),
 (164, 1, '2018-08-08 17:27:40', '2018-08-08 14:27:40', '', 'Бытовые услуги и цены', '', 'inherit', 'closed', 'closed', '', '163-revision-v1', '', '', '2018-08-08 17:27:40', '2018-08-08 14:27:40', '', 163, 'http://zheu.loc/head/163-revision-v1/', 0, 'revision', '', 0),
 (165, 1, '2018-08-08 17:28:05', '2018-08-08 14:28:05', '', 'Режим работы Министерства ЖКХ', '', 'publish', 'closed', 'closed', '', 'rezhim-raboty-ministerstva-zhkh', '', '', '2018-08-08 17:28:05', '2018-08-08 14:28:05', '', 0, 'http://zheu.loc/?page_id=165', 0, 'page', '', 0),
 (166, 1, '2018-08-08 17:28:05', '2018-08-08 14:28:05', '', 'Режим работы Министерства ЖКХ', '', 'inherit', 'closed', 'closed', '', '165-revision-v1', '', '', '2018-08-08 17:28:05', '2018-08-08 14:28:05', '', 165, 'http://zheu.loc/head/165-revision-v1/', 0, 'revision', '', 0),
@@ -1460,20 +1846,49 @@ INSERT INTO `wp_posts` (`ID`, `post_author`, `post_date`, `post_date_gmt`, `post
 (180, 1, '2018-08-08 17:29:05', '2018-08-08 14:29:05', '', 'Нормативные акты', '', 'inherit', 'closed', 'closed', '', '178-autosave-v1', '', '', '2018-08-08 17:29:05', '2018-08-08 14:29:05', '', 178, 'http://zheu.loc/head/178-autosave-v1/', 0, 'revision', '', 0),
 (181, 1, '2018-08-08 17:29:11', '2018-08-08 14:29:11', '', 'План комплексного благоустройства', '', 'publish', 'closed', 'closed', '', 'plan-kompleksnogo-blagoustrojstva', '', '', '2018-08-08 17:29:11', '2018-08-08 14:29:11', '', 0, 'http://zheu.loc/?page_id=181', 0, 'page', '', 0),
 (182, 1, '2018-08-08 17:29:11', '2018-08-08 14:29:11', '', 'План комплексного благоустройства', '', 'inherit', 'closed', 'closed', '', '181-revision-v1', '', '', '2018-08-08 17:29:11', '2018-08-08 14:29:11', '', 181, 'http://zheu.loc/head/181-revision-v1/', 0, 'revision', '', 0),
-(183, 1, '2018-08-08 17:29:13', '2018-08-08 14:29:13', '', 'План комплексного благоустройства', '', 'inherit', 'closed', 'closed', '', '181-autosave-v1', '', '', '2018-08-08 17:29:13', '2018-08-08 14:29:13', '', 181, 'http://zheu.loc/head/181-autosave-v1/', 0, 'revision', '', 0),
-(184, 1, '2018-08-08 17:31:53', '2018-08-08 14:31:53', ' ', '', '', 'publish', 'closed', 'closed', '', '184', '', '', '2018-08-08 17:36:33', '2018-08-08 14:36:33', '', 0, 'http://zheu.loc/?p=184', 3, 'nav_menu_item', '', 0),
-(185, 1, '2018-08-08 17:31:53', '2018-08-08 14:31:53', ' ', '', '', 'publish', 'closed', 'closed', '', '185', '', '', '2018-08-08 17:36:33', '2018-08-08 14:36:33', '', 0, 'http://zheu.loc/?p=185', 5, 'nav_menu_item', '', 0),
-(186, 1, '2018-08-08 17:31:53', '2018-08-08 14:31:53', ' ', '', '', 'publish', 'closed', 'closed', '', '186', '', '', '2018-08-08 17:36:33', '2018-08-08 14:36:33', '', 0, 'http://zheu.loc/?p=186', 4, 'nav_menu_item', '', 0),
-(187, 1, '2018-08-08 17:31:53', '2018-08-08 14:31:53', ' ', '', '', 'publish', 'closed', 'closed', '', '187', '', '', '2018-08-08 17:36:33', '2018-08-08 14:36:33', '', 0, 'http://zheu.loc/?p=187', 11, 'nav_menu_item', '', 0),
-(188, 1, '2018-08-08 17:31:54', '2018-08-08 14:31:54', ' ', '', '', 'publish', 'closed', 'closed', '', '188', '', '', '2018-08-08 17:36:33', '2018-08-08 14:36:33', '', 0, 'http://zheu.loc/?p=188', 18, 'nav_menu_item', '', 0),
-(189, 1, '2018-08-08 17:31:54', '2018-08-08 14:31:54', ' ', '', '', 'publish', 'closed', 'closed', '', '189', '', '', '2018-08-08 17:36:33', '2018-08-08 14:36:33', '', 0, 'http://zheu.loc/?p=189', 17, 'nav_menu_item', '', 0),
-(190, 1, '2018-08-08 17:31:54', '2018-08-08 14:31:54', ' ', '', '', 'publish', 'closed', 'closed', '', '190', '', '', '2018-08-08 17:36:33', '2018-08-08 14:36:33', '', 0, 'http://zheu.loc/?p=190', 16, 'nav_menu_item', '', 0),
-(191, 1, '2018-08-08 17:31:54', '2018-08-08 14:31:54', ' ', '', '', 'publish', 'closed', 'closed', '', '191', '', '', '2018-08-08 17:36:33', '2018-08-08 14:36:33', '', 0, 'http://zheu.loc/?p=191', 15, 'nav_menu_item', '', 0),
-(192, 1, '2018-08-08 17:31:54', '2018-08-08 14:31:54', ' ', '', '', 'publish', 'closed', 'closed', '', '192', '', '', '2018-08-08 17:36:33', '2018-08-08 14:36:33', '', 0, 'http://zheu.loc/?p=192', 14, 'nav_menu_item', '', 0),
-(193, 1, '2018-08-08 17:31:53', '2018-08-08 14:31:53', ' ', '', '', 'publish', 'closed', 'closed', '', '193', '', '', '2018-08-08 17:36:33', '2018-08-08 14:36:33', '', 0, 'http://zheu.loc/?p=193', 13, 'nav_menu_item', '', 0),
-(194, 1, '2018-08-08 17:31:53', '2018-08-08 14:31:53', ' ', '', '', 'publish', 'closed', 'closed', '', '194', '', '', '2018-08-08 17:36:33', '2018-08-08 14:36:33', '', 0, 'http://zheu.loc/?p=194', 12, 'nav_menu_item', '', 0),
+(183, 1, '2018-08-08 17:29:13', '2018-08-08 14:29:13', '', 'План комплексного благоустройства', '', 'inherit', 'closed', 'closed', '', '181-autosave-v1', '', '', '2018-08-08 17:29:13', '2018-08-08 14:29:13', '', 181, 'http://zheu.loc/head/181-autosave-v1/', 0, 'revision', '', 0);
+INSERT INTO `wp_posts` (`ID`, `post_author`, `post_date`, `post_date_gmt`, `post_content`, `post_title`, `post_excerpt`, `post_status`, `comment_status`, `ping_status`, `post_password`, `post_name`, `to_ping`, `pinged`, `post_modified`, `post_modified_gmt`, `post_content_filtered`, `post_parent`, `guid`, `menu_order`, `post_type`, `post_mime_type`, `comment_count`) VALUES
+(184, 1, '2018-08-08 17:31:53', '2018-08-08 14:31:53', ' ', '', '', 'publish', 'closed', 'closed', '', '184', '', '', '2018-08-16 21:26:12', '2018-08-16 18:26:12', '', 0, 'http://zheu.loc/?p=184', 3, 'nav_menu_item', '', 0),
+(185, 1, '2018-08-08 17:31:53', '2018-08-08 14:31:53', ' ', '', '', 'publish', 'closed', 'closed', '', '185', '', '', '2018-08-16 21:26:12', '2018-08-16 18:26:12', '', 0, 'http://zheu.loc/?p=185', 5, 'nav_menu_item', '', 0),
+(186, 1, '2018-08-08 17:31:53', '2018-08-08 14:31:53', ' ', '', '', 'publish', 'closed', 'closed', '', '186', '', '', '2018-08-16 21:26:12', '2018-08-16 18:26:12', '', 0, 'http://zheu.loc/?p=186', 4, 'nav_menu_item', '', 0),
+(187, 1, '2018-08-08 17:31:53', '2018-08-08 14:31:53', ' ', '', '', 'publish', 'closed', 'closed', '', '187', '', '', '2018-08-16 21:26:12', '2018-08-16 18:26:12', '', 0, 'http://zheu.loc/?p=187', 11, 'nav_menu_item', '', 0),
+(188, 1, '2018-08-08 17:31:54', '2018-08-08 14:31:54', ' ', '', '', 'publish', 'closed', 'closed', '', '188', '', '', '2018-08-16 21:26:12', '2018-08-16 18:26:12', '', 0, 'http://zheu.loc/?p=188', 18, 'nav_menu_item', '', 0),
+(189, 1, '2018-08-08 17:31:54', '2018-08-08 14:31:54', ' ', '', '', 'publish', 'closed', 'closed', '', '189', '', '', '2018-08-16 21:26:12', '2018-08-16 18:26:12', '', 0, 'http://zheu.loc/?p=189', 17, 'nav_menu_item', '', 0),
+(190, 1, '2018-08-08 17:31:54', '2018-08-08 14:31:54', ' ', '', '', 'publish', 'closed', 'closed', '', '190', '', '', '2018-08-16 21:26:12', '2018-08-16 18:26:12', '', 0, 'http://zheu.loc/?p=190', 16, 'nav_menu_item', '', 0),
+(191, 1, '2018-08-08 17:31:54', '2018-08-08 14:31:54', ' ', '', '', 'publish', 'closed', 'closed', '', '191', '', '', '2018-08-16 21:26:12', '2018-08-16 18:26:12', '', 0, 'http://zheu.loc/?p=191', 15, 'nav_menu_item', '', 0),
+(192, 1, '2018-08-08 17:31:54', '2018-08-08 14:31:54', ' ', '', '', 'publish', 'closed', 'closed', '', '192', '', '', '2018-08-16 21:26:12', '2018-08-16 18:26:12', '', 0, 'http://zheu.loc/?p=192', 14, 'nav_menu_item', '', 0),
+(193, 1, '2018-08-08 17:31:53', '2018-08-08 14:31:53', ' ', '', '', 'publish', 'closed', 'closed', '', '193', '', '', '2018-08-16 21:26:12', '2018-08-16 18:26:12', '', 0, 'http://zheu.loc/?p=193', 13, 'nav_menu_item', '', 0),
+(194, 1, '2018-08-08 17:31:53', '2018-08-08 14:31:53', ' ', '', '', 'publish', 'closed', 'closed', '', '194', '', '', '2018-08-16 21:26:12', '2018-08-16 18:26:12', '', 0, 'http://zheu.loc/?p=194', 12, 'nav_menu_item', '', 0),
 (195, 1, '2018-08-08 17:30:22', '0000-00-00 00:00:00', ' ', '', '', 'draft', 'closed', 'closed', '', '', '', '', '2018-08-08 17:30:22', '0000-00-00 00:00:00', '', 0, 'http://zheu.loc/?p=195', 1, 'nav_menu_item', '', 0),
-(196, 1, '2018-08-08 17:35:10', '2018-08-08 14:35:10', '', 'block', 'none', 'publish', 'closed', 'closed', '', 'block-3', '', '', '2018-08-08 17:36:33', '2018-08-08 14:36:33', '', 0, 'http://zheu.loc/?p=196', 22, 'nav_menu_item', '', 0);
+(196, 1, '2018-08-08 17:35:10', '2018-08-08 14:35:10', '', 'block', 'none', 'publish', 'closed', 'closed', '', 'block-3', '', '', '2018-08-16 21:26:13', '2018-08-16 18:26:13', '', 0, 'http://zheu.loc/?p=196', 22, 'nav_menu_item', '', 0),
+(198, 1, '2018-08-09 09:54:52', '2018-08-09 06:54:52', '', 'Вывоз мусора', '', 'inherit', 'closed', 'closed', '', '160-revision-v1', '', '', '2018-08-09 09:54:52', '2018-08-09 06:54:52', '', 160, 'http://d0025259.atservers.net/head/160-revision-v1/', 0, 'revision', '', 0),
+(199, 1, '2018-08-09 09:55:06', '2018-08-09 06:55:06', '', 'Услуги сантехника', '', 'inherit', 'closed', 'closed', '', '157-revision-v1', '', '', '2018-08-09 09:55:06', '2018-08-09 06:55:06', '', 157, 'http://d0025259.atservers.net/head/157-revision-v1/', 0, 'revision', '', 0),
+(200, 1, '2018-08-09 09:55:16', '2018-08-09 06:55:16', '', 'Плотницкие работы', '', 'inherit', 'closed', 'closed', '', '154-revision-v1', '', '', '2018-08-09 09:55:16', '2018-08-09 06:55:16', '', 154, 'http://d0025259.atservers.net/head/154-revision-v1/', 0, 'revision', '', 0),
+(201, 1, '2018-08-09 09:55:26', '2018-08-09 06:55:26', '', 'Услуги электрика', '', 'inherit', 'closed', 'closed', '', '152-revision-v1', '', '', '2018-08-09 09:55:26', '2018-08-09 06:55:26', '', 152, 'http://d0025259.atservers.net/head/152-revision-v1/', 0, 'revision', '', 0),
+(202, 1, '2018-08-09 09:56:15', '2018-08-09 06:56:15', '', 'Главная страница', '', 'inherit', 'closed', 'closed', '', '7-revision-v1', '', '', '2018-08-09 09:56:15', '2018-08-09 06:56:15', '', 7, 'http://d0025259.atservers.net/head/7-revision-v1/', 0, 'revision', '', 0),
+(203, 1, '2018-08-16 21:25:47', '0000-00-00 00:00:00', '', 'Черновик', '', 'auto-draft', 'open', 'open', '', '', '', '', '2018-08-16 21:25:47', '0000-00-00 00:00:00', '', 0, 'http://d0025259.atservers.net/?p=203', 0, 'post', '', 0),
+(204, 1, '2018-08-17 11:06:58', '2018-08-17 08:06:58', '', 'О ЖЭУ №7', '', 'publish', 'closed', 'closed', '', 'o-zhjeu-7-2', '', '', '2018-08-17 11:06:58', '2018-08-17 08:06:58', '', 0, 'http://d0025259.atservers.net/?p=204', 2, 'nav_menu_item', '', 0),
+(205, 1, '2018-08-17 11:06:58', '2018-08-17 08:06:58', ' ', '', '', 'publish', 'closed', 'closed', '', '205', '', '', '2018-08-17 11:06:58', '2018-08-17 08:06:58', '', 0, 'http://d0025259.atservers.net/?p=205', 3, 'nav_menu_item', '', 0),
+(206, 1, '2018-08-17 11:09:37', '0000-00-00 00:00:00', '', 'Черновик', '', 'auto-draft', 'open', 'open', '', '', '', '', '2018-08-17 11:09:37', '0000-00-00 00:00:00', '', 0, 'http://d0025259.atservers.net/?p=206', 0, 'post', '', 0),
+(207, 1, '2018-08-20 20:20:22', '2018-08-20 17:20:22', 'Вызвать мастера можно по телефону:\r\n\r\nЖЭС №43\r\n<h2>+375 17 259-95-89</h2>\r\nЖЭС №53\r\n<h2>+375 17 217-00-90</h2>\r\nПрейскурант цен на платные услуги по заказам населения на 01.05.2018 года\r\n\r\n{DOWNLOAD_FILE}\r\n\r\n<a href="#">Перечень  видов работ по оказанию платных услуг по заказам населения и тарифы на них КУП ЖЭУ №7 Фрунзенского района г.Минска</a>', 'Бытовые услуги и цены', '', 'inherit', 'closed', 'closed', '', '66-revision-v1', '', '', '2018-08-20 20:20:22', '2018-08-20 17:20:22', '', 66, 'http://d0025259.atservers.net/head/66-revision-v1/', 0, 'revision', '', 0),
+(208, 1, '2018-08-20 20:21:26', '2018-08-20 17:21:26', 'Вызвать мастера можно по телефону:\r\n\r\nЖЭС №43\r\n<h2><a href="tel:+375 17 259-95-89"> +375 17 259-95-89 </a></h2>\r\nЖЭС №53\r\n<h2>+375 17 217-00-90</h2>\r\nПрейскурант цен на платные услуги по заказам населения на 01.05.2018 года\r\n\r\n{DOWNLOAD_FILE}\r\n\r\n<a href="#">Перечень  видов работ по оказанию платных услуг по заказам населения и тарифы на них КУП ЖЭУ №7 Фрунзенского района г.Минска</a>', 'Бытовые услуги и цены', '', 'inherit', 'closed', 'closed', '', '66-revision-v1', '', '', '2018-08-20 20:21:26', '2018-08-20 17:21:26', '', 66, 'http://d0025259.atservers.net/head/66-revision-v1/', 0, 'revision', '', 0),
+(209, 1, '2018-08-20 20:21:43', '2018-08-20 17:21:43', 'Вызвать мастера можно по телефону:\r\n\r\nЖЭС №43\r\n<a href="tel:+375 17 259-95-89"><h2> +375 17 259-95-89 </h2></a>\r\nЖЭС №53\r\n<h2>+375 17 217-00-90</h2>\r\nПрейскурант цен на платные услуги по заказам населения на 01.05.2018 года\r\n\r\n{DOWNLOAD_FILE}\r\n\r\n<a href="#">Перечень  видов работ по оказанию платных услуг по заказам населения и тарифы на них КУП ЖЭУ №7 Фрунзенского района г.Минска</a>', 'Бытовые услуги и цены', '', 'inherit', 'closed', 'closed', '', '66-revision-v1', '', '', '2018-08-20 20:21:43', '2018-08-20 17:21:43', '', 66, 'http://d0025259.atservers.net/head/66-revision-v1/', 0, 'revision', '', 0),
+(210, 1, '2018-08-21 12:42:55', '2018-08-21 09:42:55', '', 'musor', '', 'inherit', 'open', 'closed', '', 'musor', '', '', '2018-08-21 12:42:55', '2018-08-21 09:42:55', '', 160, 'http://d0025259.atservers.net/wp-content/uploads/2018/08/musor.svg', 0, 'attachment', 'image/svg+xml', 0),
+(211, 1, '2018-08-21 12:43:02', '2018-08-21 09:43:02', '', 'Вывоз мусора', '', 'inherit', 'closed', 'closed', '', '160-revision-v1', '', '', '2018-08-21 12:43:02', '2018-08-21 09:43:02', '', 160, 'http://d0025259.atservers.net/head/160-revision-v1/', 0, 'revision', '', 0),
+(212, 1, '2018-08-21 12:43:13', '2018-08-21 09:43:13', '', 'plotnik', '', 'inherit', 'open', 'closed', '', 'plotnik', '', '', '2018-08-21 12:43:13', '2018-08-21 09:43:13', '', 154, 'http://d0025259.atservers.net/wp-content/uploads/2018/08/plotnik.svg', 0, 'attachment', 'image/svg+xml', 0),
+(213, 1, '2018-08-21 12:43:26', '2018-08-21 09:43:26', '', 'Плотницкие работы', '', 'inherit', 'closed', 'closed', '', '154-revision-v1', '', '', '2018-08-21 12:43:26', '2018-08-21 09:43:26', '', 154, 'http://d0025259.atservers.net/head/154-revision-v1/', 0, 'revision', '', 0),
+(214, 1, '2018-08-21 12:43:37', '2018-08-21 09:43:37', '', 'santehnik', '', 'inherit', 'open', 'closed', '', 'santehnik', '', '', '2018-08-21 12:43:37', '2018-08-21 09:43:37', '', 157, 'http://d0025259.atservers.net/wp-content/uploads/2018/08/santehnik.svg', 0, 'attachment', 'image/svg+xml', 0),
+(215, 1, '2018-08-21 12:43:39', '2018-08-21 09:43:39', '', 'Услуги сантехника', '', 'inherit', 'closed', 'closed', '', '157-revision-v1', '', '', '2018-08-21 12:43:39', '2018-08-21 09:43:39', '', 157, 'http://d0025259.atservers.net/head/157-revision-v1/', 0, 'revision', '', 0),
+(216, 1, '2018-08-21 12:43:51', '2018-08-21 09:43:51', '', 'elektrik', '', 'inherit', 'open', 'closed', '', 'elektrik', '', '', '2018-08-21 12:43:51', '2018-08-21 09:43:51', '', 152, 'http://d0025259.atservers.net/wp-content/uploads/2018/08/elektrik.svg', 0, 'attachment', 'image/svg+xml', 0),
+(217, 1, '2018-08-21 12:43:54', '2018-08-21 09:43:54', '', 'Услуги электрика', '', 'inherit', 'closed', 'closed', '', '152-revision-v1', '', '', '2018-08-21 12:43:54', '2018-08-21 09:43:54', '', 152, 'http://d0025259.atservers.net/head/152-revision-v1/', 0, 'revision', '', 0),
+(218, 1, '2018-08-21 14:35:37', '2018-08-21 11:35:37', 'Обращения (предложения, заявления, жалобы) граждан независимо от того, в какой государственный орган или иную организацию они поступили, первоначально подлежат рассмотрению по существу в соответствии с компетенцией: - в местных исполнительных и распорядительных органах, подчиненных им организациях, территориальных подразделениях (органах) и организациях, подчиненных или входящих в состав (систему) республиканских органов государственного управления и государственных организаций, подчиненных Правительству Республики Беларусь, другим государственным органам, иным организациям, осуществляющих свою деятельность и расположенных в пределах той административно-территориальной единицы, на территории которой возникли вопросы, изложенные в обращениях; - в других государственных органах, иных организациях, если вопросы, изложенные в обращениях, относятся к исключительной компетенции этих органов или организаций.\r\n\r\n\r\nОбращаем ваше внимание, что подача обращений осуществляется на белорусском или русском языках.\r\n\r\n\r\n<strong>Оставляются без рассмотрения по существу обращения, которые (по которым):</strong>\r\n\r\n- изложены не на белорусском или русском языке; - не содержат фамилии, собственного имени, отчества, адреса места жительства (места пребывания) гражданина; - не содержат полного наименования юридического лица и адреса его места нахождения, фамилии, собственного имени, отчества руководителя или лица, уполномоченного в установленном порядке подписывать обращения (для юридических лиц); - содержат текст, не поддающийся прочтению; - содержат нецензурные либо оскорбительные слова или выражения; - подлежат рассмотрению в соответствии с законодательством о конституционном судопроизводстве, гражданским, гражданским процессуальным, хозяйственным процессуальным, уголовно-процессуальным законодательством, законодательством, определяющим порядок административного процесса, законодательством об административных процедурах либо в соответствии с законодательными актами установлен иной порядок подачи и рассмотрения таких обращений; - содержат вопросы, не относящиеся к компетенции адресата; - пропущен без уважительной причины срок подачи жалобы; - подано повторное обращение и в нем не содержатся новые обстоятельства; - с заявителем прекращена переписка.\r\n\r\nОбращаем внимание, что действующим законодательством электронная форма подачи заявления либо жалобы предусмотрена только для обращений, направляемых в адрес электронной почты организации в порядке', 'Электронные обращения граждан', '', 'inherit', 'closed', 'closed', '', '16-revision-v1', '', '', '2018-08-21 14:35:37', '2018-08-21 11:35:37', '', 16, 'http://d0025259.atservers.net/head/16-revision-v1/', 0, 'revision', '', 0),
+(219, 1, '2018-08-21 14:35:40', '2018-08-21 11:35:40', 'Обращения (предложения, заявления, жалобы) граждан независимо от того, в какой государственный орган или иную организацию они поступили, первоначально подлежат рассмотрению по существу в соответствии с компетенцией: - в местных исполнительных и распорядительных органах, подчиненных им организациях, территориальных подразделениях (органах) и организациях, подчиненных или входящих в состав (систему) республиканских органов государственного управления и государственных организаций, подчиненных Правительству Республики Беларусь, другим государственным органам, иным организациям, осуществляющих свою деятельность и расположенных в пределах той административно-территориальной единицы, на территории которой возникли вопросы, изложенные в обращениях; - в других государственных органах, иных организациях, если вопросы, изложенные в обращениях, относятся к исключительной компетенции этих органов или организаций.\r\n\r\n\r\nОбращаем ваше внимание, что подача обращений осуществляется на белорусском или русском языках.\r\n\r\n\r\n<strong>Оставляются без рассмотрения по существу обращения, которые (по которым):</strong>\r\n\r\n- изложены не на белорусском или русском языке; - не содержат фамилии, собственного имени, отчества, адреса места жительства (места пребывания) гражданина; - не содержат полного наименования юридического лица и адреса его места нахождения, фамилии, собственного имени, отчества руководителя или лица, уполномоченного в установленном порядке подписывать обращения (для юридических лиц); - содержат текст, не поддающийся прочтению; - содержат нецензурные либо оскорбительные слова или выражения; - подлежат рассмотрению в соответствии с законодательством о конституционном судопроизводстве, гражданским, гражданским процессуальным, хозяйственным процессуальным, уголовно-процессуальным законодательством, законодательством, определяющим порядок административного процесса, законодательством об административных процедурах либо в соответствии с законодательными актами установлен иной порядок подачи и рассмотрения таких обращений; - содержат вопросы, не относящиеся к компетенции адресата; - пропущен без уважительной причины срок подачи жалобы; - подано повторное обращение и в нем не содержатся новые обстоятельства; - с заявителем прекращена переписка.\r\n\r\nОбращаем внимание, что действующим законодательством электронная форма подачи заявления либо жалобы предусмотрена только для обращений, направляемых в адрес электронной почты организации в порядке', 'Электронные обращения граждан', '', 'inherit', 'closed', 'closed', '', '16-autosave-v1', '', '', '2018-08-21 14:35:40', '2018-08-21 11:35:40', '', 16, 'http://d0025259.atservers.net/head/16-autosave-v1/', 0, 'revision', '', 0),
+(220, 1, '2018-08-21 14:35:54', '2018-08-21 11:35:54', 'Обращения (предложения, заявления, жалобы) граждан независимо от того, в какой государственный орган или иную организацию они поступили, первоначально подлежат рассмотрению по существу в соответствии с компетенцией: - в местных исполнительных и распорядительных органах, подчиненных им организациях, территориальных подразделениях (органах) и организациях, подчиненных или входящих в состав (систему) республиканских органов государственного управления и государственных организаций, подчиненных Правительству Республики Беларусь, другим государственным органам, иным организациям, осуществляющих свою деятельность и расположенных в пределах той административно-территориальной единицы, на территории которой возникли вопросы, изложенные в обращениях; - в других государственных органах, иных организациях, если вопросы, изложенные в обращениях, относятся к исключительной компетенции этих органов или организаций.\r\n\r\n\r\nОбращаем ваше внимание, что подача обращений осуществляется на белорусском или русском языках.\r\n\r\n\r\n<strong>Оставляются без рассмотрения по существу обращения, которые (по которым):</strong>\r\n\r\n- изложены не на белорусском или русском языке; - не содержат фамилии, собственного имени, отчества, адреса места жительства (места пребывания) гражданина; - не содержат полного наименования юридического лица и адреса его места нахождения, фамилии, собственного имени, отчества руководителя или лица, уполномоченного в установленном порядке подписывать обращения (для юридических лиц); - содержат текст, не поддающийся прочтению; - содержат нецензурные либо оскорбительные слова или выражения; - подлежат рассмотрению в соответствии с законодательством о конституционном судопроизводстве, гражданским, гражданским процессуальным, хозяйственным процессуальным, уголовно-процессуальным законодательством, законодательством, определяющим порядок административного процесса, законодательством об административных процедурах либо в соответствии с законодательными актами установлен иной порядок подачи и рассмотрения таких обращений; - содержат вопросы, не относящиеся к компетенции адресата; - пропущен без уважительной причины срок подачи жалобы; - подано повторное обращение и в нем не содержатся новые обстоятельства; - с заявителем прекращена переписка.\r\n\r\nОбращаем внимание, что действующим законодательством электронная форма подачи заявления либо жалобы предусмотрена только для обращений, направляемых в адрес электронной почты организации в порядке', 'Электронные обращения граждан', '', 'inherit', 'closed', 'closed', '', '16-revision-v1', '', '', '2018-08-21 14:35:54', '2018-08-21 11:35:54', '', 16, 'http://d0025259.atservers.net/head/16-revision-v1/', 0, 'revision', '', 0),
+(221, 1, '2018-08-21 14:36:52', '2018-08-21 11:36:52', 'Обращения (предложения, заявления, жалобы) граждан независимо от того, в какой государственный орган или иную организацию они поступили, первоначально подлежат рассмотрению по существу в соответствии с компетенцией: - в местных исполнительных и распорядительных органах, подчиненных им организациях, территориальных подразделениях (органах) и организациях, подчиненных или входящих в состав (систему) республиканских органов государственного управления и государственных организаций, подчиненных Правительству Республики Беларусь, другим государственным органам, иным организациям, осуществляющих свою деятельность и расположенных в пределах той административно-территориальной единицы, на территории которой возникли вопросы, изложенные в обращениях; - в других государственных органах, иных организациях, если вопросы, изложенные в обращениях, относятся к исключительной компетенции этих органов или организаций.\r\n\r\n\r\nОбращаем ваше внимание, что подача обращений осуществляется на белорусском или русском языках.\r\n\r\n\r\n<strong>Оставляются без рассмотрения по существу обращения, которые (по которым):</strong>\r\n\r\n- изложены не на белорусском или русском языке; - не содержат фамилии, собственного имени, отчества, адреса места жительства (места пребывания) гражданина; - не содержат полного наименования юридического лица и адреса его места нахождения, фамилии, собственного имени, отчества руководителя или лица, уполномоченного в установленном порядке подписывать обращения (для юридических лиц); - содержат текст, не поддающийся прочтению; - содержат нецензурные либо оскорбительные слова или выражения; - подлежат рассмотрению в соответствии с законодательством о конституционном судопроизводстве, гражданским, гражданским процессуальным, хозяйственным процессуальным, уголовно-процессуальным законодательством, законодательством, определяющим порядок административного процесса, законодательством об административных процедурах либо в соответствии с законодательными актами установлен иной порядок подачи и рассмотрения таких обращений; - содержат вопросы, не относящиеся к компетенции адресата; - пропущен без уважительной причины срок подачи жалобы; - подано повторное обращение и в нем не содержатся новые обстоятельства; - с заявителем прекращена переписка.\r\n\r\nОбращаем внимание, что действующим законодательством электронная форма подачи заявления либо жалобы предусмотрена только для обращений, направляемых в адрес электронной почты организации в порядке', 'Электронные обращения граждан', '', 'inherit', 'closed', 'closed', '', '16-revision-v1', '', '', '2018-08-21 14:36:52', '2018-08-21 11:36:52', '', 16, 'http://d0025259.atservers.net/head/16-revision-v1/', 0, 'revision', '', 0),
+(222, 1, '2018-08-21 14:37:41', '2018-08-21 11:37:41', 'Обращения (предложения, заявления, жалобы) граждан независимо от того, в какой государственный орган или иную организацию они поступили, первоначально подлежат рассмотрению по существу в соответствии с компетенцией: - в местных исполнительных и распорядительных органах, подчиненных им организациях, территориальных подразделениях (органах) и организациях, подчиненных или входящих в состав (систему) республиканских органов государственного управления и государственных организаций, подчиненных Правительству Республики Беларусь, другим государственным органам, иным организациям, осуществляющих свою деятельность и расположенных в пределах той административно-территориальной единицы, на территории которой возникли вопросы, изложенные в обращениях; - в других государственных органах, иных организациях, если вопросы, изложенные в обращениях, относятся к исключительной компетенции этих органов или организаций.\r\n\r\n\r\nОбращаем ваше внимание, что подача обращений осуществляется на белорусском или русском языках.\r\n\r\n\r\n<strong>Оставляются без рассмотрения по существу обращения, которые (по которым):</strong>\r\n\r\n- изложены не на белорусском или русском языке; - не содержат фамилии, собственного имени, отчества, адреса места жительства (места пребывания) гражданина; - не содержат полного наименования юридического лица и адреса его места нахождения, фамилии, собственного имени, отчества руководителя или лица, уполномоченного в установленном порядке подписывать обращения (для юридических лиц); - содержат текст, не поддающийся прочтению; - содержат нецензурные либо оскорбительные слова или выражения; - подлежат рассмотрению в соответствии с законодательством о конституционном судопроизводстве, гражданским, гражданским процессуальным, хозяйственным процессуальным, уголовно-процессуальным законодательством, законодательством, определяющим порядок административного процесса, законодательством об административных процедурах либо в соответствии с законодательными актами установлен иной порядок подачи и рассмотрения таких обращений; - содержат вопросы, не относящиеся к компетенции адресата; - пропущен без уважительной причины срок подачи жалобы; - подано повторное обращение и в нем не содержатся новые обстоятельства; - с заявителем прекращена переписка.\r\n\r\nОбращаем внимание, что действующим законодательством электронная форма подачи заявления либо жалобы предусмотрена только для обращений, направляемых в адрес электронной почты организации в порядке', 'Электронные обращения граждан', '', 'inherit', 'closed', 'closed', '', '16-revision-v1', '', '', '2018-08-21 14:37:41', '2018-08-21 11:37:41', '', 16, 'http://d0025259.atservers.net/head/16-revision-v1/', 0, 'revision', '', 0),
+(223, 1, '2018-08-21 14:37:53', '2018-08-21 11:37:53', 'Обращения (предложения, заявления, жалобы) граждан независимо от того, в какой государственный орган или иную организацию они поступили, первоначально подлежат рассмотрению по существу в соответствии с компетенцией: - в местных исполнительных и распорядительных органах, подчиненных им организациях, территориальных подразделениях (органах) и организациях, подчиненных или входящих в состав (систему) республиканских органов государственного управления и государственных организаций, подчиненных Правительству Республики Беларусь, другим государственным органам, иным организациям, осуществляющих свою деятельность и расположенных в пределах той административно-территориальной единицы, на территории которой возникли вопросы, изложенные в обращениях; - в других государственных органах, иных организациях, если вопросы, изложенные в обращениях, относятся к исключительной компетенции этих органов или организаций.\r\n\r\n\r\nОбращаем ваше внимание, что подача обращений осуществляется на белорусском или русском языках.\r\n\r\n\r\n<strong>Оставляются без рассмотрения по существу обращения, которые (по которым):</strong>\r\n\r\n- изложены не на белорусском или русском языке; - не содержат фамилии, собственного имени, отчества, адреса места жительства (места пребывания) гражданина; - не содержат полного наименования юридического лица и адреса его места нахождения, фамилии, собственного имени, отчества руководителя или лица, уполномоченного в установленном порядке подписывать обращения (для юридических лиц); - содержат текст, не поддающийся прочтению; - содержат нецензурные либо оскорбительные слова или выражения; - подлежат рассмотрению в соответствии с законодательством о конституционном судопроизводстве, гражданским, гражданским процессуальным, хозяйственным процессуальным, уголовно-процессуальным законодательством, законодательством, определяющим порядок административного процесса, законодательством об административных процедурах либо в соответствии с законодательными актами установлен иной порядок подачи и рассмотрения таких обращений; - содержат вопросы, не относящиеся к компетенции адресата; - пропущен без уважительной причины срок подачи жалобы; - подано повторное обращение и в нем не содержатся новые обстоятельства; - с заявителем прекращена переписка.\r\n\r\nОбращаем внимание, что действующим законодательством электронная форма подачи заявления либо жалобы предусмотрена только для обращений, направляемых в адрес электронной почты организации в порядке', 'Электронные обращения граждан', '', 'inherit', 'closed', 'closed', '', '16-revision-v1', '', '', '2018-08-21 14:37:53', '2018-08-21 11:37:53', '', 16, 'http://d0025259.atservers.net/head/16-revision-v1/', 0, 'revision', '', 0),
+(224, 1, '2018-08-21 14:40:53', '2018-08-21 11:40:53', 'Вызвать мастера можно по телефону:\r\n\r\nЖЭС №43\r\n<a href="tel:+375 17 259-95-89"><h2> +375 17 259-95-89 </h2></a>\r\nЖЭС №53\r\n<h2>+375 17 217-00-90</h2>\r\nПрейскурант цен на платные услуги по заказам населения на 01.05.2018 года\r\n\r\n{DOWNLOAD_FILE}\r\n\r\n<a href="#">Перечень  видов работ по оказанию платных услуг по заказам населения и тарифы на них КУП ЖЭУ №7 Фрунзенского района г.Минска</a>', 'Бытовые услуги и цены', '', 'inherit', 'closed', 'closed', '', '66-revision-v1', '', '', '2018-08-21 14:40:53', '2018-08-21 11:40:53', '', 66, 'http://d0025259.atservers.net/head/66-revision-v1/', 0, 'revision', '', 0),
+(225, 1, '2018-08-21 14:42:07', '2018-08-21 11:42:07', 'Вызвать мастера можно по телефону:\r\n\r\nЖЭС №43\r\n<a href="tel:+375 17 259-95-89"><h2> +375 17 259-95-89 </h2></a>\r\nЖЭС №53\r\n<h2>+375 17 217-00-90</h2>\r\nПрейскурант цен на платные услуги по заказам населения на 01.05.2018 года\r\n\r\n{DOWNLOAD_FILE}\r\n\r\n<a href="#">Перечень  видов работ по оказанию платных услуг по заказам населения и тарифы на них КУП ЖЭУ №7 Фрунзенского района г.Минска</a>', 'Бытовые услуги и цены', '', 'inherit', 'closed', 'closed', '', '66-revision-v1', '', '', '2018-08-21 14:42:07', '2018-08-21 11:42:07', '', 66, 'http://d0025259.atservers.net/head/66-revision-v1/', 0, 'revision', '', 0);
 
 -- --------------------------------------------------------
 
@@ -1481,12 +1896,15 @@ INSERT INTO `wp_posts` (`ID`, `post_author`, `post_date`, `post_date_gmt`, `post
 -- Структура таблицы `wp_termmeta`
 --
 
-CREATE TABLE `wp_termmeta` (
-  `meta_id` bigint(20) UNSIGNED NOT NULL,
-  `term_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
-  `meta_key` varchar(255) COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
-  `meta_value` longtext COLLATE utf8mb4_unicode_520_ci
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+CREATE TABLE IF NOT EXISTS `wp_termmeta` (
+  `meta_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `term_id` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `meta_key` varchar(255) DEFAULT NULL,
+  `meta_value` longtext,
+  PRIMARY KEY (`meta_id`),
+  KEY `term_id` (`term_id`),
+  KEY `meta_key` (`meta_key`(191))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -1494,12 +1912,15 @@ CREATE TABLE `wp_termmeta` (
 -- Структура таблицы `wp_terms`
 --
 
-CREATE TABLE `wp_terms` (
-  `term_id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(200) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `slug` varchar(200) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `term_group` bigint(10) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+CREATE TABLE IF NOT EXISTS `wp_terms` (
+  `term_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(200) NOT NULL DEFAULT '',
+  `slug` varchar(200) NOT NULL DEFAULT '',
+  `term_group` bigint(10) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`term_id`),
+  KEY `slug` (`slug`(191)),
+  KEY `name` (`name`(191))
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 --
 -- Дамп данных таблицы `wp_terms`
@@ -1521,11 +1942,13 @@ INSERT INTO `wp_terms` (`term_id`, `name`, `slug`, `term_group`) VALUES
 -- Структура таблицы `wp_term_relationships`
 --
 
-CREATE TABLE `wp_term_relationships` (
-  `object_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
-  `term_taxonomy_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
-  `term_order` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+CREATE TABLE IF NOT EXISTS `wp_term_relationships` (
+  `object_id` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `term_taxonomy_id` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `term_order` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`object_id`,`term_taxonomy_id`),
+  KEY `term_taxonomy_id` (`term_taxonomy_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `wp_term_relationships`
@@ -1533,7 +1956,6 @@ CREATE TABLE `wp_term_relationships` (
 
 INSERT INTO `wp_term_relationships` (`object_id`, `term_taxonomy_id`, `term_order`) VALUES
 (1, 1, 0),
-(10, 2, 0),
 (11, 2, 0),
 (25, 2, 0),
 (26, 2, 0),
@@ -1591,7 +2013,9 @@ INSERT INTO `wp_term_relationships` (`object_id`, `term_taxonomy_id`, `term_orde
 (192, 9, 0),
 (193, 9, 0),
 (194, 9, 0),
-(196, 9, 0);
+(196, 9, 0),
+(204, 2, 0),
+(205, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -1599,14 +2023,17 @@ INSERT INTO `wp_term_relationships` (`object_id`, `term_taxonomy_id`, `term_orde
 -- Структура таблицы `wp_term_taxonomy`
 --
 
-CREATE TABLE `wp_term_taxonomy` (
-  `term_taxonomy_id` bigint(20) UNSIGNED NOT NULL,
-  `term_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
-  `taxonomy` varchar(32) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `description` longtext COLLATE utf8mb4_unicode_520_ci NOT NULL,
-  `parent` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
-  `count` bigint(20) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+CREATE TABLE IF NOT EXISTS `wp_term_taxonomy` (
+  `term_taxonomy_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `term_id` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `taxonomy` varchar(32) NOT NULL DEFAULT '',
+  `description` longtext NOT NULL,
+  `parent` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `count` bigint(20) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`term_taxonomy_id`),
+  UNIQUE KEY `term_id_taxonomy` (`term_id`,`taxonomy`),
+  KEY `taxonomy` (`taxonomy`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 --
 -- Дамп данных таблицы `wp_term_taxonomy`
@@ -1614,7 +2041,7 @@ CREATE TABLE `wp_term_taxonomy` (
 
 INSERT INTO `wp_term_taxonomy` (`term_taxonomy_id`, `term_id`, `taxonomy`, `description`, `parent`, `count`) VALUES
 (1, 1, 'category', '', 0, 0),
-(2, 2, 'nav_menu', '', 0, 8),
+(2, 2, 'nav_menu', '', 0, 9),
 (4, 4, 'category', '', 0, 0),
 (5, 5, 'category', '', 0, 0),
 (6, 6, 'category', '', 0, 3),
@@ -1628,12 +2055,15 @@ INSERT INTO `wp_term_taxonomy` (`term_taxonomy_id`, `term_id`, `taxonomy`, `desc
 -- Структура таблицы `wp_usermeta`
 --
 
-CREATE TABLE `wp_usermeta` (
-  `umeta_id` bigint(20) UNSIGNED NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
-  `meta_key` varchar(255) COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
-  `meta_value` longtext COLLATE utf8mb4_unicode_520_ci
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+CREATE TABLE IF NOT EXISTS `wp_usermeta` (
+  `umeta_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `meta_key` varchar(255) DEFAULT NULL,
+  `meta_value` longtext,
+  PRIMARY KEY (`umeta_id`),
+  KEY `user_id` (`user_id`),
+  KEY `meta_key` (`meta_key`(191))
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=28 ;
 
 --
 -- Дамп данных таблицы `wp_usermeta`
@@ -1651,21 +2081,21 @@ INSERT INTO `wp_usermeta` (`umeta_id`, `user_id`, `meta_key`, `meta_value`) VALU
 (9, 1, 'use_ssl', '0'),
 (10, 1, 'show_admin_bar_front', 'true'),
 (11, 1, 'locale', ''),
-(12, 1, 'wp_capabilities', 'a:1:{s:13:\"administrator\";b:1;}'),
+(12, 1, 'wp_capabilities', 'a:1:{s:13:"administrator";b:1;}'),
 (13, 1, 'wp_user_level', '10'),
-(14, 1, 'dismissed_wp_pointers', 'wp496_privacy'),
+(14, 1, 'dismissed_wp_pointers', 'wp496_privacy,theme_editor_notice'),
 (15, 1, 'show_welcome_panel', '1'),
-(16, 1, 'session_tokens', 'a:2:{s:64:\"0b3e93f788524e2832821249929d8bb3b691952a9848c14bf8cc457790d78adc\";a:4:{s:10:\"expiration\";i:1533961193;s:2:\"ip\";s:9:\"127.0.0.1\";s:2:\"ua\";s:113:\"Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36\";s:5:\"login\";i:1532751593;}s:64:\"d7a2e78cd1365d827533152dc4effbd9ae46d9c4c4f20a759aa6d048b951d145\";a:4:{s:10:\"expiration\";i:1534149710;s:2:\"ip\";s:9:\"127.0.0.1\";s:2:\"ua\";s:114:\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36\";s:5:\"login\";i:1532940110;}}'),
-(17, 1, 'wp_dashboard_quick_press_last_post_id', '4'),
-(18, 1, 'community-events-location', 'a:1:{s:2:\"ip\";s:9:\"127.0.0.0\";}'),
+(16, 1, 'session_tokens', 'a:2:{s:64:"3f4d2b09bc9fab5fb09c73ddca4305b789f48d1c906409ed107b899d49d222cd";a:4:{s:10:"expiration";i:1535007187;s:2:"ip";s:11:"37.17.46.90";s:2:"ua";s:114:"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36";s:5:"login";i:1533797587;}s:64:"389492b18cb6d242fae209b2ede4da94e8a07acd4eecafb32efd912a2c5415e4";a:4:{s:10:"expiration";i:1534957127;s:2:"ip";s:12:"46.56.198.17";s:2:"ua";s:115:"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36";s:5:"login";i:1534784327;}}'),
+(17, 1, 'wp_dashboard_quick_press_last_post_id', '203'),
+(18, 1, 'community-events-location', 'a:1:{s:2:"ip";s:11:"46.56.198.0";}'),
 (19, 1, 'managenav-menuscolumnshidden', 'a:0:{}'),
-(20, 1, 'metaboxhidden_nav-menus', 'a:1:{i:0;s:12:\"add-post_tag\";}'),
-(21, 1, 'nav_menu_recently_edited', '9'),
-(22, 1, 'wp_user-settings', 'libraryContent=browse&editor=tinymce'),
-(23, 1, 'wp_user-settings-time', '1533477481'),
+(20, 1, 'metaboxhidden_nav-menus', 'a:1:{i:0;s:12:"add-post_tag";}'),
+(21, 1, 'nav_menu_recently_edited', '2'),
+(22, 1, 'wp_user-settings', 'libraryContent=browse&editor=html'),
+(23, 1, 'wp_user-settings-time', '1534844577'),
 (24, 1, 'closedpostboxes_acf', 'a:0:{}'),
-(25, 1, 'metaboxhidden_acf', 'a:1:{i:0;s:7:\"slugdiv\";}'),
-(26, 1, 'meta-box-order_acf', 'a:3:{s:4:\"side\";s:9:\"submitdiv\";s:6:\"normal\";s:43:\"acf_fields,acf_location,acf_options,slugdiv\";s:8:\"advanced\";s:0:\"\";}'),
+(25, 1, 'metaboxhidden_acf', 'a:1:{i:0;s:7:"slugdiv";}'),
+(26, 1, 'meta-box-order_acf', 'a:3:{s:4:"side";s:9:"submitdiv";s:6:"normal";s:43:"acf_fields,acf_location,acf_options,slugdiv";s:8:"advanced";s:0:"";}'),
 (27, 1, 'screen_layout_acf', '2');
 
 -- --------------------------------------------------------
@@ -1674,18 +2104,22 @@ INSERT INTO `wp_usermeta` (`umeta_id`, `user_id`, `meta_key`, `meta_value`) VALU
 -- Структура таблицы `wp_users`
 --
 
-CREATE TABLE `wp_users` (
-  `ID` bigint(20) UNSIGNED NOT NULL,
-  `user_login` varchar(60) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `user_pass` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `user_nicename` varchar(50) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `user_email` varchar(100) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `user_url` varchar(100) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+CREATE TABLE IF NOT EXISTS `wp_users` (
+  `ID` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `user_login` varchar(60) NOT NULL DEFAULT '',
+  `user_pass` varchar(255) NOT NULL DEFAULT '',
+  `user_nicename` varchar(50) NOT NULL DEFAULT '',
+  `user_email` varchar(100) NOT NULL DEFAULT '',
+  `user_url` varchar(100) NOT NULL DEFAULT '',
   `user_registered` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `user_activation_key` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `user_activation_key` varchar(255) NOT NULL DEFAULT '',
   `user_status` int(11) NOT NULL DEFAULT '0',
-  `display_name` varchar(250) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+  `display_name` varchar(250) NOT NULL DEFAULT '',
+  PRIMARY KEY (`ID`),
+  KEY `user_login_key` (`user_login`),
+  KEY `user_nicename` (`user_nicename`),
+  KEY `user_email` (`user_email`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Дамп данных таблицы `wp_users`
@@ -1693,169 +2127,6 @@ CREATE TABLE `wp_users` (
 
 INSERT INTO `wp_users` (`ID`, `user_login`, `user_pass`, `user_nicename`, `user_email`, `user_url`, `user_registered`, `user_activation_key`, `user_status`, `display_name`) VALUES
 (1, 'admin', '$P$BOgqlNHAENAFWh8S9tneom9xCGVRT50', 'admin', 'giperilia@mail.ru', '', '2018-07-25 18:12:08', '', 0, 'admin');
-
---
--- Индексы сохранённых таблиц
---
-
---
--- Индексы таблицы `wp_commentmeta`
---
-ALTER TABLE `wp_commentmeta`
-  ADD PRIMARY KEY (`meta_id`),
-  ADD KEY `comment_id` (`comment_id`),
-  ADD KEY `meta_key` (`meta_key`(191));
-
---
--- Индексы таблицы `wp_comments`
---
-ALTER TABLE `wp_comments`
-  ADD PRIMARY KEY (`comment_ID`),
-  ADD KEY `comment_post_ID` (`comment_post_ID`),
-  ADD KEY `comment_approved_date_gmt` (`comment_approved`,`comment_date_gmt`),
-  ADD KEY `comment_date_gmt` (`comment_date_gmt`),
-  ADD KEY `comment_parent` (`comment_parent`),
-  ADD KEY `comment_author_email` (`comment_author_email`(10));
-
---
--- Индексы таблицы `wp_links`
---
-ALTER TABLE `wp_links`
-  ADD PRIMARY KEY (`link_id`),
-  ADD KEY `link_visible` (`link_visible`);
-
---
--- Индексы таблицы `wp_options`
---
-ALTER TABLE `wp_options`
-  ADD PRIMARY KEY (`option_id`),
-  ADD UNIQUE KEY `option_name` (`option_name`);
-
---
--- Индексы таблицы `wp_postmeta`
---
-ALTER TABLE `wp_postmeta`
-  ADD PRIMARY KEY (`meta_id`),
-  ADD KEY `post_id` (`post_id`),
-  ADD KEY `meta_key` (`meta_key`(191));
-
---
--- Индексы таблицы `wp_posts`
---
-ALTER TABLE `wp_posts`
-  ADD PRIMARY KEY (`ID`),
-  ADD KEY `post_name` (`post_name`(191)),
-  ADD KEY `type_status_date` (`post_type`,`post_status`,`post_date`,`ID`),
-  ADD KEY `post_parent` (`post_parent`),
-  ADD KEY `post_author` (`post_author`);
-
---
--- Индексы таблицы `wp_termmeta`
---
-ALTER TABLE `wp_termmeta`
-  ADD PRIMARY KEY (`meta_id`),
-  ADD KEY `term_id` (`term_id`),
-  ADD KEY `meta_key` (`meta_key`(191));
-
---
--- Индексы таблицы `wp_terms`
---
-ALTER TABLE `wp_terms`
-  ADD PRIMARY KEY (`term_id`),
-  ADD KEY `slug` (`slug`(191)),
-  ADD KEY `name` (`name`(191));
-
---
--- Индексы таблицы `wp_term_relationships`
---
-ALTER TABLE `wp_term_relationships`
-  ADD PRIMARY KEY (`object_id`,`term_taxonomy_id`),
-  ADD KEY `term_taxonomy_id` (`term_taxonomy_id`);
-
---
--- Индексы таблицы `wp_term_taxonomy`
---
-ALTER TABLE `wp_term_taxonomy`
-  ADD PRIMARY KEY (`term_taxonomy_id`),
-  ADD UNIQUE KEY `term_id_taxonomy` (`term_id`,`taxonomy`),
-  ADD KEY `taxonomy` (`taxonomy`);
-
---
--- Индексы таблицы `wp_usermeta`
---
-ALTER TABLE `wp_usermeta`
-  ADD PRIMARY KEY (`umeta_id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `meta_key` (`meta_key`(191));
-
---
--- Индексы таблицы `wp_users`
---
-ALTER TABLE `wp_users`
-  ADD PRIMARY KEY (`ID`),
-  ADD KEY `user_login_key` (`user_login`),
-  ADD KEY `user_nicename` (`user_nicename`),
-  ADD KEY `user_email` (`user_email`);
-
---
--- AUTO_INCREMENT для сохранённых таблиц
---
-
---
--- AUTO_INCREMENT для таблицы `wp_commentmeta`
---
-ALTER TABLE `wp_commentmeta`
-  MODIFY `meta_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT для таблицы `wp_comments`
---
-ALTER TABLE `wp_comments`
-  MODIFY `comment_ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT для таблицы `wp_links`
---
-ALTER TABLE `wp_links`
-  MODIFY `link_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT для таблицы `wp_options`
---
-ALTER TABLE `wp_options`
-  MODIFY `option_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=343;
---
--- AUTO_INCREMENT для таблицы `wp_postmeta`
---
-ALTER TABLE `wp_postmeta`
-  MODIFY `meta_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1256;
---
--- AUTO_INCREMENT для таблицы `wp_posts`
---
-ALTER TABLE `wp_posts`
-  MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=197;
---
--- AUTO_INCREMENT для таблицы `wp_termmeta`
---
-ALTER TABLE `wp_termmeta`
-  MODIFY `meta_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT для таблицы `wp_terms`
---
-ALTER TABLE `wp_terms`
-  MODIFY `term_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
---
--- AUTO_INCREMENT для таблицы `wp_term_taxonomy`
---
-ALTER TABLE `wp_term_taxonomy`
-  MODIFY `term_taxonomy_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
---
--- AUTO_INCREMENT для таблицы `wp_usermeta`
---
-ALTER TABLE `wp_usermeta`
-  MODIFY `umeta_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
---
--- AUTO_INCREMENT для таблицы `wp_users`
---
-ALTER TABLE `wp_users`
-  MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

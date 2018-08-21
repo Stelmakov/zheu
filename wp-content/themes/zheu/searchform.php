@@ -2,5 +2,5 @@
 <!--    <img src="/wp-content/themes/zheu/img/icon_search.svg" alt="search">-->
 
     <input type="submit" id="searchsubmit" value=""/>
-    <input type="text" value="<?php echo get_search_query() ?>" name="s" placeholder="Поиск по сайту" id="s" />
+    <input type="text" value="<?php echo get_search_query() ?>" name="s" id="searchinput" placeholder="Поиск по сайту" />
 </form>
